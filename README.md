@@ -1,7 +1,7 @@
 # HCM-Project
 A human capital management application which can be used throughout a company. 
 
-# Technologies used
+### Technologies:
 
 ## React
 * Server Side Rendering 
