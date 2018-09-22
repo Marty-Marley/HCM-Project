@@ -27,7 +27,6 @@ A human capital management application which can be used throughout a company.
 * You then have the ability to set up authentication and permissions.Through middleware that sits between each request and response.
 * Also using JSON Web Token (JWT) to verify that a user is who they say they are. We are storing the JWTs in cookies - need to use cookies instead of local storage do to SSR.
 * Hashing password before they reach database.
-* Server side logic.
 
 ## Prisma
 * You provide prism with a starting schema with types, along with shape + their types. It then creates the DB API with CRUD operations.
