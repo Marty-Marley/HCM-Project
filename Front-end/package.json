@@ -1,5 +1,5 @@
 {
-  "name": "hcm-project",
+  "name": "hcm-project-FE",
   "version": "1.0.0",
   "description": "Final year project",
   "main": "index.js",
@@ -9,7 +9,10 @@
     "start": "next start",
     "test": "NODE_ENV=test jest --watch"
   },
-  "author": "",
+  "author": {
+    "name": "Marty Marley",
+    "email": "martin.marley2014@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "apollo-boost": "^0.1.6",
