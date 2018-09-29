@@ -1,0 +1,21 @@
+type User {
+  id: ID! @unique
+  name: String!
+  email: String!
+  age: Int
+  avatar: String
+}
+
+# type User {
+#   id: ID! @unique
+#   name: String!
+#   email: String!
+#   age: Int
+#   avatar: String
+#   feature / entitlements: {
+#       time
+#       profile
+#       my_team
+#       time_off
+#   }
+# }
