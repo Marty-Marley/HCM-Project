@@ -19,10 +19,10 @@ const NavStyles = styled.ul`
 
 const Nav = () => (
   <NavStyles>
-    <Link href="/login"> 
+    <Link href="/login">
       <a>Login</a>
     </Link>
-    <Link href="/"> 
+    <Link href="/">
       <a>Dashboard</a>
     </Link>
   </NavStyles>
