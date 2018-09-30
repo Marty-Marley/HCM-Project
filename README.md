@@ -35,3 +35,8 @@ A human capital management application which can be used throughout a company.
 * Prisma sits on top of the database.
 * You can host the database locally with Docker. MySQL / Postgres / MongoDB
 * Prisma also offer a free service to host the db externally. As a demo server with limited space and requests over time (10 per 10s)
+
+TODO: 
+* Basic sign in / up.
+* Authentication with JWT
+* Hashing passwords on server
