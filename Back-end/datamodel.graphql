@@ -1,9 +1,8 @@
-type User {
-  id: ID! @unique
-  name: String!
-  email: String!
-  age: Int
-  avatar: String
+enum Entitlements {
+  PROFILE
+  HOLIDAYS
+  TIMESHEET
+  TEAM
 }
 
 # type User {
@@ -12,10 +11,13 @@ type User {
 #   email: String!
 #   age: Int
 #   avatar: String
-#   feature / entitlements: {
-#       time
-#       profile
-#       my_team
-#       time_off
-#   }
 # }
+
+type Employee {
+  id: ID! @unique
+  name: String!
+  email: String!
+  age: Int
+  avatar: String
+  entitlements: [Entitlements]!
+}

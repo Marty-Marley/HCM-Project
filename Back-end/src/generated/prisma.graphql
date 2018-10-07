@@ -1,7 +1,7 @@
 # source: https://eu1.prisma.sh/marty-marley/HCM/dev
-# timestamp: Thu Sep 27 2018 22:52:29 GMT+0100 (British Summer Time)
+# timestamp: Tue Oct 02 2018 12:20:17 GMT+0100 (British Summer Time)
 
-type AggregateUser {
+type AggregateEmployee {
   count: Int!
 }
 
@@ -10,99 +10,47 @@ type BatchPayload {
   count: Long!
 }
 
-"""
-The `Long` scalar type represents non-fractional signed whole numeric values.
-Long can represent values between -(2^63) and 2^63 - 1.
-"""
-scalar Long
-
-type Mutation {
-  createUser(data: UserCreateInput!): User!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteUser(where: UserWhereUniqueInput!): User
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
-}
-
-enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
-}
-
-"""An object with an ID"""
-interface Node {
-  """The id of the object."""
-  id: ID!
-}
-
-"""Information about pagination in a connection."""
-type PageInfo {
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
-  startCursor: String
-
-  """When paginating forwards, the cursor to continue."""
-  endCursor: String
-}
-
-type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  user(where: UserWhereUniqueInput!): User
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-
-  """Fetches an object given its ID"""
-  node(
-    """The ID of an object"""
-    id: ID!
-  ): Node
-}
-
-type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-}
-
-type User implements Node {
+type Employee implements Node {
   id: ID!
   name: String!
   email: String!
   age: Int
   avatar: String
+  entitlements: [Entitlements!]!
 }
 
 """A connection to a list of items."""
-type UserConnection {
+type EmployeeConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [UserEdge]!
-  aggregate: AggregateUser!
+  edges: [EmployeeEdge]!
+  aggregate: AggregateEmployee!
 }
 
-input UserCreateInput {
+input EmployeeCreateentitlementsInput {
+  set: [Entitlements!]
+}
+
+input EmployeeCreateInput {
   name: String!
   email: String!
   age: Int
   avatar: String
+  entitlements: EmployeeCreateentitlementsInput
 }
 
 """An edge in a connection."""
-type UserEdge {
+type EmployeeEdge {
   """The item at the end of the edge."""
-  node: User!
+  node: Employee!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum UserOrderByInput {
+enum EmployeeOrderByInput {
   id_ASC
   id_DESC
   name_ASC
@@ -119,30 +67,31 @@ enum UserOrderByInput {
   createdAt_DESC
 }
 
-type UserPreviousValues {
+type EmployeePreviousValues {
   id: ID!
   name: String!
   email: String!
   age: Int
   avatar: String
+  entitlements: [Entitlements!]!
 }
 
-type UserSubscriptionPayload {
+type EmployeeSubscriptionPayload {
   mutation: MutationType!
-  node: User
+  node: Employee
   updatedFields: [String!]
-  previousValues: UserPreviousValues
+  previousValues: EmployeePreviousValues
 }
 
-input UserSubscriptionWhereInput {
+input EmployeeSubscriptionWhereInput {
   """Logical AND on all given filters."""
-  AND: [UserSubscriptionWhereInput!]
+  AND: [EmployeeSubscriptionWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [UserSubscriptionWhereInput!]
+  OR: [EmployeeSubscriptionWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [UserSubscriptionWhereInput!]
+  NOT: [EmployeeSubscriptionWhereInput!]
 
   """
   The subscription event gets dispatched when it's listed in mutation_in
@@ -163,25 +112,30 @@ input UserSubscriptionWhereInput {
   The subscription event gets only dispatched when some of the field names included in this list have been updated
   """
   updatedFields_contains_some: [String!]
-  node: UserWhereInput
+  node: EmployeeWhereInput
 }
 
-input UserUpdateInput {
+input EmployeeUpdateentitlementsInput {
+  set: [Entitlements!]
+}
+
+input EmployeeUpdateInput {
   name: String
   email: String
   age: Int
   avatar: String
+  entitlements: EmployeeUpdateentitlementsInput
 }
 
-input UserWhereInput {
+input EmployeeWhereInput {
   """Logical AND on all given filters."""
-  AND: [UserWhereInput!]
+  AND: [EmployeeWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [UserWhereInput!]
+  OR: [EmployeeWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [UserWhereInput!]
+  NOT: [EmployeeWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -366,6 +320,71 @@ input UserWhereInput {
   avatar_not_ends_with: String
 }
 
-input UserWhereUniqueInput {
+input EmployeeWhereUniqueInput {
   id: ID
+}
+
+enum Entitlements {
+  PROFILE
+  HOLIDAYS
+  TIMESHEET
+  TEAM
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createEmployee(data: EmployeeCreateInput!): Employee!
+  updateEmployee(data: EmployeeUpdateInput!, where: EmployeeWhereUniqueInput!): Employee
+  deleteEmployee(where: EmployeeWhereUniqueInput!): Employee
+  upsertEmployee(where: EmployeeWhereUniqueInput!, create: EmployeeCreateInput!, update: EmployeeUpdateInput!): Employee!
+  updateManyEmployees(data: EmployeeUpdateInput!, where: EmployeeWhereInput): BatchPayload!
+  deleteManyEmployees(where: EmployeeWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  employees(where: EmployeeWhereInput, orderBy: EmployeeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Employee]!
+  employee(where: EmployeeWhereUniqueInput!): Employee
+  employeesConnection(where: EmployeeWhereInput, orderBy: EmployeeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EmployeeConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  employee(where: EmployeeSubscriptionWhereInput): EmployeeSubscriptionPayload
 }

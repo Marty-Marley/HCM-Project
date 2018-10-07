@@ -5,14 +5,14 @@
  */
 
 const Mutation = {
-  async createUser(parent, args, ctx, info) {
+  async createEmployee(parent, args, ctx, info) {
     // TODO Check if user is logged in
-    const user = await ctx.db.mutation.createUser({
+    const employee = await ctx.db.mutation.createEmployee({
       data: {
         ...args
       }
     }, info)
-    return user
+    return employee
   }
 }
 

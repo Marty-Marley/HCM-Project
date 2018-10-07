@@ -1,9 +1,9 @@
 # import * from './generated/prisma.graphql'
 
 type Mutation {
-  createUser(name: String!, email: String!, age: Int, avatar: String): User!
+  createEmployee(name: String!, email: String!, age: Int, avatar: String, entitlements: [Entitlements]!): Employee!
 }
 
 type Query {
-  users: [User]!
+  employees: [Employee]!
 }

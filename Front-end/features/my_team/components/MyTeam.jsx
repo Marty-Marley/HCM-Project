@@ -1,14 +1,28 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
+import styled from 'styled-components'
+import Employee from './Employee'
+import Card from '../../../app/components/Card'
+// TODO change to absolute path? ^
+
+const CardWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100vmin;
+  grid-gap: 2em;
+  margin: 0 auto;
+`
 
 const ALL_EMPLOYEES_QUERY = gql`
   query ALL_EMPLOYEES_QUERY {
-    users {
+    employees {
       id
       name
       email
       age
+      avatar
+      entitlements
     }
   }
 `
@@ -16,15 +30,19 @@ const ALL_EMPLOYEES_QUERY = gql`
 const MyTeam = () => (
   <>
     <h1>My TEAM</h1>
-    <Query query={ALL_EMPLOYEES_QUERY}>
-      {({ data: { users }, loading }) => {
-        if (loading) return <p>Loading...</p>
-        return users.map(employee => (
-          // TODO Have a employee component here to separate out the rendering
-          <p key={employee.id}>{employee.name}</p>
-        ))
-      }}
-    </Query>
+    <CardWrapper>
+      <Query query={ALL_EMPLOYEES_QUERY}>
+        {({ data, loading }) => {
+          if (loading) return <p>Loading...</p>
+          return data.employees.map(employee => (
+            // TODO Have a employee component here to separate out the rendering
+            <Card key={employee.id}>
+              <Employee {...employee} />
+            </Card>
+          ))
+        }}
+      </Query>
+    </CardWrapper>
   </>
 )
 

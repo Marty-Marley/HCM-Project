@@ -1,8 +1,8 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import { ApolloProvider } from 'react-apollo'
-import Page from '../app_level_stuff/components/Page'
-import withApollo from '../app_level_stuff/utils/withApollo'
+import Page from '../app/components/Page'
+import withApollo from '../app/utils/withApollo'
 
 class MyApp extends App {
   /**

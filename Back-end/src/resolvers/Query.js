@@ -14,7 +14,7 @@ const Query = {
   //   const users = await ctx.db.query.users()
   //   return users
   // }
-  users: forwardTo('db')
+  employees: forwardTo('db')
 }
 
 module.exports = Query;
