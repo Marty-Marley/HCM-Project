@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import styled, { ThemeProvider, injectGlobal } from 'styled-components'
+import { node } from 'prop-types'
 import Nprogress from 'nprogress'
 import Router from 'next/router'
-import styled, { ThemeProvider, injectGlobal } from 'styled-components'
 import Nav from './Nav'
 import Meta from './Meta'
 
@@ -48,17 +49,17 @@ injectGlobal`
     color: ${theme.green};
   }
 `
-
-export default class Page extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <>
-          <Meta />
-          <Nav />
-          {this.props.children}
-        </>
-      </ThemeProvider>
-    )
-  }
+const Page = ({ children }) => (
+  <ThemeProvider theme={theme}>
+    <>
+      <Meta />
+      <Nav />
+      {children}
+    </>
+  </ThemeProvider>
+)
+Page.propTypes = {
+  children: node.isRequired
 }
+
+export default Page

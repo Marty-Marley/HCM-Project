@@ -9,7 +9,6 @@ const CardStyles = styled.div`
   text-align: center;
 `
 
-
 const Card = ({ children }) => (
   <CardStyles>
     {children}

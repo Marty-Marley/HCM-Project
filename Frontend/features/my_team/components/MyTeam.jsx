@@ -32,9 +32,9 @@ const MyTeam = () => (
     <h1>My TEAM</h1>
     <CardWrapper>
       <Query query={ALL_EMPLOYEES_QUERY}>
-        {({ data, loading }) => {
+        {({ data: { employees }, loading }) => {
           if (loading) return <p>Loading...</p>
-          return data.employees.map(employee => (
+          return employees.map(employee => (
             // TODO Have a employee component here to separate out the rendering
             <Card key={employee.id}>
               <Employee {...employee} />

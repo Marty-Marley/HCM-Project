@@ -5,10 +5,17 @@ enum Entitlements {
   TEAM
 }
 
+# enum Permissions {
+#   MANAGER
+#   EMPLOYEE
+#   INTERN
+# }
+
 # type User {
 #   id: ID! @unique
 #   name: String!
 #   email: String!
+#   password: String!
 #   age: Int
 #   avatar: String
 # }
@@ -21,3 +28,9 @@ type Employee {
   avatar: String
   entitlements: [Entitlements]!
 }
+
+# TODO
+# There needs to be a user for permissions and stuff on login
+# You need to query user for login
+# Its not an employee that has entitlements, its the user
+# Need permissions of manager and eployee
