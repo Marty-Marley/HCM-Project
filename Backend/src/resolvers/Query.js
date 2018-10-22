@@ -14,7 +14,16 @@ const Query = {
   //   const users = await ctx.db.query.users()
   //   return users
   // }
-  employees: forwardTo('db')
+  employees: forwardTo('db'),
+  currentUser(parent, args, ctx, info) {
+    // If there is NOT a userId, i.e. no jwt generated from login or signup
+    if(!ctx.request.userId) {
+      return null
+    }
+    return ctx.db.query.user({
+      where: { id: ctx.request.userId }
+    }, info)
+  }
 }
 
 module.exports = Query;

@@ -2,14 +2,13 @@ import React from 'react'
 import { string, arrayOf } from 'prop-types'
 
 const Employee = ({
-  id, name, email, avatar, entitlements
+  id, name, email, avatar
 }) => (
     <>
       <p>{name}</p>
       <p>{id}</p>
       <p>{email}</p>
       <img src={avatar} alt={name} />
-      {entitlements.map(entitlement => <p key={entitlement}>{entitlement}</p>)}
     </>
 )
 

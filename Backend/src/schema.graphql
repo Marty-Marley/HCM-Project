@@ -1,9 +1,18 @@
 # import * from './generated/prisma.graphql'
 
+type SuccessMessage {
+  message: String
+}
+
 type Mutation {
-  createEmployee(name: String!, email: String!, age: Int, avatar: String, entitlements: [Entitlements]!): Employee!
+  createEmployee(name: String!, email: String!, age: Int, avatar: String): Employee!
+  createUser(email: String!, password: String!, name: String!): User!
+  # !TODO - ^ Include age, avatar, permissions, entitlements (Not required ATM) ^
+  signin(email: String!, password: String!): User!
+  signout: SuccessMessage
 }
 
 type Query {
   employees: [Employee]!
+  currentUser: User
 }

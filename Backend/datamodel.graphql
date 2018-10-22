@@ -5,20 +5,22 @@ enum Entitlements {
   TEAM
 }
 
-# enum Permissions {
-#   MANAGER
-#   EMPLOYEE
-#   INTERN
-# }
+enum Permissions {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
 
-# type User {
-#   id: ID! @unique
-#   name: String!
-#   email: String!
-#   password: String!
-#   age: Int
-#   avatar: String
-# }
+type User {
+  id: ID! @unique
+  email: String! @unique
+  password: String!
+  name: String!
+  age: Int
+  avatar: String
+  permissions: [Permissions]
+  entitlements: [Entitlements]
+}
 
 type Employee {
   id: ID! @unique
@@ -26,7 +28,6 @@ type Employee {
   email: String!
   age: Int
   avatar: String
-  entitlements: [Entitlements]!
 }
 
 # TODO

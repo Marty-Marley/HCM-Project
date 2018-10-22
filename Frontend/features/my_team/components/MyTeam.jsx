@@ -22,7 +22,6 @@ const ALL_EMPLOYEES_QUERY = gql`
       email
       age
       avatar
-      entitlements
     }
   }
 `

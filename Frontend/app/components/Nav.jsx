@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
+import User from './User'
+import Signout from '../../features/login_signup/components/Signout'
 
 const NavStyles = styled.ul`
   margin: 0;
@@ -18,11 +20,18 @@ const NavStyles = styled.ul`
 `
 
 const Nav = () => (
-  <NavStyles>
-    <Link href="/">
-      <a>Dashboard</a>
-    </Link>
-  </NavStyles>
+  <User>
+    {({ data: { currentUser } }) => (
+      <NavStyles>
+        <Link href="/">
+          <a>Dashboard</a>
+        </Link>
+        {currentUser
+          && <Signout />
+        }
+      </NavStyles>
+    )}
+  </User>
 )
 
 export default Nav

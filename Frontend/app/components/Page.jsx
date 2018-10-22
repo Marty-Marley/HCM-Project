@@ -5,6 +5,7 @@ import Nprogress from 'nprogress'
 import Router from 'next/router'
 import Nav from './Nav'
 import Meta from './Meta'
+import LoginGate from '../../features/login_signup/components/LoginGate'
 
 Router.onRouteChangeStart = () => {
   Nprogress.start()
@@ -53,8 +54,10 @@ const Page = ({ children }) => (
   <ThemeProvider theme={theme}>
     <>
       <Meta />
-      <Nav />
-      {children}
+      <LoginGate>
+        <Nav />
+        {children}
+      </LoginGate>
     </>
   </ThemeProvider>
 )
