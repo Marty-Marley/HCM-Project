@@ -1,13 +1,5 @@
 import styled from 'styled-components'
 
-const Container = styled.div`  
-  display: grid;
-  grid-template-rows: auto;
-  justify-items: center;
-  align-items: center;
-  height: 761px;
-  background-image: url("https://images.pexels.com/photos/533930/pexels-photo-533930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
-`
 const Form = styled.form`
   border-radius: 5px;
   fieldset {
@@ -28,4 +20,4 @@ const Form = styled.form`
   }
 `
 
-export { Container, Form }
+export default Form

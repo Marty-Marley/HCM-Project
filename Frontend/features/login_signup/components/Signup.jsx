@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Form } from '../styles/Form'
+import Form from '../styles/Form'
 import { CURRENT_USER_QUERY } from '../../../app/components/User'
 
 const CREATE_USER_MUTATION = gql`

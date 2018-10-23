@@ -56,6 +56,7 @@ const Mutation = {
     return user
   },
   signout(parent, args, ctx, info) {
+    // Clear token from the cookie on logout.
     ctx.response.clearCookie('token')
     return { message: 'You have signed out.' }
   }
