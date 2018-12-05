@@ -3,6 +3,7 @@ const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
 const db = require('./db')
 
+// Using graphql yoga for skeleton server.
 function createServer() {
   return new GraphQLServer({
     typeDefs: 'src/schema.graphql',

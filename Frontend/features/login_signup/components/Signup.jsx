@@ -5,6 +5,9 @@ import gql from 'graphql-tag'
 import Form from '../styles/Form'
 import { CURRENT_USER_QUERY } from '../../../app/components/User'
 
+/**
+ * Mutation for taking posting user signup data to server.
+ */
 const CREATE_USER_MUTATION = gql`
   mutation CREATE_USER_MUTATION($email: String!, $password: String!, $name: String!) {
     createUser(email: $email, password: $password, name: $name) {
@@ -14,7 +17,9 @@ const CREATE_USER_MUTATION = gql`
     }
   } 
 `
-
+/**
+ * Signup form for retreiving user input data for signing up
+ */
 class Signup extends Component {
   state = {
     email: '',

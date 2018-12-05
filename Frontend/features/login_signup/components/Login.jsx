@@ -5,6 +5,9 @@ import gql from 'graphql-tag'
 import Form from '../styles/Form'
 import { CURRENT_USER_QUERY } from '../../../app/components/User'
 
+/**
+ * Signin mutation which receives sigin in data to be sent to server
+ */
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
     signin(email: $email, password: $password) {
@@ -14,13 +17,18 @@ const SIGNIN_MUTATION = gql`
     }
   } 
 `
-
+/**
+ * Login class component which facilitates the retrieval of user input data from login,
+ */
 class Login extends Component {
   state = {
     email: '',
     password: '',
   }
 
+  /**
+   * Reusable function for assigning input data to state.
+   */
   handleInput = ({ target: { name, value } }) => {
     this.setState({ [name]: value })
   }

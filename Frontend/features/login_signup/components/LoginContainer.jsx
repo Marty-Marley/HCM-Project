@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import Login from './Login'
 import Signup from './Signup'
 
+/**
+ * Sytled component for centering the background image for login page.
+ */
 const Container = styled.div`  
   display: flex;
   justify-content: center;
@@ -11,6 +14,9 @@ const Container = styled.div`
   height: 750px;
   background-image: url("https://images.pexels.com/photos/533930/pexels-photo-533930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
 `
+/**
+ * Styled component for positioning login in center.
+ */
 const LoginWrapper = styled.div`
   padding: 25px;
   height: 400px;
@@ -24,12 +30,17 @@ const LoginWrapper = styled.div`
     border-top: 2px solid #777;
   }
 `
-
+/**
+ * Login class component for displaying login and tabbing to signup
+ */
 class LoginContainer extends Component {
   state = {
     signup: false
   }
 
+  /**
+   * Toggles signup flag for signin/up tabbing
+   */
   toggleLogin = () => {
     const { signup } = this.state
     this.setState({ signup: !signup })

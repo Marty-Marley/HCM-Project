@@ -4,6 +4,9 @@ import { ApolloProvider } from 'react-apollo'
 import Page from '../app/components/Page'
 import withApollo from '../app/utils/withApollo'
 
+/**
+ * Wraps each page in apollo provider for state management.
+ */
 class MyApp extends App {
   /**
    ** getInitialProps will fire before the render so anything that

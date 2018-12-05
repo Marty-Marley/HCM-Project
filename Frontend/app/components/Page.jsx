@@ -6,7 +6,11 @@ import Router from 'next/router'
 import Nav from './Nav'
 import Meta from './Meta'
 import LoginGate from '../../features/login_signup/components/LoginGate'
+import AuthenticationGate from '../../features/login_signup/components/AuthenticationGate'
 
+/**
+ * Progress bar for visibility of network progess as the app is a single page application.
+ */
 Router.onRouteChangeStart = () => {
   Nprogress.start()
 }
@@ -17,12 +21,15 @@ Router.onRouteChangeError = () => {
   Nprogress.done()
 }
 
-// TODO - Come up with some theme
 const theme = {
   green: '#1e8423',
   black: '#252625',
+  blue: '#2c93dd'
 }
 
+/**
+ * Global CSS
+ */
 injectGlobal`
   // TODO - Consider custom fonts
   /* @font-face {
@@ -47,16 +54,21 @@ injectGlobal`
   }
   a {
     text-decoration: none;
-    color: ${theme.green};
+    color: ${theme.blue};
   }
 `
+/**
+ * Functional component for wrapping all page componens in Nav, loginGate and themeProvider.
+ */
 const Page = ({ children }) => (
   <ThemeProvider theme={theme}>
     <>
       <Meta />
       <LoginGate>
         <Nav />
-        {children}
+        <AuthenticationGate>
+          {children}
+        </AuthenticationGate>
       </LoginGate>
     </>
   </ThemeProvider>

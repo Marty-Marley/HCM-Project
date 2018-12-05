@@ -1,5 +1,8 @@
 import Head from 'next/head'
 
+/**
+ * Custom head for next.js
+ */
 const Meta = () => (
   <Head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />

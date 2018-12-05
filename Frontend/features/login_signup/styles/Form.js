@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 
+/**
+ * Styled component for styling login and signup forms
+ */
 const Form = styled.form`
   border-radius: 5px;
   fieldset {

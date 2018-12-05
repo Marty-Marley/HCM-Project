@@ -1,6 +1,9 @@
 import React from 'react'
 import { string, arrayOf } from 'prop-types'
 
+/**
+ * Employee functional component for receiving and structuring employee data.
+ */
 const Employee = ({
   id, name, email, avatar
 }) => (
@@ -12,6 +15,9 @@ const Employee = ({
     </>
 )
 
+/**
+ * Employee propTypes for defing the types of props that are being passed in.
+ */
 Employee.propTypes = {
   id: string,
   name: string,

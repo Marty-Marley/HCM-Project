@@ -6,6 +6,7 @@ import Employee from './Employee'
 import Card from '../../../app/components/Card'
 // TODO change to absolute path? ^
 
+// Styled component for cardwrapper
 const CardWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -14,6 +15,7 @@ const CardWrapper = styled.div`
   margin: 0 auto;
 `
 
+// GraphQL query for getting all employees
 const ALL_EMPLOYEES_QUERY = gql`
   query ALL_EMPLOYEES_QUERY {
     employees {
@@ -26,6 +28,11 @@ const ALL_EMPLOYEES_QUERY = gql`
   }
 `
 
+/**
+ * Functional component for rendering out the My Team feature.
+ * Using apollo query render prop for retieving data.
+ * Employee data is wrapped in card and cardWrapper for styling.
+ */
 const MyTeam = () => (
   <>
     <h1>My TEAM</h1>
@@ -34,7 +41,6 @@ const MyTeam = () => (
         {({ data: { employees }, loading }) => {
           if (loading) return <p>Loading...</p>
           return employees.map(employee => (
-            // TODO Have a employee component here to separate out the rendering
             <Card key={employee.id}>
               <Employee {...employee} />
             </Card>

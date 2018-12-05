@@ -2,6 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { node } from 'prop-types'
 
+/**
+ * Styled component for a card
+ */
 const CardStyles = styled.div`
   background: #f9fbff;
   border-radius: 2px;
@@ -9,6 +12,9 @@ const CardStyles = styled.div`
   text-align: center;
 `
 
+/**
+ * Functional component for wrapping any children in the card styles
+ */
 const Card = ({ children }) => (
   <CardStyles>
     {children}

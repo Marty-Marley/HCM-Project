@@ -29,9 +29,3 @@ type Employee {
   age: Int
   avatar: String
 }
-
-# TODO
-# There needs to be a user for permissions and stuff on login
-# You need to query user for login
-# Its not an employee that has entitlements, its the user
-# Need permissions of manager and eployee

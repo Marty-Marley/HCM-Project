@@ -13,7 +13,9 @@ const CURRENT_USER_QUERY = gql`
     }
   }
 `
-
+/**
+ * Render prop that can be used to determine whether someone is logged in.
+ */
 const User = props => (
   <Query {...props} query={CURRENT_USER_QUERY}>
     {payload => props.children(payload)}
