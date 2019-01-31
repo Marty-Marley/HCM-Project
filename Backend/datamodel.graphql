@@ -1,8 +1,9 @@
 enum Entitlements {
-  PROFILE
-  HOLIDAYS
-  TIMESHEET
-  TEAM
+  MY_PROFILE
+  REQUEST_TIME_OFF
+  RECORD_TIME
+  MY_TEAM
+  PERMISSIONS
 }
 
 enum Permissions {

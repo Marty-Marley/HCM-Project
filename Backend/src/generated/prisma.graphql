@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/marty-marley/HCM/dev
-# timestamp: Mon Oct 22 2018 16:21:15 GMT+0100 (British Summer Time)
+# timestamp: Tue Jan 29 2019 22:52:26 GMT+0000 (Greenwich Mean Time)
 
 type AggregateEmployee {
   count: Int!
@@ -113,6 +113,13 @@ input EmployeeSubscriptionWhereInput {
 }
 
 input EmployeeUpdateInput {
+  name: String
+  email: String
+  age: Int
+  avatar: String
+}
+
+input EmployeeUpdateManyMutationInput {
   name: String
   email: String
   age: Int
@@ -317,10 +324,11 @@ input EmployeeWhereUniqueInput {
 }
 
 enum Entitlements {
-  PROFILE
-  HOLIDAYS
-  TIMESHEET
-  TEAM
+  MY_PROFILE
+  REQUEST_TIME_OFF
+  RECORD_TIME
+  MY_TEAM
+  PERMISSIONS
 }
 
 """
@@ -338,8 +346,8 @@ type Mutation {
   deleteEmployee(where: EmployeeWhereUniqueInput!): Employee
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertEmployee(where: EmployeeWhereUniqueInput!, create: EmployeeCreateInput!, update: EmployeeUpdateInput!): Employee!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  updateManyEmployees(data: EmployeeUpdateInput!, where: EmployeeWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyEmployees(data: EmployeeUpdateManyMutationInput!, where: EmployeeWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyEmployees(where: EmployeeWhereInput): BatchPayload!
 }
@@ -519,6 +527,16 @@ input UserUpdateentitlementsInput {
 }
 
 input UserUpdateInput {
+  email: String
+  password: String
+  name: String
+  age: Int
+  avatar: String
+  permissions: UserUpdatepermissionsInput
+  entitlements: UserUpdateentitlementsInput
+}
+
+input UserUpdateManyMutationInput {
   email: String
   password: String
   name: String

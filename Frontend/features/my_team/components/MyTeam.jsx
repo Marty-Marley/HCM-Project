@@ -38,9 +38,10 @@ const MyTeam = () => (
     <h1>My TEAM</h1>
     <CardWrapper>
       <Query query={ALL_EMPLOYEES_QUERY}>
-        {({ data: { employees }, loading }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
-          return employees.map(employee => (
+          if (error) return <p>{error.message}</p>
+          return data.employees.map(employee => (
             <Card key={employee.id}>
               <Employee {...employee} />
             </Card>

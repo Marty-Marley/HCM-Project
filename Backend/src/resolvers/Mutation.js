@@ -26,7 +26,7 @@ const Mutation = {
         ...args,
         password,
         permissions: { set: ['EMPLOYEE'] },
-        entitlements: { set: ['PROFILE', 'HOLIDAYS', 'TIMESHEET'] }
+        entitlements: { set: ['MY_PROFILE', 'REQUEST_TIME_OFF', 'RECORD_TIME'] }
       }
     }, info)
     // Generate JWT

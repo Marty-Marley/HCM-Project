@@ -66,9 +66,7 @@ const Page = ({ children }) => (
       <Meta />
       <LoginGate>
         <Nav />
-        <AuthenticationGate>
-          {children}
-        </AuthenticationGate>
+        {children}
       </LoginGate>
     </>
   </ThemeProvider>

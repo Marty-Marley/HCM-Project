@@ -15,4 +15,5 @@ type Mutation {
 type Query {
   employees: [Employee]!
   currentUser: User
+  users: [User]!
 }
