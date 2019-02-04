@@ -1,6 +1,6 @@
-import Permissions from '../features/permissions/components/Permissions'
+import PermissionsPage from '../features/permissions/components/PermissionsPage'
 
 /**
  * Route is pointing to the Permissions component
  */
-export default Permissions
+export default PermissionsPage
