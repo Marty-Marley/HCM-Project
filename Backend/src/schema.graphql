@@ -10,6 +10,7 @@ type Mutation {
   # !TODO - ^ Include age, avatar, permissions, entitlements (Not required ATM) ^
   signin(email: String!, password: String!): User!
   signout: SuccessMessage
+  editPermissions(permissions: [Permissions], userId: ID!): User
 }
 
 type Query {

@@ -20,6 +20,7 @@ const Query = {
     // If they do, return all users
     return ctx.db.query.employees({}, info)
   },
+
   currentUser(parent, args, ctx, info) {
     // If there is NOT a userId, i.e. no jwt generated from login or signup
     if(!ctx.request.userId) {
@@ -29,13 +30,14 @@ const Query = {
       where: { id: ctx.request.userId }
     }, info)
   },
+
   async users(parent, args, ctx, info) {
     if(!ctx.request.userId) {
       throw new Error('Please log in to do that!')
     }
     // Check to see if current user has permission to get all users
     hasPermission(ctx.request.user, ['ADMIN'])
-    // If they do, return all users
+    // If they have permissions, return all users
     return ctx.db.query.users({}, info)
   }
 }

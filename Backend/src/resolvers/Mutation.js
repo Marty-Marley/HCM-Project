@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { hasPermission } = require('../utils')
 
 /**
  * * Here we are specifying where the data is going to.
@@ -16,6 +17,7 @@ const Mutation = {
     }, info)
     return employee
   },
+
   async createUser(parent, args, ctx, info) {
     // lowercase email so it isnt case sensitive
     args.email = args.email.toLowerCase()
@@ -38,6 +40,7 @@ const Mutation = {
     })
     return user
   },
+
   async signin(parent, args, ctx, info) {
     // Grab user that is trying to log in
     const user = await ctx.db.query.user({ where: { email: args.email } })
@@ -55,10 +58,63 @@ const Mutation = {
     })
     return user
   },
+
+
   signout(parent, args, ctx, info) {
     // Clear token from the cookie on logout.
     ctx.response.clearCookie('token')
     return { message: 'You have signed out.' }
+  },
+
+
+  async editPermissions(parent, args, ctx, info) {
+    // Is current user logged in?
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+    // Get user info of user that is attempted to be updated.
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+    // Throw error if current user isn't an admin.
+    hasPermission(currentUser, ['ADMIN']);
+    
+    let userEntitlements = [
+      'MY_PROFILE',
+      'REQUEST_TIME_OFF',
+      'RECORD_TIME',
+    ]
+
+    if(args.permissions.includes('MANAGER')) {
+      userEntitlements.push('MY_TEAM')
+    }
+
+    if(args.permissions.includes('ADMIN')) {
+      userEntitlements.push('PERMISSIONS')
+    }
+
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          permissions: {
+            set: args.permissions,
+          },
+          entitlements: {
+            set: userEntitlements
+          }
+        },
+        where: {
+          id: args.userId,
+        },
+      },
+      info
+    );
+
   }
 }
 
