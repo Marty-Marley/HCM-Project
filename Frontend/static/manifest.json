@@ -1,0 +1,8 @@
+{
+  "name": "HCM",
+  "short_name": "HCM",
+  "start_url": "/",
+  "background_color": "#4CC1FC",
+  "display": "standalone",
+  "theme_color": "#222222"
+}
