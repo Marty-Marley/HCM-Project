@@ -1,3 +1,7 @@
+/**
+ * ENSURE TO POINT TO THIS CUSTOM SERVER
+ * NPM RUN DEV = node server.js
+ */
 const { createServer } = require('http');
 const { parse } = require('url');
 const { createReadStream } = require('fs');
