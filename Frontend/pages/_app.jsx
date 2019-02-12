@@ -4,9 +4,9 @@ import { ApolloProvider } from 'react-apollo'
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
-import getPageContext from '../app/utils/getPageContext';
-import Page from '../app/components/Page'
-import withApollo from '../app/utils/withApollo'
+import getPageContext from '../common/utils/getPageContext';
+import Page from '../common/components/Page'
+import withApollo from '../common/utils/withApollo'
 
 /**
  * Wraps each page in apollo provider for state management.
@@ -53,7 +53,7 @@ class MyApp extends App {
               sheetsManager={this.pageContext.sheetsManager}
             >
               <CssBaseline />
-              <Page>
+              <Page route={this.props.router.route}>
                 <Component pageContext={this.pageContext} {...pageProps} />
               </Page>
             </MuiThemeProvider>

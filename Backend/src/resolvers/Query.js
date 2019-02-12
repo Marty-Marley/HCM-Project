@@ -24,7 +24,7 @@ const Query = {
   currentUser(parent, args, ctx, info) {
     // If there is NOT a userId, i.e. no jwt generated from login or signup
     if(!ctx.request.userId) {
-      return null
+      throw new Error('Please log in to do that!')
     }
     return ctx.db.query.user({
       where: { id: ctx.request.userId }

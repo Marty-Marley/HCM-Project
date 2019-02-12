@@ -7,10 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 import User from './User'
 import Signout from '../../features/login_signup/components/Signout'
 
@@ -30,11 +29,22 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
+    padding: '0px'
   },
   a: {
-    color: theme.link,
-    textDecoration: 'none'
-  }
+    color: theme.link.primary,
+    textDecoration: 'none',
+    '&:hover': {
+      color: theme.link.hover
+    }
+  },
+  icon: {
+    paddingLeft: '24px',
+    borderLeft: '1.3px solid #dcdcdc'
+  },
+  bigAvatar: {
+    margin: 10,
+  },
 });
 
 /**
@@ -68,7 +78,7 @@ class Nav extends Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.nav}>
           <Toolbar>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
+            <Typography variant="h6" color="textSecondary" className={classes.grow}>
               HCM
             </Typography>
             <Typography variant="h6" className={classes.grow}>
@@ -77,15 +87,24 @@ class Nav extends Component {
               </Link>
             </Typography>
             <User>
-              {({ data: { currentUser } }) => (
-                <div>
+              {({ data, error }) => {
+                if (error) return <p>{error.message}</p>
+                return (<div className={classes.icon}>
                   <IconButton
+                    className={classes.button}
                     aria-owns={open ? 'menu-appbar' : undefined}
                     aria-haspopup="true"
                     onClick={this.handleMenu}
-                    color="inherit"
+                    color="default"
                   >
-                    <AccountCircle />
+                    {data.currentUser
+                      && <Avatar
+                        alt={data.currentUser.name}
+                        src={data.currentUser.avatar}
+                        className={classes.bigAvatar}
+                      />
+                    }
+
                   </IconButton>
                   <Menu
                     id="menu-appbar"
@@ -107,12 +126,12 @@ class Nav extends Component {
                     }}>
                       My Profile
                     </MenuItem>
-                    {currentUser
+                    {data.currentUser
                       && <Signout />
                     }
                   </Menu>
-                </div>
-              )}
+                </div>)
+              }}
             </User>
           </Toolbar>
         </AppBar>

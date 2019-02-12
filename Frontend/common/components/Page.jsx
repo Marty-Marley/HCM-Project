@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { node } from 'prop-types'
 import Nprogress from 'nprogress'
 import Router from 'next/router'
@@ -23,15 +23,22 @@ Router.onRouteChangeError = () => {
 /**
  * Functional component for wrapping all page componens in Nav, loginGate and themeProvider.
  */
-const Page = ({ children }) => (
-  <>
-    <Meta />
-    <LoginGate>
-      <Nav />
-      {children}
-    </LoginGate>
-  </>
-)
+const Page = ({ route, children }) => {
+  const byPassPage = route === '/login'
+  return (
+    <>
+      <Meta />
+      {!byPassPage
+        ? <>
+          <Nav />
+          <div style={{ padding: '25px' }}>
+            {children}
+          </div>
+        </>
+        : <>{children}</>
+      }
+    </>)
+}
 Page.propTypes = {
   children: node.isRequired
 }

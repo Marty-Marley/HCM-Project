@@ -1,10 +1,28 @@
 import React, { Component } from 'react'
 import {
-  shape, string, node
+  shape, string, node, object
 } from 'prop-types'
 import gql from 'graphql-tag'
+import { withStyles } from '@material-ui/core/styles';
+import {
+  TableCell, TableRow, Checkbox, Button, Avatar
+} from '@material-ui/core';
+import UpdateIcon from '@material-ui/icons/Update';
 import { Mutation } from 'react-apollo'
 import { permissions } from '../utils'
+
+// TODO - Wes Bos has video on making whole checkbox cell clickable
+
+const styles = theme => ({
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  avatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
+  },
+})
 
 const EDIT_PERMISSIONS_MUTATION = gql`
   mutation editPermissions($permissions: [Permissions], $userId: ID!) {
@@ -44,25 +62,31 @@ class User extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { user, classes } = this.props
     const { userPermissions } = this.state
+    // Destructuring role out of user + destructuring the first element out of role array - into userRole
+    const { role: [userRole] } = user
     return (
       <Mutation mutation={EDIT_PERMISSIONS_MUTATION} variables={{ permissions: userPermissions, userId: user.id }}>
         {(editPermissions, { loading }) => (
-          <tr key={user.id}>
-            <td>Image</td>
-            <td>{user.name}</td>
-            <td>Role</td>
+          <TableRow key={user.id}>
+            <TableCell><Avatar alt={user.name} src={user.avatar} className={classes.avatar} /></TableCell>
+            <TableCell>{user.name}</TableCell>
+            <TableCell>{userRole.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</TableCell>
             {permissions.map(permission => (
-              <td key={permission}>
-                <input type="checkbox" checked={userPermissions.includes(permission)} value={permission} onChange={this.handlePermissionChange} />
-              </td>))}
-            <td><button type="button" onClick={editPermissions} disabled={loading}>{`Updat${loading ? 'ing' : 'e'}`}</button></td>
-          </tr>
+              <TableCell key={permission}>
+                <Checkbox color="primary" checked={userPermissions.includes(permission)} value={permission} onChange={this.handlePermissionChange} />
+              </TableCell>))}
+            <TableCell><Button variant="contained" color="primary" onClick={editPermissions} disabled={loading}>{`Updat${loading ? 'ing' : 'e'}`}<UpdateIcon className={classes.rightIcon} /></Button></TableCell>
+          </TableRow>
         )}
       </Mutation>
     )
   }
 }
 
-export default User
+User.propTypes = {
+  classes: object.isRequired,
+}
+
+export default withStyles(styles)(User)

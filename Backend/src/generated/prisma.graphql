@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/marty-marley/HCM/dev
-# timestamp: Tue Jan 29 2019 22:52:26 GMT+0000 (Greenwich Mean Time)
+# timestamp: Tue Feb 12 2019 22:12:48 GMT+0000 (Greenwich Mean Time)
 
 type AggregateEmployee {
   count: Int!
@@ -400,6 +400,13 @@ type Query {
   ): Node
 }
 
+enum Roles {
+  SOFTWARE_ENGINEER
+  BUSINESS_ANALYST
+  PROJECT_MANAGER
+  QUALITY_ASSURANCE_ENGINEER
+}
+
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   employee(where: EmployeeSubscriptionWhereInput): EmployeeSubscriptionPayload
@@ -414,6 +421,7 @@ type User implements Node {
   avatar: String
   permissions: [Permissions!]!
   entitlements: [Entitlements!]!
+  role: [Roles!]!
 }
 
 """A connection to a list of items."""
@@ -438,10 +446,15 @@ input UserCreateInput {
   avatar: String
   permissions: UserCreatepermissionsInput
   entitlements: UserCreateentitlementsInput
+  role: UserCreateroleInput
 }
 
 input UserCreatepermissionsInput {
   set: [Permissions!]
+}
+
+input UserCreateroleInput {
+  set: [Roles!]
 }
 
 """An edge in a connection."""
@@ -481,6 +494,7 @@ type UserPreviousValues {
   avatar: String
   permissions: [Permissions!]!
   entitlements: [Entitlements!]!
+  role: [Roles!]!
 }
 
 type UserSubscriptionPayload {
@@ -534,6 +548,7 @@ input UserUpdateInput {
   avatar: String
   permissions: UserUpdatepermissionsInput
   entitlements: UserUpdateentitlementsInput
+  role: UserUpdateroleInput
 }
 
 input UserUpdateManyMutationInput {
@@ -544,10 +559,15 @@ input UserUpdateManyMutationInput {
   avatar: String
   permissions: UserUpdatepermissionsInput
   entitlements: UserUpdateentitlementsInput
+  role: UserUpdateroleInput
 }
 
 input UserUpdatepermissionsInput {
   set: [Permissions!]
+}
+
+input UserUpdateroleInput {
+  set: [Roles!]
 }
 
 input UserWhereInput {

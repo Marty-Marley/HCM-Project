@@ -1,6 +1,6 @@
 import { Query } from 'react-apollo'
 import { node } from 'prop-types'
-import { CURRENT_USER_QUERY } from '../../../app/components/User'
+import { CURRENT_USER_QUERY } from '../../../common/components/User'
 
 const AuthenticationGate = props => (
   <Query query={CURRENT_USER_QUERY}>

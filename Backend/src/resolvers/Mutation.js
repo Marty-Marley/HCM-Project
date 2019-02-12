@@ -19,21 +19,40 @@ const Mutation = {
   },
 
   async createUser(parent, args, ctx, info) {
-    // lowercase email so it isnt case sensitive
+    // Lowercase email so it isnt case sensitive
     args.email = args.email.toLowerCase()
     // Hash password
     const password = await bcrypt.hash(args.password, 10)
+    // Pravatar api provides random image of face - Generate random num + append to api url
+    let randomAvatarNumber = Math.floor((Math.random() * 68) + 1)
+    const avatar = `http://i.pravatar.cc/150?img=${randomAvatarNumber}`
+
+    // Define all roles
+    const roles = [
+      'SOFTWARE_ENGINEER',
+      'BUSINESS_ANALYST',
+      'PROJECT_MANAGER',
+      'QUALITY_ASSURANCE_ENGINEER',
+    ]
+    // Get random number between 0-3 - 0 is inclusive
+    const randomRoleNumber = Math.floor((Math.random() * 3));
+    // Set random role
+    const newUserRole = roles[randomRoleNumber]
+
     const user = await ctx.db.mutation.createUser({
       data: {
         ...args,
         password,
+        avatar,
+        role: { set: newUserRole },
         permissions: { set: ['EMPLOYEE'] },
         entitlements: { set: ['MY_PROFILE', 'REQUEST_TIME_OFF', 'RECORD_TIME'] }
       }
     }, info)
+
     // Generate JWT
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
-    // Put jwt in cookie
+    // Put JWT in cookie
     ctx.response.cookie('token', token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 14 // 2 week cookie

@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 
-import { CURRENT_USER_QUERY } from '../../../app/components/User'
+import { CURRENT_USER_QUERY } from '../../../common/components/User'
 
 /**
  * Signout mutation that will cause the client-side cookies to be cleared
@@ -43,8 +43,8 @@ const Signout = (props) => {
     <Mutation mutation={SIGN_OUT_MUTATION} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
       {signout => (
         <Button className={classes.button} onClick={() => {
-          signout()
           Router.push('/login')
+          signout()
         }}
         >
           Sign out
