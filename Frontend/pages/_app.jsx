@@ -1,13 +1,30 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import { ApolloProvider } from 'react-apollo'
-import Page from '../app/components/Page'
-import withApollo from '../app/utils/withApollo'
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import JssProvider from 'react-jss/lib/JssProvider';
+import getPageContext from '../common/utils/getPageContext';
+import Page from '../common/components/Page'
+import withApollo from '../common/utils/withApollo'
 
 /**
  * Wraps each page in apollo provider for state management.
  */
 class MyApp extends App {
+  constructor() {
+    super();
+    this.pageContext = getPageContext();
+  }
+
+  componentDidMount() {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
+  }
+
   /**
    ** getInitialProps will fire before the render so anything that
    ** is returned will be available within the render
@@ -27,9 +44,20 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
+          <JssProvider
+            registry={this.pageContext.sheetsRegistry}
+            generateClassName={this.pageContext.generateClassName}
+          >
+            <MuiThemeProvider
+              theme={this.pageContext.theme}
+              sheetsManager={this.pageContext.sheetsManager}
+            >
+              <CssBaseline />
+              <Page route={this.props.router.route}>
+                <Component pageContext={this.pageContext} {...pageProps} />
+              </Page>
+            </MuiThemeProvider>
+          </JssProvider>
         </ApolloProvider>
       </Container>
     )

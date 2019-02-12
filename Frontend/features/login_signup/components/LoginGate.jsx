@@ -1,7 +1,8 @@
 import { Query } from 'react-apollo'
-import { node } from 'prop-types'
-import { CURRENT_USER_QUERY } from '../../../app/components/User'
-import LoginContainer from './LoginContainer'
+import { node, object } from 'prop-types'
+import Router from 'next/router'
+import { CURRENT_USER_QUERY } from '../../../common/components/User'
+import LoginPage from './LoginPage'
 
 /**
  * Login functional component for LoginGate
@@ -13,7 +14,7 @@ const LoginGate = props => (
     {({ data, loading }) => {
       if (loading) return <p>Loading...</p>
       if (!data.currentUser) {
-        return <LoginContainer />
+        return <LoginPage />
       }
       return props.children
     }}

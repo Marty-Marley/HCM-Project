@@ -6,12 +6,12 @@ import DashboardPage from '../features/dashboard/components/DashboardPage'
  */
 class Dashboard extends Component {
   componentDidMount = () => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .catch(err => console.error('Service worker registration failed', err))
-    } else {
-      console.log('Service worker not supported');
-    }
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.register('/sw.js')
+    //     .catch(err => console.error('Service worker registration failed', err))
+    // } else {
+    //   console.log('Service worker not supported');
+    // }
   }
 
   render() {
@@ -21,4 +21,7 @@ class Dashboard extends Component {
   }
 }
 
+// const Dashboard = () => (
+//   <DashboardPage />
+// )
 export default Dashboard

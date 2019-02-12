@@ -1,8 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import Router from 'next/router'
-import { CURRENT_USER_QUERY } from '../../../app/components/User'
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import ExitToApp from '@material-ui/icons/ExitToApp';
+
+import { CURRENT_USER_QUERY } from '../../../common/components/User'
 
 /**
  * Signout mutation that will cause the client-side cookies to be cleared
@@ -16,21 +21,41 @@ const SIGN_OUT_MUTATION = gql`
   }
 `
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+});
+
 /**
  * Signout functional component which causes fires the logout functionality
  * and routes to the login page.
  */
-const Signout = () => (
-  <Mutation mutation={SIGN_OUT_MUTATION} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
-    {signout => (
-      <button type="button" style={{ background: '#2c93dd', border: 'black' }} onClick={() => {
-        signout()
-        Router.push('/login')
-      }}>
-        Sign out
-      </button>
-    )}
-  </Mutation>
-)
+const Signout = (props) => {
+  const { classes } = props
+  return (
+    <Mutation mutation={SIGN_OUT_MUTATION} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+      {signout => (
+        <Button className={classes.button} onClick={() => {
+          Router.push('/login')
+          signout()
+        }}
+        >
+          Sign out
+          <ExitToApp className={classes.rightIcon} />
+        </Button>
+      )}
+    </Mutation>)
+}
 
-export default Signout
+Signout.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Signout);

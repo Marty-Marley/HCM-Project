@@ -12,6 +12,13 @@ enum Permissions {
   EMPLOYEE
 }
 
+enum Roles {
+  SOFTWARE_ENGINEER
+  BUSINESS_ANALYST
+  PROJECT_MANAGER
+  QUALITY_ASSURANCE_ENGINEER
+}
+
 type User {
   id: ID! @unique
   email: String! @unique
@@ -21,7 +28,7 @@ type User {
   avatar: String
   permissions: [Permissions]
   entitlements: [Entitlements]
-  # role: String!
+  role: [Roles]
 }
 
 type Employee {

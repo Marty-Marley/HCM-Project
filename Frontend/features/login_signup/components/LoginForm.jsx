@@ -9,8 +9,6 @@ import {
 } from '@material-ui/core'
 import { CURRENT_USER_QUERY } from '../../../common/components/User'
 
-// TODO - Prevent empty user being created on signup
-
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -24,7 +22,7 @@ const styles = theme => ({
     border: '0',
     paddingTop: '260px',
     [theme.breakpoints.down('xs')]: {
-      paddingTop: '82px',
+      paddingTop: '120px',
     },
   },
   title: {
@@ -33,11 +31,11 @@ const styles = theme => ({
 })
 
 /**
- * Mutation for taking posting user signup data to server.
+ * Signin mutation which receives sigin in data to be sent to server
  */
-const CREATE_USER_MUTATION = gql`
-  mutation CREATE_USER_MUTATION($email: String!, $password: String!, $name: String!) {
-    createUser(email: $email, password: $password, name: $name) {
+const SIGNIN_MUTATION = gql`
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signin(email: $email, password: $password) {
       id
       email
       name
@@ -45,41 +43,44 @@ const CREATE_USER_MUTATION = gql`
   } 
 `
 /**
- * Signup form for retreiving user input data for signing up
+ * Login class component which facilitates the retrieval of user input data from login,
  */
-class Signup extends Component {
+class LoginForm extends Component {
   state = {
     email: '',
     password: '',
-    name: '',
   }
 
+  /**
+   * Reusable function for assigning input data to state.
+   */
   handleInput = ({ target: { name, value } }) => {
     this.setState({ [name]: value })
   }
 
   render() {
     const {
-      email, password, name
+      email, password
     } = this.state
     const { classes } = this.props
     return (
       <Mutation
-        mutation={CREATE_USER_MUTATION}
+        mutation={SIGNIN_MUTATION}
         variables={this.state}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
-        {(createUser, { loading, error }) => (
+        {(signin, { error, loading }) => (
           <form method="post" onSubmit={async (e) => {
             e.preventDefault()
-            await createUser()
+            await signin()
             this.setState({
-              email: '', password: '', name: ''
+              email: '', password: ''
             })
-            Router.push('/')
+            if (Router.route === '/login') {
+              Router.push('/')
+            }
           }}>
             <fieldset disabled={loading} className={classes.fieldset}>
               {error && <p style={{ color: 'red' }}>{error.message.replace('GraphQL error: ', '')}</p>}
-
               <Grid
                 container
                 spacing={24}
@@ -89,7 +90,7 @@ class Signup extends Component {
               >
                 <Grid item xs={12} className={classes.title}>
                   <Typography component="h2" variant="h2">
-                    Sign up
+                    Sign in
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -120,21 +121,7 @@ class Signup extends Component {
                     onChange={this.handleInput}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="outlined-name-input"
-                    label="Name"
-                    className={classes.textField}
-                    type="text"
-                    autoComplete="name"
-                    margin="normal"
-                    variant="outlined"
-                    name="name"
-                    value={name}
-                    onChange={this.handleInput}
-                  />
-                </Grid>
-                <Grid item xs={12}><Button variant="contained" color="primary" type="submit">Sign Up</Button></Grid>
+                <Grid item xs={12}><Button variant="contained" color="primary" type="submit">Sign in</Button></Grid>
               </Grid>
             </fieldset>
           </form>
@@ -144,8 +131,8 @@ class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
+LoginForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Signup);
+export default withStyles(styles)(LoginForm);
