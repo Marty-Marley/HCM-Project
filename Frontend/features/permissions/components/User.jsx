@@ -8,6 +8,7 @@ import {
   TableCell, TableRow, Checkbox, Button, Avatar
 } from '@material-ui/core';
 import UpdateIcon from '@material-ui/icons/Update';
+import { withSnackbar } from 'notistack'
 import { Mutation } from 'react-apollo'
 import { permissions } from '../utils'
 
@@ -22,6 +23,9 @@ const styles = theme => ({
     width: 60,
     height: 60,
   },
+  updateButton: {
+    paddingRight: '10px'
+  }
 })
 
 const EDIT_PERMISSIONS_MUTATION = gql`
@@ -61,13 +65,34 @@ class User extends Component {
     this.setState({ userPermissions: updatedPermissions })
   }
 
+  summonSnackbar = async (editPermissions) => {
+    await editPermissions()
+    const { updatedUser } = this.state
+    this.props.enqueueSnackbar(`${updatedUser}'s permissions have been updated.`, {
+      variant: 'success',
+      action: (
+        <Button size="small">Dismiss</Button>
+      ),
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'right',
+      }
+    })
+  }
+
   render() {
     const { user, classes } = this.props
     const { userPermissions } = this.state
     // Destructuring role out of user + destructuring the first element out of role array - into userRole
     const { role: [userRole] } = user
     return (
-      <Mutation mutation={EDIT_PERMISSIONS_MUTATION} variables={{ permissions: userPermissions, userId: user.id }}>
+      <Mutation
+        mutation={EDIT_PERMISSIONS_MUTATION}
+        variables={{ permissions: userPermissions, userId: user.id }}
+        onCompleted={({ editPermissions }) => {
+          this.setState({ updatedUser: editPermissions.name })
+        }}
+      >
         {(editPermissions, { loading }) => (
           <TableRow key={user.id}>
             <TableCell><Avatar alt={user.name} src={user.avatar} className={classes.avatar} /></TableCell>
@@ -77,7 +102,7 @@ class User extends Component {
               <TableCell key={permission}>
                 <Checkbox color="primary" checked={userPermissions.includes(permission)} value={permission} onChange={this.handlePermissionChange} />
               </TableCell>))}
-            <TableCell><Button variant="contained" color="primary" onClick={editPermissions} disabled={loading}>{`Updat${loading ? 'ing' : 'e'}`}<UpdateIcon className={classes.rightIcon} /></Button></TableCell>
+            <TableCell align="center"><Button fullWidth size="large" className={classes.updateButton} variant="contained" color="primary" onClick={() => this.summonSnackbar(editPermissions)} disabled={loading}>{`Updat${loading ? 'ing' : 'e'}`}<UpdateIcon className={classes.rightIcon} /></Button></TableCell>
           </TableRow>
         )}
       </Mutation>
@@ -89,4 +114,6 @@ User.propTypes = {
   classes: object.isRequired,
 }
 
-export default withStyles(styles)(User)
+export default withStyles(styles)(
+  withSnackbar(User),
+)

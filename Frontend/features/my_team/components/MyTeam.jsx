@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import styled from 'styled-components'
+import Head from 'next/head'
+import { withSnackbar } from 'notistack'
+import Router from 'next/router'
+import { Button } from '@material-ui/core'
+import Home from '@material-ui/icons/Home'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import { withStyles } from '@material-ui/core/styles'
 import Employee from './Employee'
-import Card from '../../../common/components/Card'
 // TODO change to absolute path? ^
 
-// Styled component for cardwrapper
-const CardWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  width: 100vmin;
-  grid-gap: 2em;
-  margin: 0 auto;
-`
+const styles = theme => ({
+  progress: {
+    margin: theme.spacing.unit * 2,
+  },
+})
 
 // GraphQL query for getting all employees
 const ALL_EMPLOYEES_QUERY = gql`
@@ -33,23 +35,61 @@ const ALL_EMPLOYEES_QUERY = gql`
  * Using apollo query render prop for retieving data.
  * Employee data is wrapped in card and cardWrapper for styling.
  */
-const MyTeam = () => (
-  <>
-    <h1>My TEAM</h1>
-    <CardWrapper>
-      <Query query={ALL_EMPLOYEES_QUERY}>
-        {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
-          if (error) return <p>{error.message}</p>
-          return data.employees.map(employee => (
-            <Card key={employee.id}>
-              <Employee {...employee} />
-            </Card>
-          ))
-        }}
-      </Query>
-    </CardWrapper>
-  </>
-)
+class MyTeam extends Component {
+  summonSnackbar = (message, variant, position, linger = null) => {
+    const { enqueueSnackbar } = this.props
+    enqueueSnackbar(message, {
+      variant,
+      action: (
+        <Button onClick={() => {
+          Router.push('/')
+        }}>
+          <Home />
+        </Button>
+      ),
+      anchorOrigin: position,
+      autoHideDuration: linger
+    })
+  }
 
-export default MyTeam
+  render() {
+    const { classes } = this.props
+    return (
+      <>
+        <Head>
+          <title>My Team</title>
+        </Head>
+        <Query
+          query={ALL_EMPLOYEES_QUERY}
+          onError={(e) => {
+            this.summonSnackbar(
+              e.message.replace('GraphQL error: ', ''),
+              'warning',
+              {
+                vertical: 'top',
+                horizontal: 'center',
+              },
+              3000
+            )
+          }}
+        >
+          {({ data, loading, error }) => {
+            if (loading) return <CircularProgress className={classes.progress} />
+            if (error) return null
+            return (
+              data.employees.map(employee => (
+                <div key={employee.id}>
+                  <Employee {...employee} />
+                </div>
+              )))
+          }}
+        </Query>
+      </>
+    )
+  }
+}
+
+
+export default withStyles(styles)(
+  withSnackbar(MyTeam),
+)

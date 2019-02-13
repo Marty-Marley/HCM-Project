@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid } from '@material-ui/core'
 import Router from 'next/router'
+import Head from 'next/head'
 import User from '../../../common/components/User'
 import FeatureCard from './FeatureCard'
 import WelcomeBanner from './WelcomeBanner'
@@ -35,6 +36,9 @@ class DashboardPage extends Component {
           if (data.currentUser) {
             return (
               <div className={classes.root}>
+                <Head>
+                  <title>Dashboard</title>
+                </Head>
                 <Grid container spacing={24}>
                   <Grid item xs={12}>
                     <WelcomeBanner currentUser={data.currentUser} />
