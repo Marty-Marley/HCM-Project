@@ -32,6 +32,7 @@ const PermissionsTable = ({ users, classes }) => (
           <TableCell>Name</TableCell>
           <TableCell>Role</TableCell>
           {permissions.map(permission => <TableCell className={classes.tHead} key={permission}>{permission}</TableCell>)}
+          <TableCell align="center">Action</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>

@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo'
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
+import { SnackbarProvider } from 'notistack';
 import getPageContext from '../common/utils/getPageContext';
 import Page from '../common/components/Page'
 import withApollo from '../common/utils/withApollo'
@@ -54,7 +55,9 @@ class MyApp extends App {
             >
               <CssBaseline />
               <Page route={this.props.router.route}>
-                <Component pageContext={this.pageContext} {...pageProps} />
+                <SnackbarProvider maxSnack={5}>
+                  <Component pageContext={this.pageContext} {...pageProps} />
+                </SnackbarProvider>
               </Page>
             </MuiThemeProvider>
           </JssProvider>

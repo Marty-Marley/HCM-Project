@@ -88,9 +88,9 @@ const Mutation = {
 
   async editPermissions(parent, args, ctx, info) {
     // Is current user logged in?
-    if(!ctx.request.userId) {
-      throw new Error('Please log in to do that!')
-    }
+    // if(!ctx.request.userId) {
+    //   throw new Error('Please log in to do that!')
+    // }
     // Get user info of user that is attempted to be updated.
     const currentUser = await ctx.db.query.user(
       {
@@ -101,7 +101,7 @@ const Mutation = {
       info
     )
     // Throw error if current user isn't an admin.
-    hasPermission(currentUser, ['ADMIN']);
+    // hasPermission(currentUser, ['ADMIN']);
     
     let userEntitlements = [
       'MY_PROFILE',

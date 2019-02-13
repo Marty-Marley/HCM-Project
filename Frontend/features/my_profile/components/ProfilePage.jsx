@@ -1,7 +1,13 @@
 import React from 'react'
+import Head from 'next/head'
 
 const ProfliePage = () => (
-  <p>This is the my profile page.</p>
+  <>
+    <Head>
+      <title>My profile</title>
+    </Head>
+    <p>This is the my profile page.</p>
+  </>
 )
 
 export default ProfliePage

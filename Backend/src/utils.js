@@ -3,7 +3,7 @@ function hasPermission(user, permissionsNeeded) {
     permissionsNeeded.includes(permissionTheyHave)
   );
   if (!matchedPermissions.length) {
-    throw new Error(`You need to be ${permissionsNeeded} for this feature. You are ${user.permissions}`);
+    throw new Error(`You need ${permissionsNeeded} for this feature. You are ${user.permissions}`);
   }
 }
 
