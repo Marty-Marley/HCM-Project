@@ -24,7 +24,7 @@ const Mutation = {
     // Hash password
     const password = await bcrypt.hash(args.password, 10)
     // Pravatar api provides random image of face - Generate random num + append to api url
-    let randomAvatarNumber = Math.floor((Math.random() * 68) + 1)
+    const randomAvatarNumber = Math.floor((Math.random() * 68) + 1)
     const avatar = `http://i.pravatar.cc/150?img=${randomAvatarNumber}`
 
     // Define all roles
@@ -35,16 +35,37 @@ const Mutation = {
       'QUALITY_ASSURANCE_ENGINEER',
     ]
     // Get random number between 0-3 - 0 is inclusive
-    const randomRoleNumber = Math.floor((Math.random() * 3));
+    const randomRoleNumber = Math.floor((Math.random() * 3))
     // Set random role
     const newUserRole = roles[randomRoleNumber]
+
+    // Random salary between 25-100k 
+    const randomSalary = (Math.floor((Math.random() * (100-25+1)) + 25)) * 1000
+    // Define local currencies
+    const localCurrencies = [
+      'Pound',
+      'Dollar',
+      'Euro',
+      'Yuan'
+    ]
+    // Select random currency
+    const randomCurrencyIndex = Math.floor((Math.random() * 3))
+    const randomCurrency = localCurrencies[randomCurrencyIndex]
+
+    // Random start date
+    const start = new Date(2018, 0, 1)
+    const end = new Date()
+    const startDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
 
     const user = await ctx.db.mutation.createUser({
       data: {
         ...args,
         password,
         avatar,
+        salary: randomSalary,
+        localCurrency: randomCurrency,
         role: { set: newUserRole },
+        startDate,
         permissions: { set: ['EMPLOYEE'] },
         entitlements: { set: ['MY_PROFILE', 'REQUEST_TIME_OFF', 'RECORD_TIME'] }
       }
@@ -61,13 +82,16 @@ const Mutation = {
   },
 
   async signin(parent, args, ctx, info) {
+    if (args.email === '' || args.password === '') {
+      throw new Error('Invalid email and password combination.')
+    }
     // Grab user that is trying to log in
     const user = await ctx.db.query.user({ where: { email: args.email } })
     // Compare the given hashed password and compare it to the database password
     const isValid = await bcrypt.compare(args.password, user.password)
     // If either the user doesnt exist or the password is wrong - Throw error
-    if (!user || !isValid) {
-      throw new Error('Invalid username and password combination.')
+    if (!user || !isValid || args.email === '' || args.password === '') {
+      throw new Error('Invalid email and password combination.')
     }
     // Create a new jwt on login
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
@@ -88,9 +112,9 @@ const Mutation = {
 
   async editPermissions(parent, args, ctx, info) {
     // Is current user logged in?
-    // if(!ctx.request.userId) {
-    //   throw new Error('Please log in to do that!')
-    // }
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
     // Get user info of user that is attempted to be updated.
     const currentUser = await ctx.db.query.user(
       {
@@ -101,7 +125,7 @@ const Mutation = {
       info
     )
     // Throw error if current user isn't an admin.
-    // hasPermission(currentUser, ['ADMIN']);
+    hasPermission(currentUser, ['ADMIN']);
     
     let userEntitlements = [
       'MY_PROFILE',

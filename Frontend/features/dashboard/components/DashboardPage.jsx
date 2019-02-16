@@ -20,7 +20,6 @@ const styles = theme => ({
 
 class DashboardPage extends Component {
   state = {
-    isLoggedIn: false
   }
 
   render() {
@@ -29,7 +28,6 @@ class DashboardPage extends Component {
       <User>
         {({ data, error }) => {
           if (error) {
-            console.log(error.message)
             Router.push('/login')
             return null
           }
@@ -56,7 +54,7 @@ class DashboardPage extends Component {
               </div>
             )
           }
-          return <p>asd</p>
+          return null
         }
 
         }

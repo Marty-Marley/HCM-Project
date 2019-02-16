@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import Router from 'next/router'
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Avatar from '@material-ui/core/Avatar';
+import { withStyles } from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
+import Avatar from '@material-ui/core/Avatar'
 import User from './User'
 import Signout from '../../features/login_signup/components/Signout'
 
@@ -18,7 +18,9 @@ const styles = theme => ({
     flexGrow: 1,
   },
   nav: {
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: 'transparent',
+    boxShadow: 'none'
+
   },
   grow: {
     flexGrow: 1,
@@ -32,20 +34,22 @@ const styles = theme => ({
     padding: '0px'
   },
   a: {
-    color: theme.link.primary,
+    color: theme.palette.secondary.main,
     textDecoration: 'none',
     '&:hover': {
-      color: theme.link.hover
+      color: '#a9ccff'
     }
   },
   icon: {
     paddingLeft: '24px',
-    borderLeft: '1.3px solid #dcdcdc'
+    // borderLeft: '1.3px solid #dcdcdc'
   },
   bigAvatar: {
     margin: 10,
   },
 });
+
+// TODO Add current date/time to nav - Moment.js?
 
 /**
  * Class based component for displaying the nav bar
@@ -78,7 +82,7 @@ class Nav extends Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.nav}>
           <Toolbar>
-            <Typography variant="h6" color="textSecondary" className={classes.grow}>
+            <Typography variant="h6" color="secondary" className={classes.grow}>
               HCM
             </Typography>
             <Typography variant="h6" className={classes.grow}>
@@ -99,7 +103,7 @@ class Nav extends Component {
                   >
                     {data.currentUser
                       && <Avatar
-                        alt={data.currentUser.name}
+                        alt={data.currentUser.firstName}
                         src={data.currentUser.avatar}
                         className={classes.bigAvatar}
                       />

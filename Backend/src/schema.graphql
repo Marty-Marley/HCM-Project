@@ -6,8 +6,7 @@ type SuccessMessage {
 
 type Mutation {
   createEmployee(name: String!, email: String!, age: Int, avatar: String): Employee!
-  createUser(email: String!, password: String!, name: String!): User!
-  # !TODO - ^ Include age, avatar, permissions, entitlements (Not required ATM) ^
+  createUser(email: String!, password: String!, firstName: String!, lastName: String!): User!
   signin(email: String!, password: String!): User!
   signout: SuccessMessage
   editPermissions(permissions: [Permissions], userId: ID!): User

@@ -33,7 +33,8 @@ const EDIT_PERMISSIONS_MUTATION = gql`
     editPermissions(permissions: $permissions, userId: $userId) {
       id
       permissions
-      name
+      firstName
+      lastName
       email
     }
   }
@@ -43,12 +44,14 @@ class User extends Component {
   static propTypes = {
     user: shape({
       avatar: string,
-      name: string,
+      firstName: string,
+      lastName: string,
       role: string,
       permissions: node
     }).isRequired
   }
 
+  // TODO Try and get this independant of state
   state = {
     userPermissions: this.props.user.permissions
   }
@@ -90,13 +93,15 @@ class User extends Component {
         mutation={EDIT_PERMISSIONS_MUTATION}
         variables={{ permissions: userPermissions, userId: user.id }}
         onCompleted={({ editPermissions }) => {
-          this.setState({ updatedUser: editPermissions.name })
+          const fullName = `${editPermissions.firstName} ${editPermissions.lastName}`
+          this.setState({ updatedUser: fullName })
         }}
       >
         {(editPermissions, { loading }) => (
           <TableRow key={user.id}>
-            <TableCell><Avatar alt={user.name} src={user.avatar} className={classes.avatar} /></TableCell>
-            <TableCell>{user.name}</TableCell>
+            <TableCell><Avatar alt={user.firstName} src={user.avatar} className={classes.avatar} /></TableCell>
+            <TableCell>{user.firstName}</TableCell>
+            <TableCell>{user.lastName}</TableCell>
             <TableCell>{userRole.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</TableCell>
             {permissions.map(permission => (
               <TableCell key={permission}>

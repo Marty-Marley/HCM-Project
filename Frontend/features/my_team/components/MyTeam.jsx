@@ -11,6 +11,8 @@ import { withStyles } from '@material-ui/core/styles'
 import Employee from './Employee'
 // TODO change to absolute path? ^
 
+// TODO Use expansion panels - secondary heading
+
 const styles = theme => ({
   progress: {
     margin: theme.spacing.unit * 2,

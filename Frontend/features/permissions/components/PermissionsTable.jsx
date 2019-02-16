@@ -19,7 +19,7 @@ const styles = theme => ({
   },
   tHead: {
     fontWeight: 'bold',
-    backgroundColor: '#dadada'
+    backgroundColor: '#ebebeb'
   }
 })
 
@@ -29,7 +29,8 @@ const PermissionsTable = ({ users, classes }) => (
       <TableHead>
         <TableRow>
           <TableCell>Avatar</TableCell>
-          <TableCell>Name</TableCell>
+          <TableCell>First Name</TableCell>
+          <TableCell>Last Name</TableCell>
           <TableCell>Role</TableCell>
           {permissions.map(permission => <TableCell className={classes.tHead} key={permission}>{permission}</TableCell>)}
           <TableCell align="center">Action</TableCell>
@@ -45,7 +46,8 @@ const PermissionsTable = ({ users, classes }) => (
 PermissionsTable.propTypes = {
   users: arrayOf(shape({
     avatar: string,
-    name: string,
+    firstName: string,
+    lastName: string,
     role: string,
     permissions: node
   })).isRequired

@@ -20,6 +20,7 @@ const theme = createMuiTheme({
     },
     background: {
       default: '#eaeaea'
+      // background-image: -webkit-linear-gradient(90deg, #EAEAE9 67%, #1f64cd 50%);
     },
     blue: '#1f64cd'
   },
@@ -29,7 +30,8 @@ const theme = createMuiTheme({
   link: {
     primary: '#1f64cd',
     hover: '#002b6c'
-  }
+  },
+  requiresAction: '#834de2'
 });
 
 export default theme

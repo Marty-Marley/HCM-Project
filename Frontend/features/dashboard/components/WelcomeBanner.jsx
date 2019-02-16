@@ -1,8 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   root: {
@@ -10,15 +10,15 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
-});
+})
 
 const WelcomeBanner = (props) => {
-  const { classes, currentUser: { name } } = props;
+  const { classes, currentUser: { firstName } } = props;
   return (
     <div>
       <Paper className={classes.root} elevation={1}>
         <Typography variant="h5" component="h3">
-          {`Welcome back ${name}`}
+          {`Welcome back ${firstName}`}
         </Typography>
       </Paper>
     </div>
@@ -28,6 +28,6 @@ const WelcomeBanner = (props) => {
 WelcomeBanner.propTypes = {
   classes: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles)(WelcomeBanner);
+export default withStyles(styles)(WelcomeBanner)

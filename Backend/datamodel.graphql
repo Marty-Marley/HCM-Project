@@ -23,12 +23,23 @@ type User {
   id: ID! @unique
   email: String! @unique
   password: String!
-  name: String!
+  firstName: String!
+  lastName: String!
+  title: String
   age: Int
   avatar: String
   permissions: [Permissions]
   entitlements: [Entitlements]
   role: [Roles]
+  salary: Int
+  localCurrency: String
+  startDate: DateTime
+  birthDate: DateTime
+  address: String
+  mobileNumber: String
+  location: String
+  gender: String
+  # Manager - My Team
 }
 
 type Employee {

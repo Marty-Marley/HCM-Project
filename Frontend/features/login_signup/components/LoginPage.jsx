@@ -38,7 +38,7 @@ const styles = theme => ({
     transform: 'translate(-50%, -50%)',
     margin: '0 auto',
   }
-});
+})
 
 /**
  * Login class component for displaying login and tabbing to signup
