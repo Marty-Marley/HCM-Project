@@ -35,13 +35,23 @@ const styles = theme => ({
     marginTop: '16px'
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
     width: 200,
+    margin: [[0], '!important']
   },
   menu: {
     width: 200,
   },
+  update: {
+    margin: '16px',
+    backgroundColor: theme.requiresAction,
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#693cb7'
+    }
+  },
+  location: {
+    margin: 0,
+  }
 })
 
 class MainContent extends Component {
@@ -59,6 +69,7 @@ class MainContent extends Component {
     const { editMode } = this.state
     // * Incoming date is not a js DateTime so need to convert below * //
     const startDate = moment(new Date(currentUser.startDate)).format('DD-MMM-YYYY')
+    const birthDate = moment(new Date(currentUser.birthDate)).format('DD-MMM-YYYY')
     let currencyPrefix = ''
     switch (currentUser.localCurrency) {
       case 'Pound':
@@ -97,8 +108,9 @@ class MainContent extends Component {
                 notSpecified={notSpecified}
                 startDate={startDate}
                 currencyPrefix={currencyPrefix}
+                birthDate={birthDate}
               />
-              : <EditProfileForm classes={classes} currentUser={currentUser} currencyPrefix={currencyPrefix} startDate={startDate} />
+              : <EditProfileForm classes={classes} currentUser={currentUser} currencyPrefix={currencyPrefix} startDate={startDate} tidyDate={birthDate} toggleEditMode={this.toggleEditMode} />
           }
         </Grid>
       </div>

@@ -68,10 +68,8 @@ class User extends Component {
     this.setState({ userPermissions: updatedPermissions })
   }
 
-  summonSnackbar = async (editPermissions) => {
-    await editPermissions()
-    const { updatedUser } = this.state
-    this.props.enqueueSnackbar(`${updatedUser}'s permissions have been updated.`, {
+  summonSnackbar = (fullName) => {
+    this.props.enqueueSnackbar(`${fullName}'s permissions have been updated.`, {
       variant: 'success',
       action: (
         <Button size="small">Dismiss</Button>
@@ -94,7 +92,7 @@ class User extends Component {
         variables={{ permissions: userPermissions, userId: user.id }}
         onCompleted={({ editPermissions }) => {
           const fullName = `${editPermissions.firstName} ${editPermissions.lastName}`
-          this.setState({ updatedUser: fullName })
+          this.summonSnackbar(fullName)
         }}
       >
         {(editPermissions, { loading }) => (
@@ -107,7 +105,7 @@ class User extends Component {
               <TableCell key={permission}>
                 <Checkbox color="primary" checked={userPermissions.includes(permission)} value={permission} onChange={this.handlePermissionChange} />
               </TableCell>))}
-            <TableCell align="center"><Button fullWidth size="large" className={classes.updateButton} variant="contained" color="primary" onClick={() => this.summonSnackbar(editPermissions)} disabled={loading}>{`Updat${loading ? 'ing' : 'e'}`}<UpdateIcon className={classes.rightIcon} /></Button></TableCell>
+            <TableCell align="center"><Button fullWidth size="large" className={classes.updateButton} variant="contained" color="primary" onClick={() => editPermissions()} disabled={loading}>{`Updat${loading ? 'ing' : 'e'}`}<UpdateIcon className={classes.rightIcon} /></Button></TableCell>
           </TableRow>
         )}
       </Mutation>

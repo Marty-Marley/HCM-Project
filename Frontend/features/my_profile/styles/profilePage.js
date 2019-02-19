@@ -1,6 +1,7 @@
 const profilePageStyles = theme => ({
   root: {
     flexGrow: 1,
+    marginTop: '24px'
   },
   paper: {
     ...theme.mixins.gutters(),

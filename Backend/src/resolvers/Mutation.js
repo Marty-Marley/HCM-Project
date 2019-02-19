@@ -115,7 +115,7 @@ const Mutation = {
     if(!ctx.request.userId) {
       throw new Error('Please log in to do that!')
     }
-    // Get user info of user that is attempted to be updated.
+    // Get user info of user that is attempting update.
     const currentUser = await ctx.db.query.user(
       {
         where: {
@@ -156,8 +156,26 @@ const Mutation = {
         },
       },
       info
-    );
+    )
 
+  },
+  async editUser(parent, args, ctx, info) {
+    // Is current user logged in?
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+    // Update user information
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          ...args
+        },
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    );
   }
 }
 

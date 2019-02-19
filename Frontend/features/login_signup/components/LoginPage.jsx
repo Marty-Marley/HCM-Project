@@ -81,6 +81,6 @@ class LoginPage extends Component {
 
 LoginPage.propTypes = {
   classes: PropTypes.object.isRequired,
-};
+}
 
 export default withStyles(styles)(LoginPage);

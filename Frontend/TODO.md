@@ -9,3 +9,4 @@ if they are logged in or not?
 - Currently the nav does a request for avatar and dashboard does same request - context api that you can consume currentUser info from?
 - Notification when trying to edit permissions / profile but are offline.
 - Notifications when you go offline?
+- Wes - Cleaning up render prop mess.
