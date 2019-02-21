@@ -23,12 +23,25 @@ type User {
   id: ID! @unique
   email: String! @unique
   password: String!
-  name: String!
+  firstName: String!
+  lastName: String!
+  title: String
   age: Int
   avatar: String
   permissions: [Permissions]
   entitlements: [Entitlements]
   role: [Roles]
+  salary: Int
+  localCurrency: String
+  startDate: DateTime
+  birthDate: DateTime
+  address: String
+  mobileNumber: String
+  location: String
+  gender: String
+  # Manager - My Team
+  # team: [User] ?
+  # timesheet: ...
 }
 
 type Employee {
@@ -38,3 +51,36 @@ type Employee {
   age: Int
   avatar: String
 }
+
+# type Manager {
+#   id: ID! @unique
+#   details: User
+# }
+
+# type time {
+#   timeRemaining; float/decimal/double
+#   timeTaken; float/decimal/double
+#   timesheet: [
+#     previousWeek: [
+#       monday: 8, type: PTO,
+#       tuesday: 8 type: PTO,
+#       wednesday: 8 type: PTO,
+#       thursday: 8 type: PTO,
+#       friday: 8 type: PTO,
+#     ],
+#     currentWeek: [
+#       monday: 8, type: time,
+#       tuesday: 8 type: PTO,
+#       wednesday: 8 type: time,
+#       thursday: 8 type: time,
+#       friday: 8 type: time,
+#     ],
+#     currentWeek: [
+#       monday: null,
+#       tuesday: 8 type: PTO,
+#       wednesday: 8 type: PTO,
+#       thursday: null,
+#       friday: null
+#     ],
+#   ]
+# }

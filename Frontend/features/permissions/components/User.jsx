@@ -33,7 +33,8 @@ const EDIT_PERMISSIONS_MUTATION = gql`
     editPermissions(permissions: $permissions, userId: $userId) {
       id
       permissions
-      name
+      firstName
+      lastName
       email
     }
   }
@@ -43,12 +44,14 @@ class User extends Component {
   static propTypes = {
     user: shape({
       avatar: string,
-      name: string,
+      firstName: string,
+      lastName: string,
       role: string,
       permissions: node
     }).isRequired
   }
 
+  // TODO Try and get this independant of state
   state = {
     userPermissions: this.props.user.permissions
   }
@@ -65,10 +68,8 @@ class User extends Component {
     this.setState({ userPermissions: updatedPermissions })
   }
 
-  summonSnackbar = async (editPermissions) => {
-    await editPermissions()
-    const { updatedUser } = this.state
-    this.props.enqueueSnackbar(`${updatedUser}'s permissions have been updated.`, {
+  summonSnackbar = (fullName) => {
+    this.props.enqueueSnackbar(`${fullName}'s permissions have been updated.`, {
       variant: 'success',
       action: (
         <Button size="small">Dismiss</Button>
@@ -90,19 +91,21 @@ class User extends Component {
         mutation={EDIT_PERMISSIONS_MUTATION}
         variables={{ permissions: userPermissions, userId: user.id }}
         onCompleted={({ editPermissions }) => {
-          this.setState({ updatedUser: editPermissions.name })
+          const fullName = `${editPermissions.firstName} ${editPermissions.lastName}`
+          this.summonSnackbar(fullName)
         }}
       >
         {(editPermissions, { loading }) => (
           <TableRow key={user.id}>
-            <TableCell><Avatar alt={user.name} src={user.avatar} className={classes.avatar} /></TableCell>
-            <TableCell>{user.name}</TableCell>
+            <TableCell><Avatar alt={user.firstName} src={user.avatar} className={classes.avatar} /></TableCell>
+            <TableCell>{user.firstName}</TableCell>
+            <TableCell>{user.lastName}</TableCell>
             <TableCell>{userRole.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</TableCell>
             {permissions.map(permission => (
               <TableCell key={permission}>
                 <Checkbox color="primary" checked={userPermissions.includes(permission)} value={permission} onChange={this.handlePermissionChange} />
               </TableCell>))}
-            <TableCell align="center"><Button fullWidth size="large" className={classes.updateButton} variant="contained" color="primary" onClick={() => this.summonSnackbar(editPermissions)} disabled={loading}>{`Updat${loading ? 'ing' : 'e'}`}<UpdateIcon className={classes.rightIcon} /></Button></TableCell>
+            <TableCell align="center"><Button fullWidth size="large" className={classes.updateButton} variant="contained" color="primary" onClick={() => editPermissions()} disabled={loading}>{`Updat${loading ? 'ing' : 'e'}`}<UpdateIcon className={classes.rightIcon} /></Button></TableCell>
           </TableRow>
         )}
       </Mutation>

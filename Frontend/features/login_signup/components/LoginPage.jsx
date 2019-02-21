@@ -38,7 +38,7 @@ const styles = theme => ({
     transform: 'translate(-50%, -50%)',
     margin: '0 auto',
   }
-});
+})
 
 /**
  * Login class component for displaying login and tabbing to signup
@@ -81,6 +81,6 @@ class LoginPage extends Component {
 
 LoginPage.propTypes = {
   classes: PropTypes.object.isRequired,
-};
+}
 
 export default withStyles(styles)(LoginPage);

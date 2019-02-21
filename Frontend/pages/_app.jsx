@@ -1,11 +1,12 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import { ApolloProvider } from 'react-apollo'
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import JssProvider from 'react-jss/lib/JssProvider';
-import { SnackbarProvider } from 'notistack';
-import getPageContext from '../common/utils/getPageContext';
+import { SnackbarProvider } from 'notistack'
+import { UserAgentProvider } from '@quentin-sommer/react-useragent'
+import getPageContext from '../common/utils/getPageContext'
 import Page from '../common/components/Page'
 import withApollo from '../common/utils/withApollo'
 
@@ -36,12 +37,17 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx)
     }
     pageProps.query = ctx.query
-    return { pageProps }
+    return {
+      ua: ctx.req
+        ? ctx.req.headers['user-agent']
+        : navigator.userAgent,
+      pageProps
+    }
   }
 
   render() {
     const { Component, apollo, pageProps } = this.props
-
+    console.log(this.props.ua)
     return (
       <Container>
         <ApolloProvider client={apollo}>
@@ -54,15 +60,17 @@ class MyApp extends App {
               sheetsManager={this.pageContext.sheetsManager}
             >
               <CssBaseline />
-              <Page route={this.props.router.route}>
-                <SnackbarProvider maxSnack={5}>
-                  <Component pageContext={this.pageContext} {...pageProps} />
-                </SnackbarProvider>
-              </Page>
+              <UserAgentProvider ua={this.props.ua}>
+                <Page route={this.props.router.route}>
+                  <SnackbarProvider maxSnack={5}>
+                    <Component pageContext={this.pageContext} {...pageProps} />
+                  </SnackbarProvider>
+                </Page>
+              </UserAgentProvider>
             </MuiThemeProvider>
           </JssProvider>
         </ApolloProvider>
-      </Container>
+      </Container >
     )
   }
 }

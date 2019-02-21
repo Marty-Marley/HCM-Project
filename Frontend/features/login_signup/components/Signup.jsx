@@ -36,11 +36,12 @@ const styles = theme => ({
  * Mutation for taking posting user signup data to server.
  */
 const CREATE_USER_MUTATION = gql`
-  mutation CREATE_USER_MUTATION($email: String!, $password: String!, $name: String!) {
-    createUser(email: $email, password: $password, name: $name) {
+  mutation CREATE_USER_MUTATION($email: String!, $password: String!, $firstName: String!, $lastName: String!) {
+    createUser(email: $email, password: $password, firstName: $firstName, lastName: $lastName) {
       id
       email
-      name
+      firstName
+      lastName
     }
   } 
 `
@@ -51,7 +52,8 @@ class Signup extends Component {
   state = {
     email: '',
     password: '',
-    name: '',
+    firstName: '',
+    lastName: '',
   }
 
   handleInput = ({ target: { name, value } }) => {
@@ -60,7 +62,7 @@ class Signup extends Component {
 
   render() {
     const {
-      email, password, name
+      email, password, firstName, lastName
     } = this.state
     const { classes } = this.props
     return (
@@ -73,7 +75,7 @@ class Signup extends Component {
             e.preventDefault()
             await createUser()
             this.setState({
-              email: '', password: '', name: ''
+              email: '', password: '', firstName: '', lastName: ''
             })
             Router.push('/')
           }}>
@@ -122,15 +124,29 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    id="outlined-name-input"
-                    label="Name"
+                    id="outlined-firstName-input"
+                    label="First Name"
                     className={classes.textField}
                     type="text"
-                    autoComplete="name"
+                    autoComplete="firstName"
                     margin="normal"
                     variant="outlined"
-                    name="name"
-                    value={name}
+                    name="firstName"
+                    value={firstName}
+                    onChange={this.handleInput}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="outlined-lastName-input"
+                    label="Last Name"
+                    className={classes.textField}
+                    type="text"
+                    autoComplete="lastName"
+                    margin="normal"
+                    variant="outlined"
+                    name="lastName"
+                    value={lastName}
                     onChange={this.handleInput}
                   />
                 </Grid>

@@ -18,7 +18,8 @@ class MyDocument extends Document {
   render() {
     const { pageContext } = this.props
     return (
-      <html lang="en" dir="ltr">
+      // TODO Try a better way of doing this rather than inline
+      <html lang="en" dir="ltr" style={{ background: '#EAEAE9' }}>
         <Head>
           {this.props.styleTags}
           <meta charSet="utf-8" />
@@ -37,7 +38,12 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
         </Head>
-        <body>
+        <body style={{
+          // TODO Try a better way of doing this rather than inline
+          height: '100vh',
+          background: 'linear-gradient(to top, #EAEAE9 60%, #1f64cd 50%)',
+          backgroundRepeat: 'no-repeat',
+        }}>
           <Main />
           <NextScript />
         </body>

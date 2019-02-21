@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {
   Grid, Typography, Button, TextField
 } from '@material-ui/core'
+import { withSnackbar } from 'notistack'
 import { CURRENT_USER_QUERY } from '../../../common/components/User'
 
 const styles = theme => ({
@@ -38,7 +39,8 @@ const SIGNIN_MUTATION = gql`
     signin(email: $email, password: $password) {
       id
       email
-      name
+      firstName
+      lastName
     }
   } 
 `
@@ -58,6 +60,18 @@ class LoginForm extends Component {
     this.setState({ [name]: value })
   }
 
+  summonSnackbar = (message, variant, position, linger = null) => {
+    const { enqueueSnackbar } = this.props
+    enqueueSnackbar(message, {
+      variant,
+      action: (
+        <Button>Dismiss</Button>
+      ),
+      anchorOrigin: position,
+      autoHideDuration: linger
+    })
+  }
+
   render() {
     const {
       email, password
@@ -67,7 +81,22 @@ class LoginForm extends Component {
       <Mutation
         mutation={SIGNIN_MUTATION}
         variables={this.state}
-        refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        onError={(e) => {
+          this.summonSnackbar(
+            e.message.replace('GraphQL error: ', ''),
+            'error',
+            {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            5000
+          )
+        }}
+        onCompleted={() => {
+          Router.push('/')
+        }}
+      >
         {(signin, { error, loading }) => (
           <form method="post" onSubmit={async (e) => {
             e.preventDefault()
@@ -75,12 +104,8 @@ class LoginForm extends Component {
             this.setState({
               email: '', password: ''
             })
-            if (Router.route === '/login') {
-              Router.push('/')
-            }
           }}>
             <fieldset disabled={loading} className={classes.fieldset}>
-              {error && <p style={{ color: 'red' }}>{error.message.replace('GraphQL error: ', '')}</p>}
               <Grid
                 container
                 spacing={24}
@@ -105,6 +130,7 @@ class LoginForm extends Component {
                     variant="outlined"
                     value={email}
                     onChange={this.handleInput}
+                    error={!!error}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -119,6 +145,7 @@ class LoginForm extends Component {
                     name="password"
                     value={password}
                     onChange={this.handleInput}
+                    error={!!error}
                   />
                 </Grid>
                 <Grid item xs={12}><Button variant="contained" color="primary" type="submit">Sign in</Button></Grid>
@@ -135,4 +162,4 @@ LoginForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(withSnackbar(LoginForm));

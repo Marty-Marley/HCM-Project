@@ -3,11 +3,12 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import Router from 'next/router'
 import { withSnackbar } from 'notistack'
-import { Button } from '@material-ui/core';
-import Home from '@material-ui/icons/Home';
+import { Button } from '@material-ui/core'
+import Home from '@material-ui/icons/Home'
 import Head from 'next/head'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 import PermissionsTable from './PermissionsTable'
 
 const styles = theme => ({
@@ -20,7 +21,8 @@ const ALL_USERS_QUERY = gql`
   query ALL_USERS_QUERY {
     users {
       id
-      name
+      firstName
+      lastName
       email
       permissions
       avatar
@@ -76,7 +78,9 @@ class PermissionsPage extends Component {
               {
                 data
                 && <>
-                  <h1>User Permissions</h1>
+                  <Typography variant="h3" component="h3" color="secondary">
+                    User Permissions
+                  </Typography>
                   <PermissionsTable users={data.users} />
                 </>
               }

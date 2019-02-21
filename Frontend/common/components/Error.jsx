@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'
 import Warning from '@material-ui/icons/Warning';
 import Home from '@material-ui/icons/Home';
 import Button from '@material-ui/core/Button';
