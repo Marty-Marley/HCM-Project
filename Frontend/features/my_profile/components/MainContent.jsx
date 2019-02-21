@@ -23,13 +23,13 @@ const styles = theme => ({
     fontSize: '16px'
   },
   notSpecified: {
-    color: theme.requiresAction
+    color: theme.palette.primary.main
   },
   edit: {
     position: 'absolute',
     top: '0',
     right: '0',
-    color: theme.requiresAction,
+    color: theme.palette.primary.main,
   },
   title: {
     marginTop: '16px'
@@ -43,10 +43,10 @@ const styles = theme => ({
   },
   update: {
     margin: '16px',
-    backgroundColor: theme.requiresAction,
+    backgroundColor: theme.palette.primary.main,
     color: 'white',
     '&:hover': {
-      backgroundColor: '#693cb7'
+      backgroundColor: '#002b6c'
     }
   },
   location: {

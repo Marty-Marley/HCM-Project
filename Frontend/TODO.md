@@ -1,6 +1,6 @@
 14.02
 
-- Modal confirmation on signout.
+- [x] Modal confirmation on signout.
 - Current date in nav
 - If logged in, rediret to dashboard.
 - Prevent empty user being created on signup.
@@ -10,3 +10,6 @@ if they are logged in or not?
 - Notification when trying to edit permissions / profile but are offline.
 - Notifications when you go offline?
 - Wes - Cleaning up render prop mess.
+- Permissions table - click event on whole cell for each permission.
+- My profile after timehsheets are done - have pie chart - PTO hours Remaining vs. Taken.  
+- [x] Mobile nav - client - ssr - detecting mobile requires userAent which is only available to client.

@@ -3,8 +3,8 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import Router from 'next/router'
 import { withSnackbar } from 'notistack'
-import { Button } from '@material-ui/core';
-import Home from '@material-ui/icons/Home';
+import { Button } from '@material-ui/core'
+import Home from '@material-ui/icons/Home'
 import Head from 'next/head'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { withStyles } from '@material-ui/core/styles'

@@ -4,7 +4,7 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Paper,
-} from '@material-ui/core';
+} from '@material-ui/core'
 import { permissions } from '../utils'
 import User from './User'
 
