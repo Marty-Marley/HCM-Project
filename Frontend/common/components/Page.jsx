@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { node } from 'prop-types'
 import Nprogress from 'nprogress'
 import Router from 'next/router'
+import { UserAgent } from '@quentin-sommer/react-useragent'
 import Nav from './Nav'
 import Meta from './Meta'
 import LoginGate from '../../features/login_signup/components/LoginGate'
+import MobileNav from './MobileNav'
 
 /**
  * Progress bar for visibility of network progess as the app is a single page application.
@@ -21,24 +23,42 @@ Router.onRouteChangeError = () => {
 
 
 /**
- * Functional component for wrapping all page componens in Nav, loginGate and themeProvider.
+ * Class component for wrapping all page componens in Nav, loginGate and themeProvider.
  */
-const Page = ({ route, children }) => {
-  const byPassPage = route === '/login'
-  return (
-    <>
-      <Meta />
-      {!byPassPage
-        ? <>
-          <Nav />
-          <div style={{ padding: '25px' }}>
-            {children}
-          </div>
-        </>
-        : <>{children}</>
-      }
-    </>)
+class Page extends Component {
+  state = {
+    isClient: false
+  }
+
+  render() {
+    const { route, children } = this.props
+    const byPassPage = route === '/login'
+    console.log(this)
+    return (
+      <>
+        <Meta />
+        {!byPassPage
+          ? <>
+            <UserAgent computer>
+              <Nav />
+            </UserAgent>
+
+            <div style={{ padding: '25px' }}>
+              {children}
+            </div>
+            <UserAgent mobile>
+              <MobileNav />
+            </UserAgent>
+
+          </>
+          : <>{children}</>
+        }
+      </>
+    )
+  }
 }
+
+
 Page.propTypes = {
   children: node.isRequired
 }
