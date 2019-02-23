@@ -13,3 +13,10 @@ if they are logged in or not?
 - Permissions table - click event on whole cell for each permission.
 - My profile after timehsheets are done - have pie chart - PTO hours Remaining vs. Taken.  
 - [x] Mobile nav - client - ssr - detecting mobile requires userAent which is only available to client.
+
+
+
+
+
+  ** Would have liked to have had**
+- Full calendar for recording times - at least have had  - last week | current week |next week

@@ -31,7 +31,10 @@ const theme = createMuiTheme({
     primary: '#1f64cd',
     hover: '#002b6c'
   },
-  requiresAction: '#834de2'
-});
+  requiresAction: '#834de2',
+  table: {
+    hover: '#dddddd'
+  }
+})
 
 export default theme

@@ -39,9 +39,9 @@ type User {
   mobileNumber: String
   location: String
   gender: String
+  timeInfo: Timesheet
   # Manager - My Team
   # team: [User] ?
-  # timesheet: ...
 }
 
 type Employee {
@@ -52,35 +52,29 @@ type Employee {
   avatar: String
 }
 
+type Timesheet {
+  id: ID! @unique
+  timeRemaining: Float
+  timeTaken: Float
+  weeks: [Week]
+  user: User
+}
+
+type Week {
+  id: ID! @unique
+  monday: Day @relation(name: "Monday")
+  tuesday: Day @relation(name: "Tuesday") 
+  wednesday: Day @relation(name: "Wednesday")
+  thursday: Day @relation(name: "Thursday")
+  friday: Day @relation(name: "Friday")
+}
+
+type Day {
+  hours: Int
+  type: String
+}
+
 # type Manager {
 #   id: ID! @unique
 #   details: User
-# }
-
-# type time {
-#   timeRemaining; float/decimal/double
-#   timeTaken; float/decimal/double
-#   timesheet: [
-#     previousWeek: [
-#       monday: 8, type: PTO,
-#       tuesday: 8 type: PTO,
-#       wednesday: 8 type: PTO,
-#       thursday: 8 type: PTO,
-#       friday: 8 type: PTO,
-#     ],
-#     currentWeek: [
-#       monday: 8, type: time,
-#       tuesday: 8 type: PTO,
-#       wednesday: 8 type: time,
-#       thursday: 8 type: time,
-#       friday: 8 type: time,
-#     ],
-#     currentWeek: [
-#       monday: null,
-#       tuesday: 8 type: PTO,
-#       wednesday: 8 type: PTO,
-#       thursday: null,
-#       friday: null
-#     ],
-#   ]
 # }

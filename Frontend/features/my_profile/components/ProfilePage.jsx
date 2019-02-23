@@ -16,9 +16,7 @@ const ProfliePage = ({ classes }) => (
     <Query
       query={CURRENT_USER_QUERY}
     >
-      {({ data, error }) => {
-        console.log(data)
-        return (
+      {({ data, error }) => (
           <>
             <Typography variant="h3" component="h3" color="secondary">
               My Profile
@@ -43,8 +41,7 @@ const ProfliePage = ({ classes }) => (
               </Grid>
             </Grid>
           </>
-        )
-      }}
+        )}
     </Query>
   </>
 )

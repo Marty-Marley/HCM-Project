@@ -33,7 +33,6 @@ class Page extends Component {
   render() {
     const { route, children } = this.props
     const byPassPage = route === '/login'
-    console.log(this)
     return (
       <>
         <Meta />
@@ -43,7 +42,7 @@ class Page extends Component {
               <Nav />
             </UserAgent>
 
-            <div style={{ padding: '25px' }}>
+            <div style={{ padding: '25px', marginBottom: '56px' }}>
               {children}
             </div>
             <UserAgent mobile>
