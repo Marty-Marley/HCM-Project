@@ -12,7 +12,7 @@ const Meta = () => (
     <link rel="stylesheet" type="text/css" href="/static/geosuggest.css" />
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA2ylfU82_oPeb8JTOjOhUQQwyQizDUUc&libraries=places" />
     {/* <link rel="manifest" href="/static/manifest.json" /> */}
-    <title>HCM</title>
+    <title>Human Management</title>
   </Head>
 )
 

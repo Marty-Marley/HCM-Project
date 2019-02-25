@@ -32,6 +32,7 @@ const Query = {
   },
 
   async users(parent, args, ctx, info) {
+    // If user isnt logged in - throw error
     if(!ctx.request.userId) {
       throw new Error('Please log in to do that!')
     }
@@ -39,7 +40,7 @@ const Query = {
     hasPermission(ctx.request.user, ['ADMIN'])
     // If they have permissions, return all users
     return ctx.db.query.users({}, info)
-  }
+  },
 }
 
 module.exports = Query;

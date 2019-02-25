@@ -34,7 +34,7 @@ const theme = createMuiTheme({
   requiresAction: '#834de2',
   table: {
     hover: '#dddddd'
-  }
+  },
 })
 
 export default theme

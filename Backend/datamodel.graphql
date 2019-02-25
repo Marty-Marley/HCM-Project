@@ -62,6 +62,7 @@ type Timesheet {
 
 type Week {
   id: ID! @unique
+  hasSubmitted: Boolean @default(value: "false")
   monday: Day @relation(name: "Monday")
   tuesday: Day @relation(name: "Tuesday") 
   wednesday: Day @relation(name: "Wednesday")

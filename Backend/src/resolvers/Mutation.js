@@ -67,7 +67,47 @@ const Mutation = {
         role: { set: newUserRole },
         startDate,
         permissions: { set: ['EMPLOYEE'] },
-        entitlements: { set: ['MY_PROFILE', 'REQUEST_TIME_OFF', 'RECORD_TIME'] }
+        entitlements: { set: ['MY_PROFILE', 'REQUEST_TIME_OFF', 'RECORD_TIME'] },
+        timeInfo: {
+          create: {
+            timeRemaining: 120,
+            timeTaken: 0,
+            weeks: {
+              create: {
+                monday: {
+                  create: {
+                    hours: null,
+                    type: null
+                  }
+                },
+                tuesday: {
+                  create: {
+                    hours: null,
+                    type: null
+                  }
+                },
+                wednesday: {
+                  create: {
+                    hours: null,
+                    type: null
+                  }
+                },
+                thursday: {
+                  create: {
+                    hours: null,
+                    type: null
+                  }
+                },
+                friday: {
+                  create: {
+                    hours: null,
+                    type: null
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }, info)
 
@@ -176,6 +216,103 @@ const Mutation = {
       },
       info
     );
+  },
+  async editTimesheet(parent, args, ctx, info) {
+    // If user isnt logged in - Throw error
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+
+    // Get currentUser info for the week ID
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+          // email: "bobby@gmail.com"
+        },
+      },
+      info
+    )
+
+    // Calculate the total PTO hours the user has just submitted.
+    let ptoHours = 0
+    if (args.mondayType === 'PTO') {
+      ptoHours += args.mondayHours
+    }
+    if (args.tuesdayType === 'PTO') {
+      ptoHours += args.tuesdayHours
+    }
+    if (args.wednesdayType === 'PTO') {
+      ptoHours += args.wednesdayHours
+    }
+    if (args.thursdayType === 'PTO') {
+      ptoHours += args.thursdayHours
+    }
+    if (args.fridayType === 'PTO') {
+      ptoHours += args.fridayHours
+    }
+
+    // Reduce timeRemaining + add to timneTaken with newly submitted PTO hours
+    const updatedTimeRemaining = currentUser.timeInfo.timeRemaining >= ptoHours ? currentUser.timeInfo.timeRemaining - ptoHours : 0
+
+    const updatedTimeTaken = currentUser.timeInfo.timeTaken + ptoHours < 120 ? currentUser.timeInfo.timeTaken + ptoHours : 120
+
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          timeInfo: {
+            update: {
+              timeRemaining: updatedTimeRemaining,
+              timeTaken: updatedTimeTaken,
+              weeks: {
+                update: {
+                  where: {id: currentUser.timeInfo.weeks[0].id},
+                  data: {
+                    hasSubmitted: true,
+                    monday: {
+                      update: {
+                        hours: args.mondayHours,
+                        type: args.mondayType
+                      }
+                    },
+                    tuesday: {
+                      update: {
+                        hours: args.tuesdayHours,
+                        type: args.tuesdayType
+                      }
+                    },
+                    wednesday: {
+                       update: {
+                        hours: args.wednesdayHours,
+                        type: args.wednesdayType
+                      }
+                    },
+                    thursday: {
+                      update: {
+                        hours: args.thursdayHours,
+                        type: args.thursdayType
+                      }
+                    },
+                    friday: {
+                      update: {
+                        hours: args.fridayHours,
+                        type: args.fridayType
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+        },
+        where: {
+          id: ctx.request.userId,
+          // id: currentUser.id
+        },
+      },
+      info
+    )
   }
 }
 

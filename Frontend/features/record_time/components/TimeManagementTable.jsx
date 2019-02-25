@@ -6,12 +6,14 @@ import { withStyles } from '@material-ui/core/styles';
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Paper, List, ListItem,
   ListItemIcon, ListItemText, DialogActions, DialogContent, DialogContentText,
-  TextField, Button
+  TextField, Button, Tooltip
 } from '@material-ui/core'
 import WorkIcon from '@material-ui/icons/WorkTwoTone'
 import BeachAccess from '@material-ui/icons/BeachAccessTwoTone'
-
+import { Mutation } from 'react-apollo'
+import { withSnackbar } from 'notistack'
 import Modal from '../../../common/components/Modal'
+import { CURRENT_USER_TIMESHEET_QUERY, EDIT_TIMESHEET_MUTATION } from '../graphql'
 
 const styles = theme => ({
   root: {
@@ -23,6 +25,15 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: theme.table.hover
     }
+  },
+  submit: {
+    marginTop: '16px',
+    backgroundColor: theme.palette.primary.main,
+    color: 'white',
+    float: 'right',
+    '&:hover': {
+      backgroundColor: '#1853ac'
+    }
   }
 })
 
@@ -32,12 +43,27 @@ class TimeManagementTable extends Component {
     showModal: false,
     modalPage: 1,
     week: {
-      Monday: null,
-      Tuesday: null,
-      Wednesday: null,
-      Thursday: null,
-      Friday: null,
+      monday: {},
+      tuesday: {},
+      wednesday: {},
+      thursday: {},
+      friday: {},
     }
+  }
+
+  componentDidMount = () => {
+    const { currentUser: { timeInfo } } = this.props
+    const [currentWeek] = timeInfo.weeks
+
+    this.setState({
+      week: {
+        monday: currentWeek.monday,
+        tuesday: currentWeek.tuesday,
+        wednesday: currentWeek.wednesday,
+        thursday: currentWeek.thursday,
+        friday: currentWeek.friday,
+      }
+    })
   }
 
   toggleModal = (day) => {
@@ -53,12 +79,12 @@ class TimeManagementTable extends Component {
   }
 
   submitModal = (hours) => {
-    const { currentlySelectedDay, hoursType } = this.state
+    const { currentlySelectedDay, type } = this.state
     this.setState(prevState => ({
       week: {
         ...prevState.week,
         [currentlySelectedDay]: {
-          hoursType,
+          type,
           hours
         }
       }
@@ -78,7 +104,7 @@ class TimeManagementTable extends Component {
       </DialogContentText>
           <List>
             <ListItem button onClick={() => {
-              this.updateState('hoursType', 'WRK')
+              this.updateState('type', 'WRK')
               this.updateState('modalPage', 2)
             }}
             >
@@ -91,7 +117,7 @@ class TimeManagementTable extends Component {
               />
             </ListItem>
             <ListItem button onClick={() => {
-              this.updateState('hoursType', 'PTO')
+              this.updateState('type', 'PTO')
               this.updateState('modalPage', 2)
             }}
             >
@@ -136,33 +162,76 @@ class TimeManagementTable extends Component {
     }
   }
 
+  summonSnackbar = (fullName) => {
+    this.props.enqueueSnackbar(`${fullName}'s timesheet has been updated.`, {
+      variant: 'success',
+      action: (
+        <Button size="small">Dismiss</Button>
+      ),
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'right',
+      }
+    })
+  }
+
   render() {
-    const { classes } = this.props
+    const { classes, currentUser } = this.props
     const { showModal, week } = this.state
+    console.log(this.props.currentUser)
+    const { hasSubmitted } = currentUser.timeInfo.weeks[0]
+
+    const editTimesheeet = {
+      mondayHours: week.monday.hours,
+      mondayType: week.monday.type,
+      tuesdayHours: week.tuesday.hours,
+      tuesdayType: week.tuesday.type,
+      wednesdayHours: week.wednesday.hours,
+      wednesdayType: week.wednesday.type,
+      thursdayHours: week.thursday.hours,
+      thursdayType: week.thursday.type,
+      fridayHours: week.friday.hours,
+      fridayType: week.friday.type,
+    }
     return (
       <>
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Monday</TableCell>
-                <TableCell>Tuesday</TableCell>
-                <TableCell>Wednesday</TableCell>
-                <TableCell>Thursday</TableCell>
-                <TableCell>Friday</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell className={classes.cell} onClick={() => this.toggleModal('Monday')}>{week.Monday ? week.Monday.hours : 0}</TableCell>
-                <TableCell className={classes.cell} onClick={() => this.toggleModal('Tuesday')}>{week.Tuesday ? week.Tuesday.hours : 0}</TableCell>
-                <TableCell className={classes.cell} onClick={() => this.toggleModal('Wednesday')}>{week.Wednesday ? week.Wednesday.hours : 0}</TableCell>
-                <TableCell className={classes.cell} onClick={() => this.toggleModal('Thursday')}>{week.Thursday ? week.Thursday.hours : 0}</TableCell>
-                <TableCell className={classes.cell} onClick={() => this.toggleModal('Friday')}>{week.Friday ? week.Friday.hours : 0}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </Paper >
+        <Mutation
+          mutation={EDIT_TIMESHEET_MUTATION}
+          variables={editTimesheeet}
+          refetchQueries={[{ query: CURRENT_USER_TIMESHEET_QUERY }]}
+          onCompleted={({ editTimesheet }) => {
+            const fullName = `${editTimesheet.firstName} ${editTimesheet.lastName}`
+            this.summonSnackbar(fullName)
+          }}
+        >
+          {editTimesheet => (
+            <>
+              <Paper className={classes.root}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Monday</TableCell>
+                      <TableCell>Tuesday</TableCell>
+                      <TableCell>Wednesday</TableCell>
+                      <TableCell>Thursday</TableCell>
+                      <TableCell>Friday</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('monday')}>{week.monday ? week.monday.hours : 0}</TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('tuesday')}>{week.tuesday ? week.tuesday.hours : 0}</TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('wednesday')}>{week.wednesday ? week.wednesday.hours : 0}</TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('thursday')}>{week.thursday ? week.thursday.hours : 0}</TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('friday')}>{week.friday ? week.friday.hours : 0}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Paper >
+              <Button className={classes.submit} onClick={() => editTimesheet()} disabled={hasSubmitted}>Submit</Button>
+            </>
+          )}
+        </Mutation>
         <Modal
           fullWidth
           open={showModal}
@@ -177,4 +246,6 @@ class TimeManagementTable extends Component {
 }
 
 
-export default withStyles(styles)(TimeManagementTable)
+export default withStyles(styles)(
+  withSnackbar(TimeManagementTable),
+)

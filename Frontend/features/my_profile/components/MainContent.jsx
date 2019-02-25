@@ -46,7 +46,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.main,
     color: 'white',
     '&:hover': {
-      backgroundColor: '#002b6c'
+      backgroundColor: '#1853ac'
     }
   },
   location: {
