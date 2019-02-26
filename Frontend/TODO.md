@@ -9,16 +9,22 @@ if they are logged in or not?
 - Notification when trying to edit permissions / profile but are `offline`.
 - Notifications when you go offline?
 - Permissions table - click event on whole cell for each permission.
-- My profile after timehsheets are done - have pie chart - PTO hours Remaining vs. Taken.
+- Remove request time off + rename record time to time management.
+- Try to remove "You have included the Google Maps JavaScript API multiple times on this page. This may cause unexpected errors."
+- Try and get in - last week | current week |next week
+- Get SVGs in the dashboard instead of the links.
+- Get favicon working / manifest file.
+- Get chips working in time table.
 <br/><br/>
 
 # Done 
+- [x] My profile after timehsheets are done - have pie chart - PTO hours Remaining vs. Taken.
 - [x] Modal confirmation on signout.
 - [x] Mobile nav - client - ssr - detecting mobile requires userAent which is only available to client.
 <br/><br/>
 
 # Would be nice to have 
-- Full calendar for recording times - at least have had  - last week | current week |next week
+- Full calendar for recording times - at least have had
 <br/><br/>
 
 # Code Tidyup

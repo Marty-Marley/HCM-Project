@@ -10,26 +10,13 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import PermissionsTable from './PermissionsTable'
+import { ALL_USERS_QUERY } from '../graphql'
 
 const styles = theme => ({
   progress: {
     margin: theme.spacing.unit * 2,
   },
 })
-
-const ALL_USERS_QUERY = gql`
-  query ALL_USERS_QUERY {
-    users {
-      id
-      firstName
-      lastName
-      email
-      permissions
-      avatar
-      role
-    }
-  }
-`
 
 class PermissionsPage extends Component {
   summonSnackbar = (message, variant, position, linger = null) => {

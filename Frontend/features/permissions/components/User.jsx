@@ -11,6 +11,7 @@ import UpdateIcon from '@material-ui/icons/Update';
 import { withSnackbar } from 'notistack'
 import { Mutation } from 'react-apollo'
 import { permissions } from '../utils'
+import { CURRENT_USER_QUERY } from '../../../common/components/User'
 
 // TODO - Wes Bos has video on making whole checkbox cell clickable
 
@@ -90,6 +91,7 @@ class User extends Component {
       <Mutation
         mutation={EDIT_PERMISSIONS_MUTATION}
         variables={{ permissions: userPermissions, userId: user.id }}
+        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
         onCompleted={({ editPermissions }) => {
           const fullName = `${editPermissions.firstName} ${editPermissions.lastName}`
           this.summonSnackbar(fullName)

@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Paper, List, ListItem,
   ListItemIcon, ListItemText, DialogActions, DialogContent, DialogContentText,
-  TextField, Button, Tooltip
+  TextField, Button, Tooltip, Chip, Grid
 } from '@material-ui/core'
 import WorkIcon from '@material-ui/icons/WorkTwoTone'
 import BeachAccess from '@material-ui/icons/BeachAccessTwoTone'
@@ -34,9 +34,18 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: '#1853ac'
     }
-  }
+  },
+  chip: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.white
+  },
+  chipAlternate: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.accent,
+    color: theme.palette.white
+  },
 })
-
 
 class TimeManagementTable extends Component {
   state = {
@@ -141,6 +150,7 @@ class TimeManagementTable extends Component {
               Please enter the amout of hours you would like to submit.
             </DialogContentText>
             <TextField
+              autoFocus
               margin="dense"
               id="hours"
               label="Amount of hours"
@@ -178,7 +188,6 @@ class TimeManagementTable extends Component {
   render() {
     const { classes, currentUser } = this.props
     const { showModal, week } = this.state
-    console.log(this.props.currentUser)
     const { hasSubmitted } = currentUser.timeInfo.weeks[0]
 
     const editTimesheeet = {
@@ -219,11 +228,56 @@ class TimeManagementTable extends Component {
                   </TableHead>
                   <TableBody>
                     <TableRow>
-                      <TableCell className={classes.cell} onClick={() => this.toggleModal('monday')}>{week.monday ? week.monday.hours : 0}</TableCell>
-                      <TableCell className={classes.cell} onClick={() => this.toggleModal('tuesday')}>{week.tuesday ? week.tuesday.hours : 0}</TableCell>
-                      <TableCell className={classes.cell} onClick={() => this.toggleModal('wednesday')}>{week.wednesday ? week.wednesday.hours : 0}</TableCell>
-                      <TableCell className={classes.cell} onClick={() => this.toggleModal('thursday')}>{week.thursday ? week.thursday.hours : 0}</TableCell>
-                      <TableCell className={classes.cell} onClick={() => this.toggleModal('friday')}>{week.friday ? week.friday.hours : 0}</TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('monday')}>
+                        <Grid
+                          container
+                          justify="space-between"
+                          alignItems="center"
+                        >
+                          {week.monday ? week.monday.hours : 0}
+                          {week.monday.type && <Chip label={week.monday.type} className={week.monday.type === 'WRK' ? classes.chip : classes.chipAlternate} />}
+                        </Grid>
+                      </TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('tuesday')}>
+                        <Grid
+                          container
+                          justify="space-between"
+                          alignItems="center"
+                        >
+                          {week.tuesday ? week.tuesday.hours : 0}
+                          {week.tuesday.type && <Chip label={week.tuesday.type} className={week.tuesday.type === 'WRK' ? classes.chip : classes.chipAlternate} />}
+                        </Grid>
+                      </TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('wednesday')}>
+                        <Grid
+                          container
+                          justify="space-between"
+                          alignItems="center"
+                        >
+                          {week.wednesday ? week.wednesday.hours : 0}
+                          {week.wednesday.type && <Chip label={week.wednesday.type} className={week.wednesday.type === 'WRK' ? classes.chip : classes.chipAlternate} />}
+                        </Grid>
+                      </TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('thursday')}>
+                        <Grid
+                          container
+                          justify="space-between"
+                          alignItems="center"
+                        >
+                          {week.thursday ? week.thursday.hours : 0}
+                          {week.thursday.type && <Chip label={week.thursday.type} className={week.thursday.type === 'WRK' ? classes.chip : classes.chipAlternate} />}
+                        </Grid>
+                      </TableCell>
+                      <TableCell className={classes.cell} onClick={() => this.toggleModal('friday')}>
+                        <Grid
+                          container
+                          justify="space-between"
+                          alignItems="center"
+                        >
+                          {week.friday ? week.friday.hours : 0}
+                          {week.friday.type && <Chip label={week.friday.type} className={week.friday.type === 'WRK' ? classes.chip : classes.chipAlternate} />}
+                        </Grid>
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>

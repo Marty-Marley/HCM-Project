@@ -22,7 +22,9 @@ const theme = createMuiTheme({
       default: '#eaeaea'
       // background-image: -webkit-linear-gradient(90deg, #EAEAE9 67%, #1f64cd 50%);
     },
-    blue: '#1f64cd'
+    blue: '#1f64cd',
+    white: '#ffffff',
+    accent: '#cd1f4c',
   },
   typography: {
     useNextVariants: true,

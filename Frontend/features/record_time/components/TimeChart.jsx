@@ -1,8 +1,8 @@
 import React from 'react'
-import { Pie } from 'react-chartjs-2'
+import { Doughnut } from 'react-chartjs-2'
 
 const TimeChart = ({ data }) => (
-  <Pie
+  <Doughnut
     data={data}
     width={400}
     height={300}
