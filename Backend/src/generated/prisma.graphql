@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/marty-marley/HCM/dev
-# timestamp: Mon Feb 25 2019 20:26:21 GMT+0000 (Greenwich Mean Time)
+# timestamp: Wed Feb 27 2019 20:48:18 GMT+0000 (Greenwich Mean Time)
 
 type AggregateDay {
   count: Int!
@@ -525,7 +525,6 @@ input EmployeeWhereUniqueInput {
 
 enum Entitlements {
   MY_PROFILE
-  REQUEST_TIME_OFF
   RECORD_TIME
   MY_TEAM
   PERMISSIONS

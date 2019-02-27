@@ -67,7 +67,7 @@ const Mutation = {
         role: { set: newUserRole },
         startDate,
         permissions: { set: ['EMPLOYEE'] },
-        entitlements: { set: ['MY_PROFILE', 'REQUEST_TIME_OFF', 'RECORD_TIME'] },
+        entitlements: { set: ['MY_PROFILE', 'RECORD_TIME'] },
         timeInfo: {
           create: {
             timeRemaining: 120,
@@ -169,7 +169,6 @@ const Mutation = {
     
     let userEntitlements = [
       'MY_PROFILE',
-      'REQUEST_TIME_OFF',
       'RECORD_TIME',
     ]
 
