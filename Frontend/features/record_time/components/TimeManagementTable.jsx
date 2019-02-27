@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Paper, List, ListItem,
   ListItemIcon, ListItemText, DialogActions, DialogContent, DialogContentText,
-  TextField, Button, Tooltip, Chip, Grid
+  TextField, Button, Tooltip, Chip, Grid, Typography
 } from '@material-ui/core'
 import WorkIcon from '@material-ui/icons/WorkTwoTone'
 import BeachAccess from '@material-ui/icons/BeachAccessTwoTone'
@@ -63,6 +63,12 @@ class TimeManagementTable extends Component {
   componentDidMount = () => {
     const { currentUser: { timeInfo } } = this.props
     const [currentWeek] = timeInfo.weeks
+
+    delete currentWeek.monday.__typename
+    delete currentWeek.tuesday.__typename
+    delete currentWeek.wednesday.__typename
+    delete currentWeek.thursday.__typename
+    delete currentWeek.friday.__typename
 
     this.setState({
       week: {
@@ -191,16 +197,11 @@ class TimeManagementTable extends Component {
     const { hasSubmitted } = currentUser.timeInfo.weeks[0]
 
     const editTimesheeet = {
-      mondayHours: week.monday.hours,
-      mondayType: week.monday.type,
-      tuesdayHours: week.tuesday.hours,
-      tuesdayType: week.tuesday.type,
-      wednesdayHours: week.wednesday.hours,
-      wednesdayType: week.wednesday.type,
-      thursdayHours: week.thursday.hours,
-      thursdayType: week.thursday.type,
-      fridayHours: week.friday.hours,
-      fridayType: week.friday.type,
+      monday: week.monday,
+      tuesday: week.tuesday,
+      wednesday: week.wednesday,
+      thursday: week.thursday,
+      friday: week.friday,
     }
     return (
       <>
@@ -215,6 +216,9 @@ class TimeManagementTable extends Component {
         >
           {editTimesheet => (
             <>
+              <Typography variant="h5" component="h3" color="secondary">
+                Current Week
+              </Typography>
               <Paper className={classes.root}>
                 <Table className={classes.table}>
                   <TableHead>
@@ -282,7 +286,7 @@ class TimeManagementTable extends Component {
                   </TableBody>
                 </Table>
               </Paper >
-              <Button className={classes.submit} onClick={() => editTimesheet()} disabled={hasSubmitted}>Submit</Button>
+              <Button className={classes.submit} onClick={() => editTimesheet()} disabled={false}>{!hasSubmitted ? 'Submit' : 'Update'}</Button>
             </>
           )}
         </Mutation>

@@ -228,7 +228,7 @@ const Mutation = {
       {
         where: {
           id: ctx.request.userId,
-          // email: "bobby@gmail.com"
+          // TODO email: "marty@gmail.com"
         },
       },
       info
@@ -236,26 +236,23 @@ const Mutation = {
 
     // Calculate the total PTO hours the user has just submitted.
     let ptoHours = 0
-    if (args.mondayType === 'PTO') {
-      ptoHours += args.mondayHours
-    }
-    if (args.tuesdayType === 'PTO') {
-      ptoHours += args.tuesdayHours
-    }
-    if (args.wednesdayType === 'PTO') {
-      ptoHours += args.wednesdayHours
-    }
-    if (args.thursdayType === 'PTO') {
-      ptoHours += args.thursdayHours
-    }
-    if (args.fridayType === 'PTO') {
-      ptoHours += args.fridayHours
+    let updatedTimeRemaining = 0
+    let updatedTimeTaken = 0
+    Object.keys(args).map(key => {
+      if (args[key].type === 'PTO') {
+        ptoHours += args[key].hours
+      }
+    })
+    
+    if (!currentUser.timeInfo.weeks[0].hasSubmitted) {
+      // Reduce timeRemaining + add to timneTaken with newly submitted PTO hours
+      updatedTimeRemaining = currentUser.timeInfo.timeRemaining >= ptoHours ? currentUser.timeInfo.timeRemaining - ptoHours : 0
+      updatedTimeTaken = currentUser.timeInfo.timeTaken + ptoHours < 120 ? currentUser.timeInfo.timeTaken + ptoHours : 120
+    } else {
+      updatedTimeRemaining  = 120 - ptoHours
+      updatedTimeTaken = 0 + ptoHours
     }
 
-    // Reduce timeRemaining + add to timneTaken with newly submitted PTO hours
-    const updatedTimeRemaining = currentUser.timeInfo.timeRemaining >= ptoHours ? currentUser.timeInfo.timeRemaining - ptoHours : 0
-
-    const updatedTimeTaken = currentUser.timeInfo.timeTaken + ptoHours < 120 ? currentUser.timeInfo.timeTaken + ptoHours : 120
 
     return ctx.db.mutation.updateUser(
       {
@@ -271,32 +268,32 @@ const Mutation = {
                     hasSubmitted: true,
                     monday: {
                       update: {
-                        hours: args.mondayHours,
-                        type: args.mondayType
+                        hours: args.monday.hours,
+                        type: args.monday.type
                       }
                     },
                     tuesday: {
                       update: {
-                        hours: args.tuesdayHours,
-                        type: args.tuesdayType
+                        hours: args.tuesday.hours,
+                        type: args.tuesday.type
                       }
                     },
                     wednesday: {
                        update: {
-                        hours: args.wednesdayHours,
-                        type: args.wednesdayType
+                        hours: args.wednesday.hours,
+                        type: args.wednesday.type
                       }
                     },
                     thursday: {
                       update: {
-                        hours: args.thursdayHours,
-                        type: args.thursdayType
+                        hours: args.thursday.hours,
+                        type: args.thursday.type
                       }
                     },
                     friday: {
                       update: {
-                        hours: args.fridayHours,
-                        type: args.fridayType
+                        hours: args.friday.hours,
+                        type: args.friday.type
                       }
                     }
                   }
@@ -308,7 +305,7 @@ const Mutation = {
         },
         where: {
           id: ctx.request.userId,
-          // id: currentUser.id
+          // TODO id: currentUser.id
         },
       },
       info

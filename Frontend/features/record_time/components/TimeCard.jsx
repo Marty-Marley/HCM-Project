@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Paper, Typography, Card, CardContent, Button, Grid
+  Paper, Typography, Card, CardContent, Button, Grid, Divider
 } from '@material-ui/core'
 import TimeChart from './TimeChart'
 
@@ -34,10 +34,11 @@ const TimeCard = ({ classes, currentUser }) => {
     >
       <Card className={classes.hours}>
         <CardContent className={classes.content}>
-          <Typography variant="body1" component="h4" gutterBottom>
+          <Typography variant="body1" component="h4" gutterBottom align="center">
             {`Holiday hours remaining: ${timeRemaining}`}
           </Typography>
-          <Typography variant="body1" component="h4">
+          <Divider variant="middle" />
+          <Typography variant="body1" component="h4" gutterBottom align="center" className={classes.times}>
             {`Holiday hours taken: ${timeTaken}`}
           </Typography>
         </CardContent>

@@ -10,6 +10,9 @@ import TimeManagementTable from './TimeManagementTable'
 import TimeCard from './TimeCard'
 
 const styles = theme => ({
+  title: {
+    marginBottom: '67px',
+  },
   hours: {
     maxWidth: '250px',
     marginTop: '24px',
@@ -22,14 +25,18 @@ const styles = theme => ({
     paddingBottom: '16px !important'
   },
   submit: {
-    marginTop: '16px',
+    marginTop: '10px',
     backgroundColor: theme.palette.primary.main,
     color: 'white',
     float: 'right',
     '&:hover': {
       backgroundColor: '#1853ac'
     }
+  },
+  times: {
+    marginTop: '8px'
   }
+
 })
 
 class RecordPage extends Component {
@@ -49,11 +56,11 @@ class RecordPage extends Component {
               <Head>
                 <title>Record time</title>
               </Head>
-              <Typography variant="h3" component="h3" color="secondary">
+              <Typography variant="h3" component="h3" color="secondary" className={classes.title}>
                 Time Management
               </Typography>
-              <TimeCard classes={classes} currentUser={currentUser} />
               <TimeManagementTable currentUser={currentUser} />
+              <TimeCard classes={classes} currentUser={currentUser} />
             </>)
         }}
       </Query>

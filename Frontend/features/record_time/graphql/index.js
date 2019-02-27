@@ -43,22 +43,12 @@ const CURRENT_USER_TIMESHEET_QUERY = gql`
 
 const EDIT_TIMESHEET_MUTATION = gql`
   mutation EDIT_TIMESHEET_MUTATION(
-      $mondayHours: Int, $mondayType: String,
-      $tuesdayHours: Int, $tuesdayType: String,
-      $wednesdayHours: Int, $wednesdayType: String,
-      $thursdayHours: Int, $thursdayType: String,
-      $fridayHours: Int, $fridayType: String) {
+      $monday: DayUpdateDataInput, $tuesday: DayUpdateDataInput, $wednesday: DayUpdateDataInput,
+      $thursday: DayUpdateDataInput, $friday: DayUpdateDataInput
+      ) {
     editTimesheet(
-      mondayHours: $mondayHours
-      mondayType: $mondayType
-      tuesdayHours: $tuesdayHours
-      tuesdayType: $tuesdayType
-      wednesdayHours: $wednesdayHours
-      wednesdayType: $wednesdayType
-      thursdayHours: $thursdayHours
-      thursdayType: $thursdayType
-      fridayHours: $fridayHours
-      fridayType: $fridayType
+      monday: $monday, tuesday: $tuesday, wednesday: $wednesday,
+      thursday: $thursday, friday: $friday
     ) {
       firstName
       lastName
@@ -67,6 +57,7 @@ const EDIT_TIMESHEET_MUTATION = gql`
       timeTaken
       weeks {
         id
+        hasSubmitted
         monday {
           hours
           type
