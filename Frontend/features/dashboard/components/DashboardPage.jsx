@@ -44,12 +44,6 @@ class DashboardPage extends Component {
                   <Grid item xs={12} sm={6}>
                     <FeatureCard currentUser={data.currentUser} />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FeatureCard currentUser={data.currentUser} />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FeatureCard currentUser={data.currentUser} />
-                  </Grid>
                 </Grid>
               </div>
             )
