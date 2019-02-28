@@ -12,6 +12,10 @@ type Mutation {
   editPermissions(permissions: [Permissions], userId: ID!): User
   editUser(email: String, firstName: String, lastName: String, title: String, localCurrency: String, birthDate: DateTime, 
     address: String, mobileNumber: String, location: String, gender: String): User
+  editTimesheet(
+    monday: DayUpdateDataInput, tuesday: DayUpdateDataInput, wednesday: DayUpdateDataInput,
+    thursday: DayUpdateDataInput, friday: DayUpdateDataInput
+  ): User
 }
 
 type Query {

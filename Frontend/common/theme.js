@@ -22,7 +22,9 @@ const theme = createMuiTheme({
       default: '#eaeaea'
       // background-image: -webkit-linear-gradient(90deg, #EAEAE9 67%, #1f64cd 50%);
     },
-    blue: '#1f64cd'
+    blue: '#1f64cd',
+    white: '#ffffff',
+    accent: '#cd1f4c',
   },
   typography: {
     useNextVariants: true,
@@ -31,7 +33,10 @@ const theme = createMuiTheme({
     primary: '#1f64cd',
     hover: '#002b6c'
   },
-  requiresAction: '#834de2'
-});
+  requiresAction: '#834de2',
+  table: {
+    hover: '#dddddd'
+  },
+})
 
 export default theme

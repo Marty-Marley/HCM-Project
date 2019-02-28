@@ -20,7 +20,7 @@ import { SIGN_OUT_MUTATION } from '../../features/login_signup/components/Signou
 const styles = {
   root: {
     width: '100%',
-    position: 'sticky',
+    position: 'fixed',
     bottom: 0,
     borderTop: '0.02px solid #dddddd'
   },

@@ -1,12 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Grid, Card, CardHeader, CardContent, Divider, Tooltip, Typography
+} from '@material-ui/core'
 import Link from 'next/link'
+import Permissions from '../../../static/icons/permissions.svg'
+import Time from '../../../static/icons/time.svg'
+import Profile from '../../../static/icons/profile.svg'
+import Team from '../../../static/icons/team.svg'
 
 
 const styles = theme => ({
@@ -26,11 +28,17 @@ const styles = theme => ({
       color: theme.link.hover
     }
   },
+  iconBackground: {
+    '&:hover': {
+      backgroundColor: '#f0f0f0',
+      borderRadius: '20px'
+    }
+  }
 });
 
 const FeatureCard = (props) => {
   const { classes, currentUser } = props;
-
+  const iconSize = 100
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -39,9 +47,20 @@ const FeatureCard = (props) => {
       />
       <Divider variant="middle" />
       <CardContent>
-        <ul>
-          {currentUser.entitlements.map(entitlement => <li key={entitlement}><Link href={`/${entitlement.toLowerCase()}`}><a className={classes.a}>{entitlement}</a></Link></li>)}
-        </ul>
+        <Grid
+          container
+          direction="row"
+          justify="space-around"
+          alignItems="center"
+          spacing={24}
+        >
+          {currentUser.entitlements.map((entitlement) => {
+            if (entitlement === 'MY_PROFILE') return <Link href={`/${entitlement.toLowerCase()}`} key={entitlement}><Grid item><Profile height={iconSize} width={iconSize} className={classes.iconBackground} /><Typography variant="h6" component="h6" align="center">{entitlement.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</Typography></Grid></Link>
+            if (entitlement === 'RECORD_TIME') return <Link href={`/${entitlement.toLowerCase()}`} key={entitlement}><Grid item><Time height={iconSize} width={iconSize} className={classes.iconBackground} /><Typography variant="h6" component="h6" align="center">{entitlement.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</Typography></Grid></Link>
+            if (entitlement === 'MY_TEAM') return <Link href={`/${entitlement.toLowerCase()}`} key={entitlement}><Grid item><Team height={iconSize} width={iconSize} className={classes.iconBackground} /><Typography variant="h6" component="h6" align="center">{entitlement.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</Typography></Grid></Link>
+            if (entitlement === 'PERMISSIONS') return <Link href={`/${entitlement.toLowerCase()}`} key={entitlement}><Grid item><Permissions height={iconSize} width={iconSize} className={classes.iconBackground} /><Typography variant="h6" component="h6" align="center">{entitlement.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</Typography></Grid></Link>
+          })}
+        </Grid>
       </CardContent>
     </Card>
   )

@@ -1,5 +1,5 @@
 const CACHE_NAME = 'simple-cache-v1';
-const urlsToCache = ['/', 'my_profile', 'request_time_off', 'record_time', 'my_team', 'permissions'];
+const urlsToCache = ['/', 'my_profile', 'record_time', 'my_team', 'permissions'];
 
 self.addEventListener('install', (event) => {
   const preLoaded = caches.open(CACHE_NAME)

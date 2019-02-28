@@ -1,11 +1,23 @@
 # source: https://eu1.prisma.sh/marty-marley/HCM/dev
-# timestamp: Fri Feb 15 2019 15:23:36 GMT+0000 (Greenwich Mean Time)
+# timestamp: Wed Feb 27 2019 20:48:18 GMT+0000 (Greenwich Mean Time)
+
+type AggregateDay {
+  count: Int!
+}
 
 type AggregateEmployee {
   count: Int!
 }
 
+type AggregateTimesheet {
+  count: Int!
+}
+
 type AggregateUser {
+  count: Int!
+}
+
+type AggregateWeek {
   count: Int!
 }
 
@@ -15,6 +27,192 @@ type BatchPayload {
 }
 
 scalar DateTime
+
+type Day {
+  hours: Int
+  type: String
+}
+
+"""A connection to a list of items."""
+type DayConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DayEdge]!
+  aggregate: AggregateDay!
+}
+
+input DayCreateInput {
+  hours: Int
+  type: String
+}
+
+input DayCreateOneInput {
+  create: DayCreateInput
+}
+
+"""An edge in a connection."""
+type DayEdge {
+  """The item at the end of the edge."""
+  node: Day!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum DayOrderByInput {
+  hours_ASC
+  hours_DESC
+  type_ASC
+  type_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type DayPreviousValues {
+  hours: Int
+  type: String
+}
+
+type DaySubscriptionPayload {
+  mutation: MutationType!
+  node: Day
+  updatedFields: [String!]
+  previousValues: DayPreviousValues
+}
+
+input DaySubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DaySubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DaySubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DaySubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DayWhereInput
+}
+
+input DayUpdateDataInput {
+  hours: Int
+  type: String
+}
+
+input DayUpdateManyMutationInput {
+  hours: Int
+  type: String
+}
+
+input DayUpdateOneInput {
+  create: DayCreateInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DayUpdateDataInput
+  upsert: DayUpsertNestedInput
+}
+
+input DayUpsertNestedInput {
+  update: DayUpdateDataInput!
+  create: DayCreateInput!
+}
+
+input DayWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DayWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DayWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [DayWhereInput!]
+  hours: Int
+
+  """All values that are not equal to given value."""
+  hours_not: Int
+
+  """All values that are contained in given list."""
+  hours_in: [Int!]
+
+  """All values that are not contained in given list."""
+  hours_not_in: [Int!]
+
+  """All values less than the given value."""
+  hours_lt: Int
+
+  """All values less than or equal the given value."""
+  hours_lte: Int
+
+  """All values greater than the given value."""
+  hours_gt: Int
+
+  """All values greater than or equal the given value."""
+  hours_gte: Int
+  type: String
+
+  """All values that are not equal to given value."""
+  type_not: String
+
+  """All values that are contained in given list."""
+  type_in: [String!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [String!]
+
+  """All values less than the given value."""
+  type_lt: String
+
+  """All values less than or equal the given value."""
+  type_lte: String
+
+  """All values greater than the given value."""
+  type_gt: String
+
+  """All values greater than or equal the given value."""
+  type_gte: String
+
+  """All values containing the given string."""
+  type_contains: String
+
+  """All values not containing the given string."""
+  type_not_contains: String
+
+  """All values starting with the given string."""
+  type_starts_with: String
+
+  """All values not starting with the given string."""
+  type_not_starts_with: String
+
+  """All values ending with the given string."""
+  type_ends_with: String
+
+  """All values not ending with the given string."""
+  type_not_ends_with: String
+}
 
 type Employee implements Node {
   id: ID!
@@ -327,7 +525,6 @@ input EmployeeWhereUniqueInput {
 
 enum Entitlements {
   MY_PROFILE
-  REQUEST_TIME_OFF
   RECORD_TIME
   MY_TEAM
   PERMISSIONS
@@ -342,16 +539,31 @@ scalar Long
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createEmployee(data: EmployeeCreateInput!): Employee!
+  createTimesheet(data: TimesheetCreateInput!): Timesheet!
+  createDay(data: DayCreateInput!): Day!
+  createWeek(data: WeekCreateInput!): Week!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateEmployee(data: EmployeeUpdateInput!, where: EmployeeWhereUniqueInput!): Employee
+  updateTimesheet(data: TimesheetUpdateInput!, where: TimesheetWhereUniqueInput!): Timesheet
+  updateWeek(data: WeekUpdateInput!, where: WeekWhereUniqueInput!): Week
   deleteUser(where: UserWhereUniqueInput!): User
   deleteEmployee(where: EmployeeWhereUniqueInput!): Employee
+  deleteTimesheet(where: TimesheetWhereUniqueInput!): Timesheet
+  deleteWeek(where: WeekWhereUniqueInput!): Week
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertEmployee(where: EmployeeWhereUniqueInput!, create: EmployeeCreateInput!, update: EmployeeUpdateInput!): Employee!
+  upsertTimesheet(where: TimesheetWhereUniqueInput!, create: TimesheetCreateInput!, update: TimesheetUpdateInput!): Timesheet!
+  upsertWeek(where: WeekWhereUniqueInput!, create: WeekCreateInput!, update: WeekUpdateInput!): Week!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyEmployees(data: EmployeeUpdateManyMutationInput!, where: EmployeeWhereInput): BatchPayload!
+  updateManyTimesheets(data: TimesheetUpdateManyMutationInput!, where: TimesheetWhereInput): BatchPayload!
+  updateManyDays(data: DayUpdateManyMutationInput!, where: DayWhereInput): BatchPayload!
+  updateManyWeeks(data: WeekUpdateManyMutationInput!, where: WeekWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyEmployees(where: EmployeeWhereInput): BatchPayload!
+  deleteManyTimesheets(where: TimesheetWhereInput): BatchPayload!
+  deleteManyDays(where: DayWhereInput): BatchPayload!
+  deleteManyWeeks(where: WeekWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -390,10 +602,18 @@ enum Permissions {
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   employees(where: EmployeeWhereInput, orderBy: EmployeeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Employee]!
+  timesheets(where: TimesheetWhereInput, orderBy: TimesheetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Timesheet]!
+  days(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Day]!
+  weeks(where: WeekWhereInput, orderBy: WeekOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Week]!
   user(where: UserWhereUniqueInput!): User
   employee(where: EmployeeWhereUniqueInput!): Employee
+  timesheet(where: TimesheetWhereUniqueInput!): Timesheet
+  week(where: WeekWhereUniqueInput!): Week
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   employeesConnection(where: EmployeeWhereInput, orderBy: EmployeeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EmployeeConnection!
+  timesheetsConnection(where: TimesheetWhereInput, orderBy: TimesheetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TimesheetConnection!
+  daysConnection(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DayConnection!
+  weeksConnection(where: WeekWhereInput, orderBy: WeekOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WeekConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -412,6 +632,247 @@ enum Roles {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   employee(where: EmployeeSubscriptionWhereInput): EmployeeSubscriptionPayload
+  timesheet(where: TimesheetSubscriptionWhereInput): TimesheetSubscriptionPayload
+  day(where: DaySubscriptionWhereInput): DaySubscriptionPayload
+  week(where: WeekSubscriptionWhereInput): WeekSubscriptionPayload
+}
+
+type Timesheet implements Node {
+  id: ID!
+  timeRemaining: Float
+  timeTaken: Float
+  weeks(where: WeekWhereInput, orderBy: WeekOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Week!]
+  user: User
+}
+
+"""A connection to a list of items."""
+type TimesheetConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TimesheetEdge]!
+  aggregate: AggregateTimesheet!
+}
+
+input TimesheetCreateInput {
+  timeRemaining: Float
+  timeTaken: Float
+  weeks: WeekCreateManyInput
+  user: UserCreateOneWithoutTimeInfoInput
+}
+
+input TimesheetCreateOneWithoutUserInput {
+  create: TimesheetCreateWithoutUserInput
+  connect: TimesheetWhereUniqueInput
+}
+
+input TimesheetCreateWithoutUserInput {
+  timeRemaining: Float
+  timeTaken: Float
+  weeks: WeekCreateManyInput
+}
+
+"""An edge in a connection."""
+type TimesheetEdge {
+  """The item at the end of the edge."""
+  node: Timesheet!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TimesheetOrderByInput {
+  id_ASC
+  id_DESC
+  timeRemaining_ASC
+  timeRemaining_DESC
+  timeTaken_ASC
+  timeTaken_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TimesheetPreviousValues {
+  id: ID!
+  timeRemaining: Float
+  timeTaken: Float
+}
+
+type TimesheetSubscriptionPayload {
+  mutation: MutationType!
+  node: Timesheet
+  updatedFields: [String!]
+  previousValues: TimesheetPreviousValues
+}
+
+input TimesheetSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TimesheetSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TimesheetSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TimesheetSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TimesheetWhereInput
+}
+
+input TimesheetUpdateInput {
+  timeRemaining: Float
+  timeTaken: Float
+  weeks: WeekUpdateManyInput
+  user: UserUpdateOneWithoutTimeInfoInput
+}
+
+input TimesheetUpdateManyMutationInput {
+  timeRemaining: Float
+  timeTaken: Float
+}
+
+input TimesheetUpdateOneWithoutUserInput {
+  create: TimesheetCreateWithoutUserInput
+  connect: TimesheetWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: TimesheetUpdateWithoutUserDataInput
+  upsert: TimesheetUpsertWithoutUserInput
+}
+
+input TimesheetUpdateWithoutUserDataInput {
+  timeRemaining: Float
+  timeTaken: Float
+  weeks: WeekUpdateManyInput
+}
+
+input TimesheetUpsertWithoutUserInput {
+  update: TimesheetUpdateWithoutUserDataInput!
+  create: TimesheetCreateWithoutUserInput!
+}
+
+input TimesheetWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TimesheetWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TimesheetWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TimesheetWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  timeRemaining: Float
+
+  """All values that are not equal to given value."""
+  timeRemaining_not: Float
+
+  """All values that are contained in given list."""
+  timeRemaining_in: [Float!]
+
+  """All values that are not contained in given list."""
+  timeRemaining_not_in: [Float!]
+
+  """All values less than the given value."""
+  timeRemaining_lt: Float
+
+  """All values less than or equal the given value."""
+  timeRemaining_lte: Float
+
+  """All values greater than the given value."""
+  timeRemaining_gt: Float
+
+  """All values greater than or equal the given value."""
+  timeRemaining_gte: Float
+  timeTaken: Float
+
+  """All values that are not equal to given value."""
+  timeTaken_not: Float
+
+  """All values that are contained in given list."""
+  timeTaken_in: [Float!]
+
+  """All values that are not contained in given list."""
+  timeTaken_not_in: [Float!]
+
+  """All values less than the given value."""
+  timeTaken_lt: Float
+
+  """All values less than or equal the given value."""
+  timeTaken_lte: Float
+
+  """All values greater than the given value."""
+  timeTaken_gt: Float
+
+  """All values greater than or equal the given value."""
+  timeTaken_gte: Float
+  weeks_every: WeekWhereInput
+  weeks_some: WeekWhereInput
+  weeks_none: WeekWhereInput
+  user: UserWhereInput
+}
+
+input TimesheetWhereUniqueInput {
+  id: ID
 }
 
 type User implements Node {
@@ -434,6 +895,7 @@ type User implements Node {
   mobileNumber: String
   location: String
   gender: String
+  timeInfo: Timesheet
 }
 
 """A connection to a list of items."""
@@ -469,6 +931,12 @@ input UserCreateInput {
   permissions: UserCreatepermissionsInput
   entitlements: UserCreateentitlementsInput
   role: UserCreateroleInput
+  timeInfo: TimesheetCreateOneWithoutUserInput
+}
+
+input UserCreateOneWithoutTimeInfoInput {
+  create: UserCreateWithoutTimeInfoInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreatepermissionsInput {
@@ -477,6 +945,27 @@ input UserCreatepermissionsInput {
 
 input UserCreateroleInput {
   set: [Roles!]
+}
+
+input UserCreateWithoutTimeInfoInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  title: String
+  age: Int
+  avatar: String
+  salary: Int
+  localCurrency: String
+  startDate: DateTime
+  birthDate: DateTime
+  address: String
+  mobileNumber: String
+  location: String
+  gender: String
+  permissions: UserCreatepermissionsInput
+  entitlements: UserCreateentitlementsInput
+  role: UserCreateroleInput
 }
 
 """An edge in a connection."""
@@ -611,6 +1100,7 @@ input UserUpdateInput {
   permissions: UserUpdatepermissionsInput
   entitlements: UserUpdateentitlementsInput
   role: UserUpdateroleInput
+  timeInfo: TimesheetUpdateOneWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -634,12 +1124,47 @@ input UserUpdateManyMutationInput {
   role: UserUpdateroleInput
 }
 
+input UserUpdateOneWithoutTimeInfoInput {
+  create: UserCreateWithoutTimeInfoInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutTimeInfoDataInput
+  upsert: UserUpsertWithoutTimeInfoInput
+}
+
 input UserUpdatepermissionsInput {
   set: [Permissions!]
 }
 
 input UserUpdateroleInput {
   set: [Roles!]
+}
+
+input UserUpdateWithoutTimeInfoDataInput {
+  email: String
+  password: String
+  firstName: String
+  lastName: String
+  title: String
+  age: Int
+  avatar: String
+  salary: Int
+  localCurrency: String
+  startDate: DateTime
+  birthDate: DateTime
+  address: String
+  mobileNumber: String
+  location: String
+  gender: String
+  permissions: UserUpdatepermissionsInput
+  entitlements: UserUpdateentitlementsInput
+  role: UserUpdateroleInput
+}
+
+input UserUpsertWithoutTimeInfoInput {
+  update: UserUpdateWithoutTimeInfoDataInput!
+  create: UserCreateWithoutTimeInfoInput!
 }
 
 input UserWhereInput {
@@ -1219,9 +1744,281 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   gender_not_ends_with: String
+  timeInfo: TimesheetWhereInput
 }
 
 input UserWhereUniqueInput {
   id: ID
   email: String
+}
+
+type Week implements Node {
+  id: ID!
+  hasSubmitted: Boolean
+  monday: Day
+  tuesday: Day
+  wednesday: Day
+  thursday: Day
+  friday: Day
+}
+
+"""A connection to a list of items."""
+type WeekConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [WeekEdge]!
+  aggregate: AggregateWeek!
+}
+
+input WeekCreateInput {
+  hasSubmitted: Boolean
+  monday: DayCreateOneInput
+  tuesday: DayCreateOneInput
+  wednesday: DayCreateOneInput
+  thursday: DayCreateOneInput
+  friday: DayCreateOneInput
+}
+
+input WeekCreateManyInput {
+  create: [WeekCreateInput!]
+  connect: [WeekWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type WeekEdge {
+  """The item at the end of the edge."""
+  node: Week!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum WeekOrderByInput {
+  id_ASC
+  id_DESC
+  hasSubmitted_ASC
+  hasSubmitted_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type WeekPreviousValues {
+  id: ID!
+  hasSubmitted: Boolean
+}
+
+input WeekScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WeekScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WeekScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WeekScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  hasSubmitted: Boolean
+
+  """All values that are not equal to given value."""
+  hasSubmitted_not: Boolean
+}
+
+type WeekSubscriptionPayload {
+  mutation: MutationType!
+  node: Week
+  updatedFields: [String!]
+  previousValues: WeekPreviousValues
+}
+
+input WeekSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WeekSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WeekSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WeekSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: WeekWhereInput
+}
+
+input WeekUpdateDataInput {
+  hasSubmitted: Boolean
+  monday: DayUpdateOneInput
+  tuesday: DayUpdateOneInput
+  wednesday: DayUpdateOneInput
+  thursday: DayUpdateOneInput
+  friday: DayUpdateOneInput
+}
+
+input WeekUpdateInput {
+  hasSubmitted: Boolean
+  monday: DayUpdateOneInput
+  tuesday: DayUpdateOneInput
+  wednesday: DayUpdateOneInput
+  thursday: DayUpdateOneInput
+  friday: DayUpdateOneInput
+}
+
+input WeekUpdateManyDataInput {
+  hasSubmitted: Boolean
+}
+
+input WeekUpdateManyInput {
+  create: [WeekCreateInput!]
+  connect: [WeekWhereUniqueInput!]
+  set: [WeekWhereUniqueInput!]
+  disconnect: [WeekWhereUniqueInput!]
+  delete: [WeekWhereUniqueInput!]
+  update: [WeekUpdateWithWhereUniqueNestedInput!]
+  updateMany: [WeekUpdateManyWithWhereNestedInput!]
+  deleteMany: [WeekScalarWhereInput!]
+  upsert: [WeekUpsertWithWhereUniqueNestedInput!]
+}
+
+input WeekUpdateManyMutationInput {
+  hasSubmitted: Boolean
+}
+
+input WeekUpdateManyWithWhereNestedInput {
+  where: WeekScalarWhereInput!
+  data: WeekUpdateManyDataInput!
+}
+
+input WeekUpdateWithWhereUniqueNestedInput {
+  where: WeekWhereUniqueInput!
+  data: WeekUpdateDataInput!
+}
+
+input WeekUpsertWithWhereUniqueNestedInput {
+  where: WeekWhereUniqueInput!
+  update: WeekUpdateDataInput!
+  create: WeekCreateInput!
+}
+
+input WeekWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WeekWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WeekWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [WeekWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  hasSubmitted: Boolean
+
+  """All values that are not equal to given value."""
+  hasSubmitted_not: Boolean
+  monday: DayWhereInput
+  tuesday: DayWhereInput
+  wednesday: DayWhereInput
+  thursday: DayWhereInput
+  friday: DayWhereInput
+}
+
+input WeekWhereUniqueInput {
+  id: ID
 }
