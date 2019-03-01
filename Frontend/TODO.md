@@ -9,6 +9,8 @@ if they are logged in or not?
 - Permissions table - click event on whole cell for each permission.
 - Try to remove "You have included the Google Maps JavaScript API multiple times on this page. This may cause unexpected errors."
 - Get favicon working / manifest file.
+- Custom 404
+- Are you sure button when deleting user on my team.
 <br/><br/>
 
 # Done 

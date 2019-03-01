@@ -39,16 +39,7 @@ type User {
   location: String
   gender: String
   timeInfo: Timesheet
-  # Manager - My Team
-  # team: [User] ?
-}
-
-type Employee {
-  id: ID! @unique
-  name: String!
-  email: String!
-  age: Int
-  avatar: String
+  team: [User]
 }
 
 type Timesheet {
@@ -73,8 +64,3 @@ type Day {
   hours: Int
   type: String
 }
-
-# type Manager {
-#   id: ID! @unique
-#   details: User
-# }

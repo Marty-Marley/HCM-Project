@@ -219,7 +219,7 @@ class TimeManagementTable extends Component {
               <Typography variant="h5" component="h3" color="secondary">
                 Current Week
               </Typography>
-              <Paper className={classes.root}>
+              <Paper className={classes.root} elevation={10}>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>

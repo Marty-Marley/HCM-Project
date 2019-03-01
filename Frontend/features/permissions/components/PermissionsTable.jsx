@@ -24,7 +24,7 @@ const styles = theme => ({
 })
 
 const PermissionsTable = ({ users, classes }) => (
-  <Paper className={classes.root}>
+  <Paper className={classes.root} elevation={10}>
     <Table className={classes.table}>
       <TableHead>
         <TableRow>

@@ -25,6 +25,14 @@ const theme = createMuiTheme({
     blue: '#1f64cd',
     white: '#ffffff',
     accent: '#cd1f4c',
+    green: {
+      light: '#45a621',
+      dark: '#317917'
+    },
+    red: {
+      light: '#cd1f1f',
+      dark: '#971515'
+    }
   },
   typography: {
     useNextVariants: true,

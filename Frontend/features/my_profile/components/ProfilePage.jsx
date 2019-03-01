@@ -17,31 +17,31 @@ const ProfliePage = ({ classes }) => (
       query={CURRENT_USER_QUERY}
     >
       {({ data, error }) => (
-          <>
-            <Typography variant="h3" component="h3" color="secondary">
-              My Profile
-              </Typography>
-            <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-              spacing={16}
-              className={classes.root}
-            >
-              <Grid item xs={12} sm={4}>
-                <Paper className={classes.paper} elevation={1}>
-                  <Sidebar currentUser={data.currentUser} />
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <Paper className={classes.paper} elevation={1}>
-                  <MainContent currentUser={data.currentUser} />
-                </Paper>
-              </Grid>
+        <>
+          <Typography variant="h3" component="h3" color="secondary">
+            My Profile
+          </Typography>
+          <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            spacing={16}
+            className={classes.root}
+          >
+            <Grid item xs={12} sm={4}>
+              <Paper className={classes.paper} elevation={10}>
+                <Sidebar currentUser={data.currentUser} />
+              </Paper>
             </Grid>
-          </>
-        )}
+            <Grid item xs={12} sm={8}>
+              <Paper className={classes.paper} elevation={10}>
+                <MainContent currentUser={data.currentUser} />
+              </Paper>
+            </Grid>
+          </Grid>
+        </>
+      )}
     </Query>
   </>
 )

@@ -31,7 +31,8 @@ const styles = theme => ({
   iconBackground: {
     '&:hover': {
       backgroundColor: '#f0f0f0',
-      borderRadius: '20px'
+      borderRadius: '20px',
+      cursor: 'pointer',
     }
   }
 });
@@ -40,7 +41,7 @@ const FeatureCard = (props) => {
   const { classes, currentUser } = props;
   const iconSize = 100
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} elevation={10}>
       <CardHeader
         title="Features"
         subheader="You are currently entitled to:"

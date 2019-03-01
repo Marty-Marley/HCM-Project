@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-// * Note - For nested data, each layer needs an id
+// ! Note - For nested data, each layer needs an id
 
 const CURRENT_USER_TIMESHEET_QUERY = gql`
   query CURRENT_USER_TIMESHEET_QUERY{

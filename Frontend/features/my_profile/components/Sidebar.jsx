@@ -34,14 +34,6 @@ const Sidebar = ({ currentUser, classes }) => (
         </Typography>
       </Grid>
     </Grid>
-    {/* <Divider variant="middle" />
-    <Grid container direction="column" justify="center" alignItems="center">
-      <Grid item>
-        <Typography variant="subtitle2" component="h5">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, nobis?
-        </Typography>
-      </Grid>
-    </Grid> */}
   </>
 )
 

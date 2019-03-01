@@ -8,16 +8,6 @@ const { hasPermission } = require('../utils')
  * * it will be looking to the database.
  */
 const Mutation = {
-  async createEmployee(parent, args, ctx, info) {
-    // TODO Check if user is logged in
-    const employee = await ctx.db.mutation.createEmployee({
-      data: {
-        ...args
-      }
-    }, info)
-    return employee
-  },
-
   async createUser(parent, args, ctx, info) {
     // Lowercase email so it isnt case sensitive
     args.email = args.email.toLowerCase()
@@ -142,13 +132,11 @@ const Mutation = {
     return user
   },
 
-
   signout(parent, args, ctx, info) {
     // Clear token from the cookie on logout.
     ctx.response.clearCookie('token')
     return { message: 'You have signed out.' }
   },
-
 
   async editPermissions(parent, args, ctx, info) {
     // Is current user logged in?
@@ -165,7 +153,7 @@ const Mutation = {
       info
     )
     // Throw error if current user isn't an admin.
-    hasPermission(currentUser, ['ADMIN']);
+    hasPermission(currentUser, ['ADMIN'])
     
     let userEntitlements = [
       'MY_PROFILE',
@@ -198,6 +186,7 @@ const Mutation = {
     )
 
   },
+
   async editUser(parent, args, ctx, info) {
     // Is current user logged in?
     if(!ctx.request.userId) {
@@ -216,6 +205,7 @@ const Mutation = {
       info
     );
   },
+
   async editTimesheet(parent, args, ctx, info) {
     // If user isnt logged in - Throw error
     if(!ctx.request.userId) {
@@ -227,7 +217,7 @@ const Mutation = {
       {
         where: {
           id: ctx.request.userId,
-          // TODO email: "marty@gmail.com"
+          // TODO email: "marty@gmail.com" (get rid of this line)
         },
       },
       info
@@ -309,7 +299,80 @@ const Mutation = {
       },
       info
     )
-  }
+  },
+
+  async addToTeam(parent, args, ctx, info ) {
+    // If user isnt logged in - Throw error
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+
+    // Get currentUser info for permissions data
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+
+    // Throw error if current user isnt a manager
+    hasPermission(currentUser, ['MANAGER'])
+
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          team: {
+            connect: {
+              id: args.id
+            }
+          }
+        },
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+  },
+
+  async removeFromTeam(parent, args, ctx, info ) {
+    // If user isnt logged in - Throw error
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+
+    // Get currentUser info for permissions data
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+
+    // Throw error if current user isnt a manager
+    hasPermission(currentUser, ['MANAGER'])
+
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          team: {
+            disconnect: {
+              id: args.id
+            }
+          }
+        },
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+  },
+
 }
 
 module.exports = Mutation;

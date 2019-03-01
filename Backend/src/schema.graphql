@@ -5,21 +5,28 @@ type SuccessMessage {
 }
 
 type Mutation {
-  createEmployee(name: String!, email: String!, age: Int, avatar: String): Employee!
   createUser(email: String!, password: String!, firstName: String!, lastName: String!): User!
+
   signin(email: String!, password: String!): User!
+
   signout: SuccessMessage
+
   editPermissions(permissions: [Permissions], userId: ID!): User
+
   editUser(email: String, firstName: String, lastName: String, title: String, localCurrency: String, birthDate: DateTime, 
     address: String, mobileNumber: String, location: String, gender: String): User
+  
   editTimesheet(
     monday: DayUpdateDataInput, tuesday: DayUpdateDataInput, wednesday: DayUpdateDataInput,
     thursday: DayUpdateDataInput, friday: DayUpdateDataInput
   ): User
+
+  addToTeam(id: ID!): User
+
+  removeFromTeam(id: ID!): User
 }
 
 type Query {
-  employees: [Employee]!
   currentUser: User
-  users: [User]!
+  users(where: UserWhereInput): [User]!
 }
