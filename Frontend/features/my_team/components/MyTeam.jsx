@@ -48,7 +48,8 @@ const Composed = adopt({
 
 class MyTeam extends Component {
   state = {
-    currentTeam: []
+    currentTeam: [],
+    mostRecentlyDeletedId: ''
   }
 
   summonSnackbar = (message, variant, position, linger = 3000) => {
@@ -72,6 +73,7 @@ class MyTeam extends Component {
 
   render() {
     const { classes, enqueueSnackbar } = this.props
+    const { mostRecentlyDeletedId } = this.state
     return (
       <>
         <Head>
@@ -101,7 +103,7 @@ class MyTeam extends Component {
                   spacing={24}
                 >
                   {currentUser.team.map(member => (
-                    <Grid item xs={12} sm={4} key={member.id}><TeamMemberCard member={member} remove={removeFromTeam} updateState={this.updateState} /></Grid>
+                    <Grid item xs={12} sm={4} key={member.id}><TeamMemberCard member={member} remove={removeFromTeam} updateParentState={this.updateState} mostRecentlyDeletedId={mostRecentlyDeletedId} /></Grid>
                   ))}
                 </Grid>
               </>

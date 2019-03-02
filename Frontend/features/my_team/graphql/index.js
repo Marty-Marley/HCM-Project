@@ -13,6 +13,13 @@ const MY_TEAM_QUERY = gql`
         firstName
         lastName
         avatar
+        role
+        email
+        timeInfo {
+          weeks {
+            hasSubmitted
+          }
+        }
       }
     }
   }
