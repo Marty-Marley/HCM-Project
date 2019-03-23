@@ -75,14 +75,14 @@ class EditProfileForm extends Component {
         <Mutation
           mutation={EDIT_USER_MUTATION}
           variables={this.state}
-          onCompleted={({ editUser }) => {
-            const fullName = `${editUser.firstName} ${editUser.lastName}`
+          onCompleted={({ editProfile }) => {
+            const fullName = `${editProfile.firstName} ${editProfile.lastName}`
             this.summonSnackbar(fullName)
             toggleEditMode()
           }}
           refetchQueries={[{ query: CURRENT_USER_QUERY }]}
         >
-          {(editUser, { error, loading }) => <>
+          {(editProfile, { error, loading }) => <>
             <Grid item xs={columnSizes.mobile} sm={columnSizes.medium} md={columnSizes.large}>
               <Grid container direction="row" alignItems="center">
                 <Typography variant="subtitle1" inline className={classes.sepatator}>Title</Typography>
@@ -261,7 +261,7 @@ class EditProfileForm extends Component {
                 </TextField>
               </Grid>
             </Grid>
-            <Button className={classes.update} onClick={() => editUser()}>Update</Button>
+            <Button className={classes.update} onClick={() => editProfile()}>Update</Button>
           </>}
         </Mutation>
       </>

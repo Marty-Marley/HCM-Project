@@ -40,6 +40,7 @@ type User {
   gender: String
   timeInfo: Timesheet
   team: [User]
+  requiresAction: Boolean @default(value: "false")
 }
 
 type Timesheet {

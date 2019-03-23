@@ -106,7 +106,7 @@ const Mutation = {
     // Put JWT in cookie
     ctx.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 14 // 2 week cookie
+      maxAge: 1000 * 60 * 60 * 24 // 24h cookie
     })
     return user
   },
@@ -127,7 +127,7 @@ const Mutation = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
     ctx.response.cookie('token', token, {
       httpOnly: true, 
-      maxAge: 1000 * 60 * 60 * 14 // 2 week cookie
+      maxAge: 1000 * 60 * 60 * 24 // 24h cookie
     })
     return user
   },
@@ -156,9 +156,12 @@ const Mutation = {
     hasPermission(currentUser, ['ADMIN'])
     
     let userEntitlements = [
-      'MY_PROFILE',
-      'RECORD_TIME',
     ]
+
+    if(args.permissions.includes('EMPLOYEE')) {
+      userEntitlements.push('MY_PROFILE')
+      userEntitlements.push('RECORD_TIME')
+    }
 
     if(args.permissions.includes('MANAGER')) {
       userEntitlements.push('MY_TEAM')
@@ -187,7 +190,7 @@ const Mutation = {
 
   },
 
-  async editUser(parent, args, ctx, info) {
+  async editProfile(parent, args, ctx, info) {
     // Is current user logged in?
     if(!ctx.request.userId) {
       throw new Error('Please log in to do that!')
@@ -203,7 +206,7 @@ const Mutation = {
         },
       },
       info
-    );
+    )
   },
 
   async editTimesheet(parent, args, ctx, info) {
@@ -289,7 +292,8 @@ const Mutation = {
                 }
               }
             }
-          }
+          },
+          requiresAction: false
 
         },
         where: {
@@ -367,6 +371,26 @@ const Mutation = {
         },
         where: {
           id: ctx.request.userId,
+        },
+      },
+      info
+    )
+  },
+
+  async notifyTimesheetAction(parent, args, ctx, info ) {
+    // If user isnt logged in - Throw error
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+
+    // Update user information - Similar to editProfile but id is being specified from client.
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          requiresAction: true
+        },
+        where: {
+          id: args.id
         },
       },
       info

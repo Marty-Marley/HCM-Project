@@ -15,6 +15,16 @@ const MY_TEAM_QUERY = gql`
         avatar
         role
         email
+        id
+        title
+        salary
+        localCurrency
+        startDate
+        birthDate
+        address
+        mobileNumber
+        location
+        gender
         timeInfo {
           weeks {
             hasSubmitted
@@ -58,6 +68,17 @@ const REMOVE_FROM_TEAM = gql`
   }
 `
 
+const NOTIFY_USER_MUTATION = gql`
+  mutation NOTIFY_USER_MUTATION($id: ID) {
+    notifyTimesheetAction(id: $id) {
+      id
+      firstName
+      lastName
+      requiresAction
+    }
+  } 
+`
+
 export {
-  MY_TEAM_QUERY, ALL_USERS_QUERY, ADD_TO_TEAM_MUTATION, REMOVE_FROM_TEAM
+  MY_TEAM_QUERY, ALL_USERS_QUERY, ADD_TO_TEAM_MUTATION, REMOVE_FROM_TEAM, NOTIFY_USER_MUTATION
 }

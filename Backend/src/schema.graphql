@@ -13,7 +13,7 @@ type Mutation {
 
   editPermissions(permissions: [Permissions], userId: ID!): User
 
-  editUser(email: String, firstName: String, lastName: String, title: String, localCurrency: String, birthDate: DateTime, 
+  editProfile(email: String, firstName: String, lastName: String, title: String, localCurrency: String, birthDate: DateTime, 
     address: String, mobileNumber: String, location: String, gender: String): User
   
   editTimesheet(
@@ -24,6 +24,8 @@ type Mutation {
   addToTeam(id: ID!): User
 
   removeFromTeam(id: ID!): User
+
+  notifyTimesheetAction(id: ID): User
 }
 
 type Query {

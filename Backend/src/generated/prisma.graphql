@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/marty-marley/HCM/dev
-# timestamp: Thu Feb 28 2019 19:19:52 GMT+0000 (Greenwich Mean Time)
+# timestamp: Mon Mar 04 2019 15:42:03 GMT+0000 (Greenwich Mean Time)
 
 type AggregateDay {
   count: Int!
@@ -574,6 +574,7 @@ type User implements Node {
   gender: String
   timeInfo: Timesheet
   team(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  requiresAction: Boolean
 }
 
 """A connection to a list of items."""
@@ -606,6 +607,7 @@ input UserCreateInput {
   mobileNumber: String
   location: String
   gender: String
+  requiresAction: Boolean
   permissions: UserCreatepermissionsInput
   entitlements: UserCreateentitlementsInput
   role: UserCreateroleInput
@@ -647,6 +649,7 @@ input UserCreateWithoutTimeInfoInput {
   mobileNumber: String
   location: String
   gender: String
+  requiresAction: Boolean
   permissions: UserCreatepermissionsInput
   entitlements: UserCreateentitlementsInput
   role: UserCreateroleInput
@@ -695,6 +698,8 @@ enum UserOrderByInput {
   location_DESC
   gender_ASC
   gender_DESC
+  requiresAction_ASC
+  requiresAction_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -721,6 +726,7 @@ type UserPreviousValues {
   mobileNumber: String
   location: String
   gender: String
+  requiresAction: Boolean
 }
 
 input UserScalarWhereInput {
@@ -1300,6 +1306,10 @@ input UserScalarWhereInput {
 
   """All values not ending with the given string."""
   gender_not_ends_with: String
+  requiresAction: Boolean
+
+  """All values that are not equal to given value."""
+  requiresAction_not: Boolean
 }
 
 type UserSubscriptionPayload {
@@ -1357,6 +1367,7 @@ input UserUpdateDataInput {
   mobileNumber: String
   location: String
   gender: String
+  requiresAction: Boolean
   permissions: UserUpdatepermissionsInput
   entitlements: UserUpdateentitlementsInput
   role: UserUpdateroleInput
@@ -1384,6 +1395,7 @@ input UserUpdateInput {
   mobileNumber: String
   location: String
   gender: String
+  requiresAction: Boolean
   permissions: UserUpdatepermissionsInput
   entitlements: UserUpdateentitlementsInput
   role: UserUpdateroleInput
@@ -1407,6 +1419,7 @@ input UserUpdateManyDataInput {
   mobileNumber: String
   location: String
   gender: String
+  requiresAction: Boolean
   permissions: UserUpdatepermissionsInput
   entitlements: UserUpdateentitlementsInput
   role: UserUpdateroleInput
@@ -1440,6 +1453,7 @@ input UserUpdateManyMutationInput {
   mobileNumber: String
   location: String
   gender: String
+  requiresAction: Boolean
   permissions: UserUpdatepermissionsInput
   entitlements: UserUpdateentitlementsInput
   role: UserUpdateroleInput
@@ -1483,6 +1497,7 @@ input UserUpdateWithoutTimeInfoDataInput {
   mobileNumber: String
   location: String
   gender: String
+  requiresAction: Boolean
   permissions: UserUpdatepermissionsInput
   entitlements: UserUpdateentitlementsInput
   role: UserUpdateroleInput
@@ -2082,6 +2097,10 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   gender_not_ends_with: String
+  requiresAction: Boolean
+
+  """All values that are not equal to given value."""
+  requiresAction_not: Boolean
   timeInfo: TimesheetWhereInput
   team_every: UserWhereInput
   team_some: UserWhereInput

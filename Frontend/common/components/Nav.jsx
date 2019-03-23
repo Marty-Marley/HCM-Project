@@ -94,7 +94,7 @@ class Nav extends Component {
             </Typography>
             <User>
               {({ data, error }) => {
-                if (error) return <p>{error.message}</p>
+                if (error) return ''
                 return (<div className={classes.icon}>
                   <IconButton
                     className={classes.button}
