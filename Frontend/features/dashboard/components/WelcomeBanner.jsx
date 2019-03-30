@@ -16,7 +16,7 @@ const WelcomeBanner = (props) => {
   const { classes, currentUser: { firstName } } = props;
   return (
     <div>
-      <Paper className={classes.root} elevation={1}>
+      <Paper className={classes.root} elevation={10}>
         <Typography variant="h5" component="h3">
           {`Welcome back ${firstName}`}
         </Typography>

@@ -32,7 +32,7 @@ const TimeCard = ({ classes, currentUser }) => {
       alignItems="center"
       spacing={16}
     >
-      <Card className={classes.hours}>
+      <Card className={classes.hours} elevation={10}>
         <CardContent className={classes.content}>
           <Typography variant="body1" component="h4" gutterBottom align="center">
             {`Holiday hours remaining: ${timeRemaining}`}
@@ -43,7 +43,7 @@ const TimeCard = ({ classes, currentUser }) => {
           </Typography>
         </CardContent>
       </Card>
-      <Card className={classes.chart}>
+      <Card className={classes.chart} elevation={10}>
         <CardContent className={classes.content}>
           <TimeChart data={data} />
         </CardContent>

@@ -31,8 +31,12 @@ const styles = theme => ({
   iconBackground: {
     '&:hover': {
       backgroundColor: '#f0f0f0',
-      borderRadius: '20px'
+      borderRadius: '20px',
+      cursor: 'pointer',
     }
+  },
+  noFeatures: {
+    marginTop: '10px'
   }
 });
 
@@ -40,7 +44,7 @@ const FeatureCard = (props) => {
   const { classes, currentUser } = props;
   const iconSize = 100
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} elevation={10}>
       <CardHeader
         title="Features"
         subheader="You are currently entitled to:"
@@ -60,6 +64,7 @@ const FeatureCard = (props) => {
             if (entitlement === 'MY_TEAM') return <Link href={`/${entitlement.toLowerCase()}`} key={entitlement}><Grid item><Team height={iconSize} width={iconSize} className={classes.iconBackground} /><Typography variant="h6" component="h6" align="center">{entitlement.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</Typography></Grid></Link>
             if (entitlement === 'PERMISSIONS') return <Link href={`/${entitlement.toLowerCase()}`} key={entitlement}><Grid item><Permissions height={iconSize} width={iconSize} className={classes.iconBackground} /><Typography variant="h6" component="h6" align="center">{entitlement.replace('_', ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase())}</Typography></Grid></Link>
           })}
+          {currentUser.entitlements.length === 0 && <Typography variant="subheading" component="h6" align="center" className={classes.noFeatures}>It looks like you have no permissions. Contact a system administrator.</Typography>}
         </Grid>
       </CardContent>
     </Card>

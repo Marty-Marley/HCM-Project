@@ -60,16 +60,16 @@ const styles = theme => ({
 class Nav extends Component {
   state = {
     anchorEl: null,
-  };
+  }
 
 
   handleMenu = (event) => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+    this.setState({ anchorEl: event.currentTarget })
+  }
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
+    this.setState({ anchorEl: null })
+  }
 
   routeTo = (route) => {
     Router.push(route)
@@ -94,7 +94,7 @@ class Nav extends Component {
             </Typography>
             <User>
               {({ data, error }) => {
-                if (error) return <p>{error.message}</p>
+                if (error) return ''
                 return (<div className={classes.icon}>
                   <IconButton
                     className={classes.button}

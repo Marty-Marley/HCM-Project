@@ -106,10 +106,15 @@ class Signup extends Component {
                     variant="outlined"
                     value={email}
                     onChange={this.handleInput}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    inputProps={{
+                      pattern: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                      title: 'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'
+                    }}
                     id="outlined-password-input"
                     label="Password"
                     className={classes.textField}
@@ -120,6 +125,7 @@ class Signup extends Component {
                     name="password"
                     value={password}
                     onChange={this.handleInput}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -134,6 +140,7 @@ class Signup extends Component {
                     name="firstName"
                     value={firstName}
                     onChange={this.handleInput}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -148,6 +155,7 @@ class Signup extends Component {
                     name="lastName"
                     value={lastName}
                     onChange={this.handleInput}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}><Button variant="contained" color="primary" type="submit">Sign Up</Button></Grid>

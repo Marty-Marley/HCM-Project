@@ -8,21 +8,11 @@ const { hasPermission } = require('../utils')
  * * it will be looking to the database.
  */
 const Mutation = {
-  async createEmployee(parent, args, ctx, info) {
-    // TODO Check if user is logged in
-    const employee = await ctx.db.mutation.createEmployee({
-      data: {
-        ...args
-      }
-    }, info)
-    return employee
-  },
-
   async createUser(parent, args, ctx, info) {
     // Lowercase email so it isnt case sensitive
     args.email = args.email.toLowerCase()
     // Hash password
-    const password = await bcrypt.hash(args.password, 10)
+    const password = await bcrypt.hash(args.password, 12)
     // Pravatar api provides random image of face - Generate random num + append to api url
     const randomAvatarNumber = Math.floor((Math.random() * 68) + 1)
     const avatar = `http://i.pravatar.cc/150?img=${randomAvatarNumber}`
@@ -116,7 +106,7 @@ const Mutation = {
     // Put JWT in cookie
     ctx.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 14 // 2 week cookie
+      maxAge: 1000 * 60 * 60 * 24 // 24h cookie
     })
     return user
   },
@@ -127,6 +117,9 @@ const Mutation = {
     }
     // Grab user that is trying to log in
     const user = await ctx.db.query.user({ where: { email: args.email } })
+    if (!user) {
+      throw new Error('Invalid email and password combination.')
+    }
     // Compare the given hashed password and compare it to the database password
     const isValid = await bcrypt.compare(args.password, user.password)
     // If either the user doesnt exist or the password is wrong - Throw error
@@ -137,18 +130,16 @@ const Mutation = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
     ctx.response.cookie('token', token, {
       httpOnly: true, 
-      maxAge: 1000 * 60 * 60 * 14 // 2 week cookie
+      maxAge: 1000 * 60 * 60 * 24 // 24h cookie
     })
     return user
   },
-
 
   signout(parent, args, ctx, info) {
     // Clear token from the cookie on logout.
     ctx.response.clearCookie('token')
     return { message: 'You have signed out.' }
   },
-
 
   async editPermissions(parent, args, ctx, info) {
     // Is current user logged in?
@@ -165,12 +156,15 @@ const Mutation = {
       info
     )
     // Throw error if current user isn't an admin.
-    hasPermission(currentUser, ['ADMIN']);
+    hasPermission(currentUser, ['ADMIN'])
     
     let userEntitlements = [
-      'MY_PROFILE',
-      'RECORD_TIME',
     ]
+
+    if(args.permissions.includes('EMPLOYEE')) {
+      userEntitlements.push('MY_PROFILE')
+      userEntitlements.push('RECORD_TIME')
+    }
 
     if(args.permissions.includes('MANAGER')) {
       userEntitlements.push('MY_TEAM')
@@ -198,7 +192,8 @@ const Mutation = {
     )
 
   },
-  async editUser(parent, args, ctx, info) {
+
+  async editProfile(parent, args, ctx, info) {
     // Is current user logged in?
     if(!ctx.request.userId) {
       throw new Error('Please log in to do that!')
@@ -214,8 +209,9 @@ const Mutation = {
         },
       },
       info
-    );
+    )
   },
+
   async editTimesheet(parent, args, ctx, info) {
     // If user isnt logged in - Throw error
     if(!ctx.request.userId) {
@@ -227,7 +223,7 @@ const Mutation = {
       {
         where: {
           id: ctx.request.userId,
-          // TODO email: "marty@gmail.com"
+          // TODO email: "marty@gmail.com" (get rid of this line)
         },
       },
       info
@@ -299,7 +295,8 @@ const Mutation = {
                 }
               }
             }
-          }
+          },
+          requiresAction: false
 
         },
         where: {
@@ -309,7 +306,100 @@ const Mutation = {
       },
       info
     )
-  }
+  },
+
+  async addToTeam(parent, args, ctx, info ) {
+    // If user isnt logged in - Throw error
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+
+    // Get currentUser info for permissions data
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+
+    // Throw error if current user isnt a manager
+    hasPermission(currentUser, ['MANAGER'])
+
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          team: {
+            connect: {
+              id: args.id
+            }
+          }
+        },
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+  },
+
+  async removeFromTeam(parent, args, ctx, info ) {
+    // If user isnt logged in - Throw error
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+
+    // Get currentUser info for permissions data
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+
+    // Throw error if current user isnt a manager
+    hasPermission(currentUser, ['MANAGER'])
+
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          team: {
+            disconnect: {
+              id: args.id
+            }
+          }
+        },
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    )
+  },
+
+  async notifyTimesheetAction(parent, args, ctx, info ) {
+    // If user isnt logged in - Throw error
+    if(!ctx.request.userId) {
+      throw new Error('Please log in to do that!')
+    }
+
+    // Update user information - Similar to editProfile but id is being specified from client.
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          requiresAction: true
+        },
+        where: {
+          id: args.id
+        },
+      },
+      info
+    )
+  },
+
 }
 
 module.exports = Mutation;

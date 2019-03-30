@@ -75,14 +75,14 @@ class EditProfileForm extends Component {
         <Mutation
           mutation={EDIT_USER_MUTATION}
           variables={this.state}
-          onCompleted={({ editUser }) => {
-            const fullName = `${editUser.firstName} ${editUser.lastName}`
+          onCompleted={({ editProfile }) => {
+            const fullName = `${editProfile.firstName} ${editProfile.lastName}`
             this.summonSnackbar(fullName)
             toggleEditMode()
           }}
           refetchQueries={[{ query: CURRENT_USER_QUERY }]}
         >
-          {(editUser, { error, loading }) => <>
+          {(editProfile, { error, loading }) => <>
             <Grid item xs={columnSizes.mobile} sm={columnSizes.medium} md={columnSizes.large}>
               <Grid container direction="row" alignItems="center">
                 <Typography variant="subtitle1" inline className={classes.sepatator}>Title</Typography>
@@ -100,6 +100,7 @@ class EditProfileForm extends Component {
                     },
                   }}
                   style={{ margin: '0', marginLeft: '7px' }}
+                  required
                 >
                   <MenuItem value="Mr">
                     Mr
@@ -128,6 +129,7 @@ class EditProfileForm extends Component {
                     },
                   }}
                   style={{ margin: '0', marginLeft: '7px' }}
+                  required
                 >
                   <MenuItem value="Male">
                     Male
@@ -148,6 +150,7 @@ class EditProfileForm extends Component {
                   value={address || ''}
                   onChange={this.handleChange('address')}
                   margin="none"
+                  required
                 />
               </Grid>
             </Grid>
@@ -160,6 +163,7 @@ class EditProfileForm extends Component {
                   value={firstName || ''}
                   onChange={this.handleChange('firstName')}
                   margin="none"
+                  required
                 />
               </Grid>
             </Grid>
@@ -189,6 +193,7 @@ class EditProfileForm extends Component {
                   value={lastName || ''}
                   onChange={this.handleChange('lastName')}
                   margin="none"
+                  required
                 />
               </Grid>
             </Grid>
@@ -208,6 +213,7 @@ class EditProfileForm extends Component {
                   value={mobileNumber || ''}
                   onChange={this.handleChange('mobileNumber')}
                   margin="none"
+                  required
                 />
               </Grid>
             </Grid>
@@ -220,6 +226,7 @@ class EditProfileForm extends Component {
                   value={email || ''}
                   onChange={this.handleChange('email')}
                   margin="none"
+                  required
                 />
               </Grid>
             </Grid>
@@ -245,6 +252,7 @@ class EditProfileForm extends Component {
                     },
                   }}
                   style={{ margin: '0', marginLeft: '7px' }}
+                  required
                 >
                   <MenuItem value="Pound">
                     Pound
@@ -261,7 +269,7 @@ class EditProfileForm extends Component {
                 </TextField>
               </Grid>
             </Grid>
-            <Button className={classes.update} onClick={() => editUser()}>Update</Button>
+            <Button className={classes.update} type="submit" onClick={() => editProfile()}>Update</Button>
           </>}
         </Mutation>
       </>

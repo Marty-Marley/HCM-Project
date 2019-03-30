@@ -29,6 +29,7 @@ const styles = theme => ({
     backgroundColor: 'hsla(0, 0%, 100%, 0.57)',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
+      overflow: 'hidden'
     },
   },
   createAccountButton: {
