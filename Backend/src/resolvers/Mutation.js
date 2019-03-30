@@ -12,7 +12,7 @@ const Mutation = {
     // Lowercase email so it isnt case sensitive
     args.email = args.email.toLowerCase()
     // Hash password
-    const password = await bcrypt.hash(args.password, 10)
+    const password = await bcrypt.hash(args.password, 12)
     // Pravatar api provides random image of face - Generate random num + append to api url
     const randomAvatarNumber = Math.floor((Math.random() * 68) + 1)
     const avatar = `http://i.pravatar.cc/150?img=${randomAvatarNumber}`
@@ -117,6 +117,9 @@ const Mutation = {
     }
     // Grab user that is trying to log in
     const user = await ctx.db.query.user({ where: { email: args.email } })
+    if (!user) {
+      throw new Error('Invalid email and password combination.')
+    }
     // Compare the given hashed password and compare it to the database password
     const isValid = await bcrypt.compare(args.password, user.password)
     // If either the user doesnt exist or the password is wrong - Throw error

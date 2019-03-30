@@ -131,6 +131,7 @@ class LoginForm extends Component {
                     value={email}
                     onChange={this.handleInput}
                     error={!!error}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -146,6 +147,7 @@ class LoginForm extends Component {
                     value={password}
                     onChange={this.handleInput}
                     error={!!error}
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}><Button variant="contained" color="primary" type="submit">Sign in</Button></Grid>

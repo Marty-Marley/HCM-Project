@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/marty-marley/HCM/dev
-# timestamp: Mon Mar 04 2019 15:42:03 GMT+0000 (Greenwich Mean Time)
+# timestamp: Sun Mar 24 2019 15:39:20 GMT+0000 (Greenwich Mean Time)
 
 type AggregateDay {
   count: Int!
@@ -24,7 +24,8 @@ type BatchPayload {
 
 scalar DateTime
 
-type Day {
+type Day implements Node {
+  id: ID!
   hours: Int
   type: String
 }
@@ -40,12 +41,14 @@ type DayConnection {
 }
 
 input DayCreateInput {
+  id: ID
   hours: Int
   type: String
 }
 
 input DayCreateOneInput {
   create: DayCreateInput
+  connect: DayWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -58,12 +61,12 @@ type DayEdge {
 }
 
 enum DayOrderByInput {
+  id_ASC
+  id_DESC
   hours_ASC
   hours_DESC
   type_ASC
   type_DESC
-  id_ASC
-  id_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -71,6 +74,7 @@ enum DayOrderByInput {
 }
 
 type DayPreviousValues {
+  id: ID!
   hours: Int
   type: String
 }
@@ -119,6 +123,11 @@ input DayUpdateDataInput {
   type: String
 }
 
+input DayUpdateInput {
+  hours: Int
+  type: String
+}
+
 input DayUpdateManyMutationInput {
   hours: Int
   type: String
@@ -126,6 +135,7 @@ input DayUpdateManyMutationInput {
 
 input DayUpdateOneInput {
   create: DayCreateInput
+  connect: DayWhereUniqueInput
   disconnect: Boolean
   delete: Boolean
   update: DayUpdateDataInput
@@ -146,6 +156,46 @@ input DayWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [DayWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
   hours: Int
 
   """All values that are not equal to given value."""
@@ -210,6 +260,10 @@ input DayWhereInput {
   type_not_ends_with: String
 }
 
+input DayWhereUniqueInput {
+  id: ID
+}
+
 enum Entitlements {
   MY_PROFILE
   RECORD_TIME
@@ -229,12 +283,15 @@ type Mutation {
   createUser(data: UserCreateInput!): User!
   createWeek(data: WeekCreateInput!): Week!
   updateTimesheet(data: TimesheetUpdateInput!, where: TimesheetWhereUniqueInput!): Timesheet
+  updateDay(data: DayUpdateInput!, where: DayWhereUniqueInput!): Day
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateWeek(data: WeekUpdateInput!, where: WeekWhereUniqueInput!): Week
   deleteTimesheet(where: TimesheetWhereUniqueInput!): Timesheet
+  deleteDay(where: DayWhereUniqueInput!): Day
   deleteUser(where: UserWhereUniqueInput!): User
   deleteWeek(where: WeekWhereUniqueInput!): Week
   upsertTimesheet(where: TimesheetWhereUniqueInput!, create: TimesheetCreateInput!, update: TimesheetUpdateInput!): Timesheet!
+  upsertDay(where: DayWhereUniqueInput!, create: DayCreateInput!, update: DayUpdateInput!): Day!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertWeek(where: WeekWhereUniqueInput!, create: WeekCreateInput!, update: WeekUpdateInput!): Week!
   updateManyTimesheets(data: TimesheetUpdateManyMutationInput!, where: TimesheetWhereInput): BatchPayload!
@@ -286,6 +343,7 @@ type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   weeks(where: WeekWhereInput, orderBy: WeekOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Week]!
   timesheet(where: TimesheetWhereUniqueInput!): Timesheet
+  day(where: DayWhereUniqueInput!): Day
   user(where: UserWhereUniqueInput!): User
   week(where: WeekWhereUniqueInput!): Week
   timesheetsConnection(where: TimesheetWhereInput, orderBy: TimesheetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TimesheetConnection!
@@ -333,6 +391,7 @@ type TimesheetConnection {
 }
 
 input TimesheetCreateInput {
+  id: ID
   timeRemaining: Float
   timeTaken: Float
   weeks: WeekCreateManyInput
@@ -345,6 +404,7 @@ input TimesheetCreateOneWithoutUserInput {
 }
 
 input TimesheetCreateWithoutUserInput {
+  id: ID
   timeRemaining: Float
   timeTaken: Float
   weeks: WeekCreateManyInput
@@ -592,6 +652,7 @@ input UserCreateentitlementsInput {
 }
 
 input UserCreateInput {
+  id: ID
   email: String!
   password: String!
   firstName: String!
@@ -634,6 +695,7 @@ input UserCreateroleInput {
 }
 
 input UserCreateWithoutTimeInfoInput {
+  id: ID
   email: String!
   password: String!
   firstName: String!
@@ -2133,6 +2195,7 @@ type WeekConnection {
 }
 
 input WeekCreateInput {
+  id: ID
   hasSubmitted: Boolean
   monday: DayCreateOneInput
   tuesday: DayCreateOneInput

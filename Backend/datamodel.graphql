@@ -16,7 +16,7 @@ enum Roles {
   BUSINESS_ANALYST
   PROJECT_MANAGER
   QUALITY_ASSURANCE_ENGINEER
-}
+} 
 
 type User {
   id: ID! @unique
@@ -62,6 +62,7 @@ type Week {
 }
 
 type Day {
+  id: ID! @unique
   hours: Int
   type: String
 }
