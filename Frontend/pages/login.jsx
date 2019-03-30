@@ -1,6 +1,6 @@
-import Login from '../features/login_signup/components/Login'
+import LoginPage from '../features/login_signup/components/LoginPage'
 
 /**
  * Login page that just points to login component
  */
-export default Login
+export default LoginPage

@@ -7,9 +7,12 @@ const CURRENT_USER_QUERY = gql`
     currentUser {
       id
       email
-      name
+      firstName
+      lastName
       permissions
       entitlements
+      avatar
+      role
     }
   }
 `

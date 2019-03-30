@@ -1,34 +1,27 @@
-import Link from 'next/link'
-import User from '../app/components/User'
+import React, { Component } from 'react'
+import DashboardPage from '../features/dashboard/components/DashboardPage'
 
 /**
  * Basic dashboard comoponent
  */
-const Dashboard = () => (
-  <>
-    <User>
-      {({ data: { currentUser } }) => {
-        if (currentUser) {
-          return (
-            <>
-              <span>{currentUser.name}</span> <br />
-              <span>{currentUser.email}</span> <br />
-              <span>{currentUser.permissions}</span> <br />
-              <span>{currentUser.entitlements}</span>
+class Dashboard extends Component {
+  componentDidMount = () => {
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.register('/sw.js')
+    //     .catch(err => console.error('Service worker registration failed', err))
+    // } else {
+    //   console.log('Service worker not supported');
+    // }
+  }
 
-              <h2>This is the dashboard page!</h2>
-              <ul>
-                {currentUser.entitlements.map(entitlement => <li key={entitlement}><Link href={`/${entitlement.toLowerCase()}`}><a>{entitlement}</a></Link></li>)}
-              </ul>
+  render() {
+    return (
+      <DashboardPage />
+    )
+  }
+}
 
-            </>
-          )
-        }
-        return null
-      }
-      }
-    </User>
-  </>
-)
-
+// const Dashboard = () => (
+//   <DashboardPage />
+// )
 export default Dashboard

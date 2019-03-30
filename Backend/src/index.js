@@ -14,6 +14,10 @@ const server = createServer()
  */
 server.express.use(cookieParser())
 
+/**
+ * If there is a JWT within the cookie,
+ * verify it + put the userID on top of the request.
+ */
 server.express.use((request, response, next) => {
   const { token } = request.cookies
   if(token) {
@@ -23,9 +27,12 @@ server.express.use((request, response, next) => {
   next()
 })
 
+/**
+ * If a user is logged in, query their information for permissions.
+ */
 server.express.use(async (request, response, next) => {
   if(!request.userId) return next()
-  const user = await db.query.user({ where: { id: request.userId } }, '{ id, permissions, name, email }')
+  const user = await db.query.user({ where: { id: request.userId } }, '{ id, permissions, firstName, email }')
   request.user = user
   next()
 

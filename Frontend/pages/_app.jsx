@@ -1,13 +1,32 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import { ApolloProvider } from 'react-apollo'
-import Page from '../app/components/Page'
-import withApollo from '../app/utils/withApollo'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import JssProvider from 'react-jss/lib/JssProvider';
+import { SnackbarProvider } from 'notistack'
+import { UserAgentProvider } from '@quentin-sommer/react-useragent'
+import getPageContext from '../common/utils/getPageContext'
+import Page from '../common/components/Page'
+import withApollo from '../common/utils/withApollo'
 
 /**
  * Wraps each page in apollo provider for state management.
  */
 class MyApp extends App {
+  constructor() {
+    super();
+    this.pageContext = getPageContext();
+  }
+
+  componentDidMount() {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
+  }
+
   /**
    ** getInitialProps will fire before the render so anything that
    ** is returned will be available within the render
@@ -18,20 +37,39 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx)
     }
     pageProps.query = ctx.query
-    return { pageProps }
+    return {
+      ua: ctx.req
+        ? ctx.req.headers['user-agent']
+        : navigator.userAgent,
+      pageProps
+    }
   }
 
   render() {
     const { Component, apollo, pageProps } = this.props
-
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
+          <JssProvider
+            registry={this.pageContext.sheetsRegistry}
+            generateClassName={this.pageContext.generateClassName}
+          >
+            <MuiThemeProvider
+              theme={this.pageContext.theme}
+              sheetsManager={this.pageContext.sheetsManager}
+            >
+              <CssBaseline />
+              <UserAgentProvider ua={this.props.ua}>
+                <Page route={this.props.router.route}>
+                  <SnackbarProvider maxSnack={5}>
+                    <Component pageContext={this.pageContext} {...pageProps} />
+                  </SnackbarProvider>
+                </Page>
+              </UserAgentProvider>
+            </MuiThemeProvider>
+          </JssProvider>
         </ApolloProvider>
-      </Container>
+      </Container >
     )
   }
 }

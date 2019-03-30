@@ -1,6 +1,5 @@
 enum Entitlements {
   MY_PROFILE
-  REQUEST_TIME_OFF
   RECORD_TIME
   MY_TEAM
   PERMISSIONS
@@ -12,21 +11,58 @@ enum Permissions {
   EMPLOYEE
 }
 
+enum Roles {
+  SOFTWARE_ENGINEER
+  BUSINESS_ANALYST
+  PROJECT_MANAGER
+  QUALITY_ASSURANCE_ENGINEER
+} 
+
 type User {
   id: ID! @unique
   email: String! @unique
   password: String!
-  name: String!
+  firstName: String!
+  lastName: String!
+  title: String
   age: Int
   avatar: String
   permissions: [Permissions]
   entitlements: [Entitlements]
+  role: [Roles]
+  salary: Int
+  localCurrency: String
+  startDate: DateTime
+  birthDate: DateTime
+  address: String
+  mobileNumber: String
+  location: String
+  gender: String
+  timeInfo: Timesheet
+  team: [User]
+  requiresAction: Boolean @default(value: "false")
 }
 
-type Employee {
+type Timesheet {
   id: ID! @unique
-  name: String!
-  email: String!
-  age: Int
-  avatar: String
+  timeRemaining: Float
+  timeTaken: Float
+  weeks: [Week]
+  user: User
+}
+
+type Week {
+  id: ID! @unique
+  hasSubmitted: Boolean @default(value: "false")
+  monday: Day @relation(name: "Monday")
+  tuesday: Day @relation(name: "Tuesday") 
+  wednesday: Day @relation(name: "Wednesday")
+  thursday: Day @relation(name: "Thursday")
+  friday: Day @relation(name: "Friday")
+}
+
+type Day {
+  id: ID! @unique
+  hours: Int
+  type: String
 }

@@ -5,13 +5,13 @@ import { string, arrayOf } from 'prop-types'
  * Employee functional component for receiving and structuring employee data.
  */
 const Employee = ({
-  id, name, email, avatar
+  id, firstName, email, avatar
 }) => (
     <>
-      <p>{name}</p>
+      <p>{firstName}</p>
       <p>{id}</p>
       <p>{email}</p>
-      <img src={avatar} alt={name} />
+      <img src={avatar} alt={firstName} />
     </>
 )
 
@@ -20,7 +20,7 @@ const Employee = ({
  */
 Employee.propTypes = {
   id: string,
-  name: string,
+  firstName: string,
   email: string,
   avatar: string,
   entitlements: arrayOf(string)
