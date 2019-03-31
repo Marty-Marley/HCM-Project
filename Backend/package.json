@@ -1,5 +1,5 @@
 {
-  "name": "hcm-project-BE",
+  "name": "hcm-project",
   "description": "Final year project",
   "scripts": {
     "start": "nodemon -e js,graphql -x node src/index.js",

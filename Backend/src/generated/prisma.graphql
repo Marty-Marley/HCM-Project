@@ -1,5 +1,5 @@
-# source: https://eu1.prisma.sh/marty-marley/HCM/dev
-# timestamp: Sun Mar 24 2019 15:39:20 GMT+0000 (Greenwich Mean Time)
+# source: https://hm-prod-8fc00daf14.herokuapp.com/hm-prod/prod
+# timestamp: Sun Mar 31 2019 22:18:57 GMT+0100 (British Summer Time)
 
 type AggregateDay {
   count: Int!
@@ -41,7 +41,6 @@ type DayConnection {
 }
 
 input DayCreateInput {
-  id: ID
   hours: Int
   type: String
 }
@@ -391,7 +390,6 @@ type TimesheetConnection {
 }
 
 input TimesheetCreateInput {
-  id: ID
   timeRemaining: Float
   timeTaken: Float
   weeks: WeekCreateManyInput
@@ -404,7 +402,6 @@ input TimesheetCreateOneWithoutUserInput {
 }
 
 input TimesheetCreateWithoutUserInput {
-  id: ID
   timeRemaining: Float
   timeTaken: Float
   weeks: WeekCreateManyInput
@@ -652,7 +649,6 @@ input UserCreateentitlementsInput {
 }
 
 input UserCreateInput {
-  id: ID
   email: String!
   password: String!
   firstName: String!
@@ -695,7 +691,6 @@ input UserCreateroleInput {
 }
 
 input UserCreateWithoutTimeInfoInput {
-  id: ID
   email: String!
   password: String!
   firstName: String!
@@ -1490,7 +1485,6 @@ input UserUpdateManyDataInput {
 input UserUpdateManyInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueNestedInput!]
@@ -2195,7 +2189,6 @@ type WeekConnection {
 }
 
 input WeekCreateInput {
-  id: ID
   hasSubmitted: Boolean
   monday: DayCreateOneInput
   tuesday: DayCreateOneInput
@@ -2353,7 +2346,6 @@ input WeekUpdateManyDataInput {
 input WeekUpdateManyInput {
   create: [WeekCreateInput!]
   connect: [WeekWhereUniqueInput!]
-  set: [WeekWhereUniqueInput!]
   disconnect: [WeekWhereUniqueInput!]
   delete: [WeekWhereUniqueInput!]
   update: [WeekUpdateWithWhereUniqueNestedInput!]
