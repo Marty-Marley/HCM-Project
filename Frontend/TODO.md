@@ -30,6 +30,8 @@ if they are logged in or not?
 - My team - manually routing when you dont have the permissions.
 - Increase the page padding - 25px to 50px?
 - Gradient background doesnt work in Safari.
+- Call app - Hu.man - Human management
+- Change Record Time to Time Management everywhere.
 <br/><br/>
 
 # Done 
