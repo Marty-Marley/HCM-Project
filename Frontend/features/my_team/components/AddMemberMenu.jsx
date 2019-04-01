@@ -55,9 +55,9 @@ class AddMemberMenu extends Component {
               aria-haspopup="true"
               onClick={this.handleClick}
               className={classes.addButton}
-              disabled={data.users.length < 1}
+              disabled={data.users && data.users.length < 1}
             >
-              {data.users.length >= 1 ? 'Add to team' : 'No one else to add'}
+              {data.users && data.users.length >= 1 ? 'Add to team' : 'No one else to add'}
             </Button>
             <Menu
               id="add-menu"
