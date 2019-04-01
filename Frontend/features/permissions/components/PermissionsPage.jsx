@@ -6,7 +6,6 @@ import { withSnackbar } from 'notistack'
 import { Button } from '@material-ui/core'
 import Home from '@material-ui/icons/Home'
 import Head from 'next/head'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import PermissionsTable from './PermissionsTable'
@@ -53,7 +52,7 @@ class PermissionsPage extends Component {
         }}
       >
         {({ data, loading, error }) => {
-          if (loading) return <CircularProgress className={classes.progress} />
+          if (loading) return <p>Loading...</p>
           if (error) {
             // if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
           }

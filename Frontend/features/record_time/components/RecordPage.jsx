@@ -5,7 +5,6 @@ import {
   Paper, Typography, Card, CardContent, Button, Grid
 } from '@material-ui/core'
 import { Query } from 'react-apollo'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { CURRENT_USER_TIMESHEET_QUERY } from '../graphql/index'
 import TimeManagementTable from './TimeManagementTable'
 import TimeCard from './TimeCard'
@@ -36,10 +35,7 @@ const styles = theme => ({
   },
   times: {
     marginTop: '8px'
-  },
-  progress: {
-    margin: theme.spacing.unit * 2,
-  },
+  }
 
 })
 
@@ -53,7 +49,7 @@ class RecordPage extends Component {
     return (
       <Query query={CURRENT_USER_TIMESHEET_QUERY}>
         {({ data: { currentUser }, loading, error }) => {
-          if (loading) return <CircularProgress className={classes.progress} />
+          if (loading) return <p>Loading...</p>
           if (error) return <p>{error.message}</p>
           return (
             <>
