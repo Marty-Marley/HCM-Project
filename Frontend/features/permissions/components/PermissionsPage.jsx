@@ -55,6 +55,7 @@ class PermissionsPage extends Component {
           if (loading) return <p>Loading...</p>
           if (error) {
             if (error.message === 'Please log in to do that!') Router.push('/login')
+            return null
           }
           return (
             <>

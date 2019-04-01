@@ -51,7 +51,10 @@ class RecordPage extends Component {
       <Query query={CURRENT_USER_TIMESHEET_QUERY}>
         {({ data: { currentUser }, loading, error }) => {
           if (loading) return <p>Loading...</p>
-          if (error) if (error.message === 'Please log in to do that!') Router.push('/login')
+          if (error) {
+            if (error.message === 'Please log in to do that!') Router.push('/login')
+            return null
+          }
           return (
             <>
               <Head>

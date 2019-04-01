@@ -118,7 +118,10 @@ class MyTeam extends Component {
               const { loading, error } = teamMembers
               const { currentUser } = teamMembers.data
               if (loading) return <p>Loading...</p>
-              if (error) if (error.message === 'Please log in to do that!') Router.push('/login')
+              if (error) {
+                if (error.message === 'Please log in to do that!') Router.push('/login')
+                return null
+              }
 
               const currentTeamMembersId = []
               teamMembers.data.currentUser.team.map((member) => {
