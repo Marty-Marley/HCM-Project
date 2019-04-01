@@ -48,39 +48,42 @@ class AddMemberMenu extends Component {
     const { anchorEl } = this.state
     return (
       <Query query={ALL_USERS_QUERY} variables={{ ids: currentTeam }}>
-        {({ data }) => (
-          <div>
-            <Button
-              aria-owns={anchorEl ? 'add-menu' : undefined}
-              aria-haspopup="true"
-              onClick={this.handleClick}
-              className={classes.addButton}
-              disabled={data.users && data.users.length < 1}
-            >
-              {data.users && data.users.length >= 1 ? 'Add to team' : 'No one else to add'}
-            </Button>
-            <Menu
-              id="add-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={this.handleClose}
-            >
-              {data.users.map((user) => {
-                const fullName = `${user.firstName} ${user.lastName}`
-                return (
-                  <MenuItem key={user.id} value={fullName} onClick={() => {
-                    updateState('mostRecentlyAdded', fullName)
-                    addMember.addToTeam({ variables: { id: user.id } })
-                    this.handleClose()
-                  }}>
-                    <Avatar alt={fullName} src={user.avatar} className={classes.avatar} />
-                    {fullName}
-                  </MenuItem>
-                )
-              })}
-            </Menu>
-          </div>
-        )}
+        {({ data, loading }) => {
+          if (loading) return <p>Loading...</p>
+          return (
+            <div>
+              <Button
+                aria-owns={anchorEl ? 'add-menu' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleClick}
+                className={classes.addButton}
+                disabled={data.users && data.users.length < 1}
+              >
+                {data.users && data.users.length >= 1 ? 'Add to team' : 'No one else to add'}
+              </Button>
+              <Menu
+                id="add-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={this.handleClose}
+              >
+                {data.users.map((user) => {
+                  const fullName = `${user.firstName} ${user.lastName}`
+                  return (
+                    <MenuItem key={user.id} value={fullName} onClick={() => {
+                      updateState('mostRecentlyAdded', fullName)
+                      addMember.addToTeam({ variables: { id: user.id } })
+                      this.handleClose()
+                    }}>
+                      <Avatar alt={fullName} src={user.avatar} className={classes.avatar} />
+                      {fullName}
+                    </MenuItem>
+                  )
+                })}
+              </Menu>
+            </div>
+          )
+        }}
       </Query>
     )
   }
