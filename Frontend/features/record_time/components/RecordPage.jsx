@@ -49,10 +49,10 @@ class RecordPage extends Component {
     const { classes } = this.props
     return (
       <Query query={CURRENT_USER_TIMESHEET_QUERY}>
-        {({ data: { currentUser }, loading, error }) => {
+        {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
           if (error) {
-            if (error.message === 'Please log in to do that!') Router.push('/login')
+            if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
             return null
           }
           return (
@@ -63,9 +63,10 @@ class RecordPage extends Component {
               <Typography variant="h3" component="h3" color="secondary" className={classes.title}>
                 Time Management
               </Typography>
-              <TimeManagementTable currentUser={currentUser} />
-              <TimeCard classes={classes} currentUser={currentUser} />
-            </>)
+              <TimeManagementTable currentUser={data.currentUser} />
+              <TimeCard classes={classes} currentUser={data.currentUser} />
+            </>
+          )
         }}
       </Query>
     )

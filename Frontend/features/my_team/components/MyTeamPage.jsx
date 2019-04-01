@@ -28,6 +28,10 @@ const styles = theme => ({
 const Composed = adopt({
   teamMembers: ({ render, summonSnackbar }) => (
     <Query query={MY_TEAM_QUERY} onError={(e) => {
+      if (e.message === 'GraphQL error: Please log in to do that!') {
+        Router.push('/login')
+        return null
+      }
       summonSnackbar(e.message.replace('GraphQL error: ', ''), 'warning', { vertical: 'top', horizontal: 'center', }, 3000, true)
     }}>{render}</Query>
   ),
@@ -119,8 +123,8 @@ class MyTeam extends Component {
               const { currentUser } = teamMembers.data
               if (loading) return <p>Loading...</p>
               if (error) {
-                if (error.message === 'Please log in to do that!') Router.push('/login')
-                return null
+                if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
+                return <p>null</p>
               }
 
               const currentTeamMembersId = []
