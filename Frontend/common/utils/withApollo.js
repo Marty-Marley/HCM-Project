@@ -11,9 +11,9 @@ export default withApollo(({ headers }) => (
     uri: process.env.NODE_ENV === 'development' ? yogaEndpoint : prodYogaEndpoint,
     request: (operation) => {
       operation.setContext({
-        // fetchOptions: {
-        //   credentials: 'include'
-        // },
+        fetchOptions: {
+          credentials: 'include'
+        },
         headers
       })
     }
