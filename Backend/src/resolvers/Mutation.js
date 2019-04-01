@@ -15,7 +15,7 @@ const Mutation = {
     const password = await bcrypt.hash(args.password, 12)
     // Pravatar api provides random image of face - Generate random num + append to api url
     const randomAvatarNumber = Math.floor((Math.random() * 68) + 1)
-    const avatar = `http://i.pravatar.cc/150?img=${randomAvatarNumber}`
+    const avatar = `https://avatars.dicebear.com/v2/avataaars/${randomAvatarNumber}.svg`
 
     // Define all roles
     const roles = [
