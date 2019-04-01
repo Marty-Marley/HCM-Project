@@ -54,7 +54,7 @@ class PermissionsPage extends Component {
         {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
           if (error) {
-            // if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
+            if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
           }
           return (
             <>

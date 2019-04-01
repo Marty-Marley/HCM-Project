@@ -63,8 +63,7 @@ class DashboardPage extends Component {
       >
         {({ data, error }) => {
           if (error) {
-            Router.push('/login')
-            return null
+            if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
           }
           if (data.currentUser) {
             return (

@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { withStyles } from '@material-ui/core/styles'
 import { Query } from 'react-apollo'
 import { Grid, Paper, Typography } from '@material-ui/core'
+import Router from 'next/router'
 import Sidebar from './Sidebar'
 import MainContent from './MainContent';
 import { profilePageStyles as styles } from '../styles'
@@ -18,6 +19,9 @@ const ProfliePage = ({ classes }) => (
     >
       {({ data, loading, error }) => {
         if (loading) return <p>Loading...</p>
+        if (error) {
+          if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
+        }
         return (
           <>
             <Typography variant="h3" component="h3" color="secondary">

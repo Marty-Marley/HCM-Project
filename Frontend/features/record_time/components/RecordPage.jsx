@@ -5,6 +5,7 @@ import {
   Paper, Typography, Card, CardContent, Button, Grid
 } from '@material-ui/core'
 import { Query } from 'react-apollo'
+import Router from 'next/router'
 import { CURRENT_USER_TIMESHEET_QUERY } from '../graphql/index'
 import TimeManagementTable from './TimeManagementTable'
 import TimeCard from './TimeCard'
@@ -50,7 +51,7 @@ class RecordPage extends Component {
       <Query query={CURRENT_USER_TIMESHEET_QUERY}>
         {({ data: { currentUser }, loading, error }) => {
           if (loading) return <p>Loading...</p>
-          if (error) return <p>{error.message}</p>
+          if (error) if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
           return (
             <>
               <Head>
