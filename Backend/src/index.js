@@ -39,10 +39,10 @@ server.express.use(async (request, response, next) => {
 })
 
 server.start({
-  // cors: {
-  //   credentials: true, 
-  //   origin: process.env.FRONTEND_URL
-  // }
+  cors: {
+    credentials: true, 
+    origin: process.env.FRONTEND_URL
+  }
 },
   info => console.log(`Server is running on http://localhost:${info.port}`) 
 )
