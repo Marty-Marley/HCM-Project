@@ -20,13 +20,13 @@ self.addEventListener('install', (event) => {
 var preLoad = function () {
   console.log('Installing web app');
   return caches.open('offline').then((cache) => {
-    console.log('caching index and important routes');
+    console.log("caching index and important routes");
     return cache.addAll(urlsToCache);
   });
 };
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(checkResponse(event.request).catch(() => {
+  event.respondWith(checkResponse(event.request).catch(function() {
     return returnFromCache(event.request);
   }));
   event.waitUntil(addToCache(event.request));
@@ -34,7 +34,7 @@ self.addEventListener('fetch', (event) => {
 
 var checkResponse = function (request) {
   return new Promise(((fulfill, reject) => {
-    fetch(request).then((response) => {
+    fetch(request).then(function(response){
       if(response.status !== 404) {
         fulfill(response);
       } else {
@@ -45,18 +45,22 @@ var checkResponse = function (request) {
 };
 
 var addToCache = function (request) {
-  return caches.open('offline').then((cache) => fetch(request).then(function (response) {
+  return caches.open('offline').then((cache) => {
+    return fetch(request).then(function (response) {
       console.log(response.url + " was cached");
       return cache.put(request, response);
-    }));
+    });
+  });
 };
 
 var returnFromCache = function (request) {
-  return caches.open('offline').then((cache) => cache.match(request).then(function (matching) {
+  return caches.open('offline').then((cache) => {
+    return cache.match(request).then(function (matching) {
      if(!matching || matching.status == 404) {
        return cache.match("offline.html");
      } else {
        return matching;
      }
-    }));
+    });
+  });
 };
