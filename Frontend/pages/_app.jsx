@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import JssProvider from 'react-jss/lib/JssProvider';
 import { SnackbarProvider } from 'notistack'
 import { UserAgentProvider } from '@quentin-sommer/react-useragent'
+import Head from 'next/head'
 import getPageContext from '../common/utils/getPageContext'
 import Page from '../common/components/Page'
 import withApollo from '../common/utils/withApollo'
@@ -49,6 +50,9 @@ class MyApp extends App {
     const { Component, apollo, pageProps } = this.props
     return (
       <Container>
+        <Head>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA2ylfU82_oPeb8JTOjOhUQQwyQizDUUc&libraries=places" />
+        </Head>
         <ApolloProvider client={apollo}>
           <JssProvider
             registry={this.pageContext.sheetsRegistry}
