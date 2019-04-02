@@ -18,20 +18,20 @@ class ProfilePage extends Component {
           <title>My profile</title>
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA2ylfU82_oPeb8JTOjOhUQQwyQizDUUc&libraries=places" />
         </Head>
+        <Typography variant="h3" component="h3" color="secondary">
+          My Profile
+        </Typography>
         <Query
           query={CURRENT_USER_QUERY}
         >
           {({ data, loading, error }) => {
-            if (loading) return <p>Loading...</p>
+            // if (loading) return <p>Loading...</p>
             if (error) {
               if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
               return null
             }
             return (
               <>
-                <Typography variant="h3" component="h3" color="secondary">
-                  My Profile
-            </Typography>
                 <Grid
                   container
                   direction="row"
