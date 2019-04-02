@@ -13,6 +13,7 @@ const ProfliePage = ({ classes }) => (
   <>
     <Head>
       <title>My profile</title>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA2ylfU82_oPeb8JTOjOhUQQwyQizDUUc&libraries=places" />
     </Head>
     <Query
       query={CURRENT_USER_QUERY}
