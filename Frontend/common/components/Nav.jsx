@@ -90,7 +90,7 @@ class Nav extends Component {
             </Typography>
             <Typography variant="h6" className={classes.grow}>
               <Link href="/">
-                <div className={classes.a}>Dashboard</div>
+                <a className={classes.a}>Dashboard</a>
               </Link>
             </Typography>
             <User>
