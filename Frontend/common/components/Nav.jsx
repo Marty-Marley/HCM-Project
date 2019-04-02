@@ -36,8 +36,9 @@ const styles = theme => ({
   a: {
     color: theme.palette.secondary.main,
     textDecoration: 'none',
+    cursor: 'pointer',
     '&:hover': {
-      color: '#a9ccff'
+      color: '#a9ccff',
     }
   },
   icon: {
@@ -89,7 +90,7 @@ class Nav extends Component {
             </Typography>
             <Typography variant="h6" className={classes.grow}>
               <Link href="/">
-                <a className={classes.a}>Dashboard</a>
+                <div className={classes.a}>Dashboard</div>
               </Link>
             </Typography>
             <User>
