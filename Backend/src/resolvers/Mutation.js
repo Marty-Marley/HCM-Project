@@ -105,8 +105,6 @@ const Mutation = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
     // Put JWT in cookie
     ctx.response.cookie('token', token, {
-      httpOnly: true,
-      secure: true,
       maxAge: 1000 * 60 * 60 * 24 // 24h cookie
     })
     return user
@@ -130,8 +128,6 @@ const Mutation = {
     // Create a new jwt on login
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
     ctx.response.cookie('token', token, {
-      httpOnly: true,
-      secure: true,
       maxAge: 1000 * 60 * 60 * 24 // 24h cookie
     })
     return user
