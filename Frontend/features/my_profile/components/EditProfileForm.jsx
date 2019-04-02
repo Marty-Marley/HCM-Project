@@ -72,6 +72,11 @@ class EditProfileForm extends Component {
     }
     return (
       <>
+        <Head>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA2ylfU82_oPeb8JTOjOhUQQwyQizDUUc&libraries=places" />
+          <link rel="stylesheet" type="text/css" href="../../static/geosuggest.css" />
+          <link rel="stylesheet" type="text/css" href="../../static/react-datepicker.css" />
+        </Head>
         <Mutation
           mutation={EDIT_USER_MUTATION}
           variables={this.state}
