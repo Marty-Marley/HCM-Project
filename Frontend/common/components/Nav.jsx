@@ -89,7 +89,7 @@ class Nav extends Component {
               HCM
             </Typography>
             <Typography variant="h6" className={classes.grow}>
-              <Link href="/">
+              <Link prefetch href="/">
                 <a className={classes.a}>Dashboard</a>
               </Link>
             </Typography>
