@@ -37,46 +37,44 @@ class PermissionsPage extends Component {
   render() {
     const { classes } = this.props
     return (
-      <>
-        <Head>
-          <title>Permissions</title>
-        </Head>
-        <Typography variant="h3" component="h3" color="secondary">
-          User Permissions
-        </Typography>
-        <Query
-          query={ALL_USERS_QUERY}
-          onError={(e) => {
-            this.summonSnackbar(
-              e.message.replace('GraphQL error: ', ''),
-              'warning',
+      <Query
+        query={ALL_USERS_QUERY}
+        onError={(e) => {
+          this.summonSnackbar(
+            e.message.replace('GraphQL error: ', ''),
+            'warning',
+            {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            3000
+          )
+        }}
+      >
+        {({ data, loading, error }) => {
+          if (loading) return <p>Loading...</p>
+          if (error) {
+            if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
+            return null
+          }
+          return (
+            <>
+              <Head>
+                <title>Permissions</title>
+              </Head>
               {
-                vertical: 'top',
-                horizontal: 'center',
-              },
-              3000
-            )
-          }}
-        >
-          {({ data, loading, error }) => {
-            if (loading) return <p>Loading...</p>
-            if (error) {
-              if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
-              return null
-            }
-            return (
-              <>
-                {
-                  data
-                  && <>
-                    <PermissionsTable users={data.users} />
-                  </>
-                }
-              </>
-            )
-          }}
-        </Query>
-      </>
+                data
+                && <>
+                  <Typography variant="h3" component="h3" color="secondary">
+                    User Permissions
+                  </Typography>
+                  <PermissionsTable users={data.users} />
+                </>
+              }
+            </>
+          )
+        }}
+      </Query>
     )
   }
 }

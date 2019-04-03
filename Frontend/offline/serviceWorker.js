@@ -22,7 +22,7 @@ var preLoad = function () {
   return caches.open('offline').then((cache) => {
     console.log("caching index and important routes");
     return cache.addAll(urlsToCache);
-  })
+  });
 };
 
 self.addEventListener('fetch', (event) => {

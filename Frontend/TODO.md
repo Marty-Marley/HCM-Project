@@ -32,6 +32,7 @@ if they are logged in or not?
 - Gradient background doesnt work in Safari.
 - Call app - Hu.man - Human management
 - Change Record Time to Time Management everywhere.
+- Timesheet only submit number.
 <br/><br/>
 
 # Done 

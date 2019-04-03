@@ -48,29 +48,27 @@ class RecordPage extends Component {
   render() {
     const { classes } = this.props
     return (
-      <>
-        <Head>
-          <title>Record time</title>
-        </Head>
-        <Typography variant="h3" component="h3" color="secondary" className={classes.title}>
-          Time Management
-        </Typography>
-        <Query query={CURRENT_USER_TIMESHEET_QUERY}>
-          {({ data, loading, error }) => {
-            if (loading) return <p>Loading...</p>
-            if (error) {
-              if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
-              return null
-            }
-            return (
-              <>
-                <TimeManagementTable currentUser={data.currentUser} />
-                <TimeCard classes={classes} currentUser={data.currentUser} />
-              </>
-            )
-          }}
-        </Query>
-      </>
+      <Query query={CURRENT_USER_TIMESHEET_QUERY}>
+        {({ data, loading, error }) => {
+          if (loading) return <p>Loading...</p>
+          if (error) {
+            if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
+            return null
+          }
+          return (
+            <>
+              <Head>
+                <title>Record time</title>
+              </Head>
+              <Typography variant="h3" component="h3" color="secondary" className={classes.title}>
+                Time Management
+              </Typography>
+              <TimeManagementTable currentUser={data.currentUser} />
+              <TimeCard classes={classes} currentUser={data.currentUser} />
+            </>
+          )
+        }}
+      </Query>
     )
   }
 }
