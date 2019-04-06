@@ -1,5 +1,8 @@
 import withApollo from 'next-with-apollo'
-import ApolloClient from 'apollo-boost'
+// import ApolloClient from 'apollo-boost'
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { yogaEndpoint, prodYogaEndpoint } from '../../config'
 
 /**
@@ -7,15 +10,21 @@ import { yogaEndpoint, prodYogaEndpoint } from '../../config'
  */
 export default withApollo(({ headers }) => (
   new ApolloClient({
-  // TODO Will need to change the uri in production
-    uri: process.env.NODE_ENV === 'development' ? yogaEndpoint : prodYogaEndpoint,
-    request: (operation) => {
-      operation.setContext({
-        fetchOptions: {
-          credentials: 'include'
-        },
-        headers
-      })
-    }
+    ssrMode: true,
+    // uri: process.env.NODE_ENV === 'development' ? yogaEndpoint : prodYogaEndpoint,
+    // request: (operation) => {
+    //   operation.setContext({
+    //     fetchOptions: {
+    //       credentials: 'include'
+    //     },
+    //     headers
+    //   })
+    // }
+    link: createHttpLink({
+      uri: process.env.NODE_ENV === 'development' ? yogaEndpoint : prodYogaEndpoint,
+      credentials: 'include',
+      headers
+    }),
+    cache: new InMemoryCache()
   })
 ))
