@@ -1,4 +1,6 @@
 const withCSS = require('@zeit/next-css')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 
 module.exports = withCSS({
   cssModules: true,
@@ -19,5 +21,10 @@ module.exports = withCSS({
     })
 
     return config
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin()
+    ]
   }
 })

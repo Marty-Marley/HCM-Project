@@ -5,9 +5,8 @@ import { yogaEndpoint, prodYogaEndpoint } from '../../config'
 /**
  * HOC for wrapping apollo for state management
  */
-export default withApollo(({ headers }) => console.log(headers) || (
+export default withApollo(({ headers }) => (
   new ApolloClient({
-  // TODO Will need to change the uri in production
     uri: process.env.NODE_ENV === 'development' ? yogaEndpoint : prodYogaEndpoint,
     request: (operation) => {
       operation.setContext({
