@@ -9,6 +9,8 @@ import { UserAgentProvider } from '@quentin-sommer/react-useragent'
 import getPageContext from '../common/utils/getPageContext'
 import Page from '../common/components/Page'
 import withApollo from '../common/utils/withApollo'
+import { CURRENT_USER_QUERY } from '../common/components/User'
+import redirect from '../common/utils/redirect'
 
 /**
  * Wraps each page in apollo provider for state management.
@@ -31,15 +33,23 @@ class MyApp extends App {
    ** getInitialProps will fire before the render so anything that
    ** is returned will be available within the render
    */
-  static async getInitialProps({ Component, ctx }) {
+  static async getInitialProps(res) {
     let pageProps = {}
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+    if (res.Component.getInitialProps) {
+      pageProps = await res.Component.getInitialProps(res.ctx)
     }
-    pageProps.query = ctx.query
+    pageProps.query = res.ctx.query
+
+    //* Get current user info
+    const response = await res.ctx.apolloClient.query({ query: CURRENT_USER_QUERY, errorPolicy: 'ignore' })
+    //* If currentUser response isnt authenticated - bring to login page
+    if ((!response || !response.data || !response.data.currentUser) && res.ctx.pathname !== '/login') {
+      redirect(res.ctx, '/login')
+    }
+
     return {
-      ua: ctx.req
-        ? ctx.req.headers['user-agent']
+      ua: res.ctx.req
+        ? res.ctx.req.headers['user-agent']
         : navigator.userAgent,
       pageProps
     }

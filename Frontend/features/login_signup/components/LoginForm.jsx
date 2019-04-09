@@ -94,7 +94,7 @@ class LoginForm extends Component {
           )
         }}
         onCompleted={() => {
-          Router.push('/')
+          setTimeout(() => Router.push('/'), 300)
         }}
       >
         {(signin, { error, loading }) => (

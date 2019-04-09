@@ -31,6 +31,7 @@ if they are logged in or not?
 - Timesheet only submit number < 40.
 - Redirect http - https
 - Loading state for log in / sign up.
+- My Team is erroring about needing admin instead of manager.
 <br/><br/>
 
 # Done 

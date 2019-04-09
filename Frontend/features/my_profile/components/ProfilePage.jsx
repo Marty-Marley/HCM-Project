@@ -23,10 +23,6 @@ class ProfilePage extends Component {
         >
           {({ data, loading, error }) => {
             if (loading) return <p>Loading...</p>
-            if (error) {
-              if (error.message === 'GraphQL error: Please log in to do that!') Router.push('/login')
-              return null
-            }
             return (
               <>
                 <Typography variant="h3" component="h3" color="secondary">
