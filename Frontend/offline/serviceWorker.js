@@ -13,6 +13,8 @@ const urlsToCache = ['/login', '/', '/my_profile', '/record_time', '/my_team', '
 //   event.respondWith(response);
 // });
 
+// Tried credentials: include - no diff
+
 self.addEventListener('install', (event) => {
   event.waitUntil(preLoad());
 });
@@ -34,9 +36,7 @@ self.addEventListener('fetch', (event) => {
 
 var checkResponse = function (request) {
   return new Promise(((fulfill, reject) => {
-    fetch(request, {
-  credentials: 'same-origin'
-}).then(function(response){
+    fetch(request).then(function(response){
       if(response.status !== 404) {
         fulfill(response);
       } else {
@@ -48,9 +48,7 @@ var checkResponse = function (request) {
 
 var addToCache = function (request) {
   return caches.open('offline').then((cache) => {
-    return fetch(request, {
-  credentials: 'same-origin'
-}).then(function (response) {
+    return fetch(request).then(function (response) {
       console.log(response.url + " was cached");
       return cache.put(request, response);
     });
