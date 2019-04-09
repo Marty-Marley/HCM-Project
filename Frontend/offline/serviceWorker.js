@@ -35,7 +35,7 @@ self.addEventListener('fetch', (event) => {
 var checkResponse = function (request) {
   return new Promise(((fulfill, reject) => {
     fetch(request, {
-  credentials: 'include'
+  credentials: 'same-origin'
 }).then(function(response){
       if(response.status !== 404) {
         fulfill(response);
@@ -49,7 +49,7 @@ var checkResponse = function (request) {
 var addToCache = function (request) {
   return caches.open('offline').then((cache) => {
     return fetch(request, {
-  credentials: 'include'
+  credentials: 'same-origin'
 }).then(function (response) {
       console.log(response.url + " was cached");
       return cache.put(request, response);
