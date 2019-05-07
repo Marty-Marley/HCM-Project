@@ -41,7 +41,7 @@ class MyApp extends App {
     pageProps.query = res.ctx.query
 
     //* Get current user info
-    const response = await res.ctx.apolloClient.query({ query: CURRENT_USER_QUERY, errorPolicy: 'ignore' })
+    const response = await res.ctx.apolloClient.query({ query: CURRENT_USER_QUERY, fetchPolicy: 'network-only', errorPolicy: 'ignore' })
     //* If currentUser response isnt authenticated - bring to login page
     if ((!response || !response.data || !response.data.currentUser) && res.ctx.pathname !== '/login') {
       redirect(res.ctx, '/login')
