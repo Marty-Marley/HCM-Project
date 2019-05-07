@@ -31,6 +31,10 @@ if they are logged in or not?
 - Timesheet only submit number < 40.
 - Redirect http - https
 - Loading state for log in / sign up.
+- My Team is erroring about needing admin instead of manager.
+- Remove SW logging.
+- Add footer?
+- Unresister SW at some point? Stop it from making new ones - Create 1 only use that one?s
 <br/><br/>
 
 # Done 
