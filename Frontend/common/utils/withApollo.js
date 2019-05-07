@@ -11,7 +11,8 @@ export default withApollo(({ headers }) => (
     request: (operation) => {
       operation.setContext({
         fetchOptions: {
-          credentials: 'include'
+          credentials: 'include',
+          rejectUnauthorized: false
         },
         headers
       })
