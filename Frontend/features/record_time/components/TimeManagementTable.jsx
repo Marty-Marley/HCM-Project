@@ -151,28 +151,38 @@ class TimeManagementTable extends Component {
     if (modalPage === 2) {
       return (
         <>
-          <DialogContent>
-            <DialogContentText>
-              Please enter the amout of hours you would like to submit.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="hours"
-              label="Amount of hours"
-              type="number"
-              onChange={(e) => {
-                hours = parseInt(e.target.value, 10)
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => {
-              this.submitModal(hours)
-            }} color="primary">
-              Submit
+          <form onSubmit={(e) => { e.preventDefault() }}>
+            <DialogContent>
+              <DialogContentText>
+                Please enter the amout of hours you would like to submit.
+              </DialogContentText>
+              <TextField
+                inputProps={{
+                  pattern: '/^(?=.*\d)(?=.*[1-8]).{1,1}$/',
+                  title: 'Please enter a time between 1-8 hours.'
+                }}
+                autoFocus
+                margin="dense"
+                id="hours"
+                label="Amount of hours"
+                type="text"
+                onChange={(e) => {
+                  hours = parseInt(e.target.value, 10)
+                }}
+                pattern="/^(?=.*\d)(?=.*[1-8]).{1,1}$/"
+                title="Please enter a time between 1-8 hours."
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button type="submit" onClick={() => {
+                if (hours > 0 && hours <= 8) {
+                  this.submitModal(hours)
+                }
+              }} color="primary">
+                Submit
             </Button>
-          </DialogActions>
+            </DialogActions>
+          </form>
         </>
       )
     }
